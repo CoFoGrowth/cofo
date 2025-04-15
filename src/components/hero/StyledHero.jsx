@@ -16,9 +16,10 @@ export const StyledHero = styled.section`
   display: flex;
   padding: 4rem 2rem;
   background-color: ${theme.colors.primary};
-  min-height: calc(100vh - 100px);
+
   color: white;
   gap: 4rem;
+  max-width: 1600px;
 
   @media (max-width: ${theme.media.mobile}) {
     flex-direction: column;
