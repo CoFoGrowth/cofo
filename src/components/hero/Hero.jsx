@@ -16,7 +16,7 @@ const Hero = () => {
   return (
     <StyledHero className="container">
       <ContentContainer>
-        <SubTitle>Twoja strefa contentu</SubTitle>
+        <SubTitle>TWOJA STREFA CONTENTU</SubTitle>
         <Title>Cześć, Jakub Bodys</Title>
         <SocialLinks>
           Instagram:{" "}

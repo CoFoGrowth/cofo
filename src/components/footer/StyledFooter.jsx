@@ -8,6 +8,9 @@ export const StyledFooter = styled.footer`
   justify-content: space-between;
   align-items: center;
   color: white;
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 10px;
+  }
 `;
 
 export const Copyright = styled.div`

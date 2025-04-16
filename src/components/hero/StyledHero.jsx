@@ -15,7 +15,8 @@ const fadeInUp = keyframes`
 export const StyledHero = styled.section`
   display: flex;
   padding: 4rem 2rem;
-  background-color: ${theme.colors.primary};
+  background-color: #5b424221;
+  backdrop-filter: blur(5px);
   color: white;
   gap: 4rem;
 
@@ -47,9 +48,15 @@ export const ContentContainer = styled.div`
 `;
 
 export const SubTitle = styled.h6`
-  font-size: 1rem;
+  text-align: center;
+  font-size: 16px;
   margin: 0;
   animation: ${fadeInUp} 0.6s ease-out;
+  border: 1px solid #ff7fc2;
+  padding: 5px 10px;
+  display: inline-block;
+  border-radius: 30px;
+  max-width: 300px;
 `;
 
 export const Title = styled.h1`
@@ -89,20 +96,29 @@ export const ButtonRow = styled.div`
 
 export const StyledButton = styled.a`
   flex: 1;
-  background: linear-gradient(45deg, #8a2be2, #da70d6);
+  background-image: linear-gradient(120deg, #ff7fc2 0%, #b47cfd 100%);
+  box-shadow: -25px 0px 20px -10px #ff7fc2 inset;
   color: white;
   padding: 1rem 2rem;
   text-align: center;
   text-decoration: none;
   font-size: 1rem;
   border: none;
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 30px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-image 0.3s ease;
   cursor: pointer;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(120deg, #b47cfd 0%, #ff7fc2 100%);
+    box-shadow: 0px 5px 30px 0px rgba(255, 255, 255, 0.3);
     color: white;
+    transition: all 0.2s ease;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
   }
 `;

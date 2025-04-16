@@ -13,6 +13,10 @@ export const StyledHeader = styled.header`
   align-items: center;
   padding: 0 2rem;
   z-index: 1000;
+
+  @media (max-width: ${theme.media.mobile}) {
+    justify-content: center;
+  }
 `;
 
 export const Logo = styled.img`
@@ -21,18 +25,26 @@ export const Logo = styled.img`
 `;
 
 export const Button = styled.button`
-  background: linear-gradient(45deg, #8a2be2, #da70d6);
+  background-image: linear-gradient(120deg, #ff7fc2 20%, #b47cfd 60%);
+  box-shadow: -25px 0px 20px -10px #ff7fc2 inset;
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   color: #fff;
   padding: 12px 24px;
   font-size: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-image 0.3s ease;
   font-weight: bold;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(120deg, #b47cfd 0%, #ff7fc2 100%);
+    box-shadow: 0px 5px 30px 0px rgba(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    display: none;
   }
 `;

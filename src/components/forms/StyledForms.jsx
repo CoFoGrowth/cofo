@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { theme } from "../../theme";
+import bgPattern from "/src/assets/images/bg_pattern.png";
 
 const fadeInUp = keyframes`
   from {
@@ -16,10 +17,19 @@ export const StyledForms = styled.section`
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  background-color: ${theme.colors.primary};
+  background-color: #0a0118;
+  background-image: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, #0a011880 0%, #2b1056 100%);
+  background-size: 100px 100px, 100px 100px, 100% 100%;
   color: white;
   min-height: 100vh;
   margin-top: 2rem;
+  position: relative;
 
   @media (max-width: ${theme.media.mobile}) {
     padding: 1rem;
@@ -32,6 +42,8 @@ export const FormContainer = styled.div`
   gap: 2rem;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 2;
 
   @media (max-width: ${theme.media.tablet}) {
     flex-direction: column;
@@ -64,12 +76,14 @@ export const FormSection = styled.div`
   flex-direction: column;
   gap: 2rem;
   animation: ${fadeInUp} 0.6s ease-out;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: rgba(10, 1, 24, 0.7);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   padding: 40px;
   border-radius: 15px;
   flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.3s, box-shadow 0.3s;
 
   @media (max-width: 480px) {
     padding: 30px;
@@ -115,14 +129,14 @@ export const FormLabel = styled.label`
   font-size: 1rem;
 
   ${(props) =>
-    props.isTextarea &&
+    props.$isTextarea &&
     `
     top: 16px;
     transform: none;
   `}
 
   ${(props) =>
-    props.isSelect &&
+    props.$isSelect &&
     `
     top: 60%;
     transform: translateY(-60%);
@@ -159,13 +173,13 @@ export const FormSelect = styled.select`
   width: 103%;
   padding: 12px 16px;
   padding-right: 40px;
-  border: 1px solid #da70d6;
+  border: 1px solid rgba(218, 112, 214, 0.5);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(10, 1, 24, 0.5);
   color: #fff;
   font-size: 16px;
   outline: none;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, border 0.3s ease;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -174,11 +188,13 @@ export const FormSelect = styled.select`
   z-index: 1;
 
   &:focus {
-    background: rgba(63, 0, 51, 0.35);
+    background: rgba(43, 16, 86, 0.5);
+    border-color: #ff7fc2;
+    box-shadow: 0 0 10px rgba(255, 127, 194, 0.2);
   }
 
   option {
-    background-color: ${theme.colors.primary};
+    background-color: #0a0118;
     color: white;
     padding: 10px;
   }
@@ -187,13 +203,13 @@ export const FormSelect = styled.select`
 export const FormInput = styled.input`
   width: 98%;
   padding: 12px 16px;
-  border: 1px solid #da70d6;
+  border: 1px solid rgba(218, 112, 214, 0.5);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(10, 1, 24, 0.5);
   color: #fff;
   font-size: 16px;
   outline: none;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, border 0.3s ease;
   height: 3rem;
 
   &::placeholder {
@@ -201,28 +217,30 @@ export const FormInput = styled.input`
   }
 
   &:focus {
-    background: rgba(63, 0, 51, 0.35);
+    background: rgba(43, 16, 86, 0.5);
+    border-color: #ff7fc2;
+    box-shadow: 0 0 10px rgba(255, 127, 194, 0.2);
   }
 
   &:focus + ${FormLabel}, &:not(:placeholder-shown) + ${FormLabel} {
     top: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(10, 1, 24, 0.8);
     padding: 0 6px;
     font-size: 12px;
-    color: #fff;
+    color: #ff7fc2;
   }
 `;
 
 export const FormTextarea = styled.textarea`
   width: 98%;
   padding: 12px 16px;
-  border: 1px solid #da70d6;
+  border: 1px solid rgba(218, 112, 214, 0.5);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(10, 1, 24, 0.5);
   color: #fff;
   font-size: 16px;
   outline: none;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, border 0.3s ease;
   resize: vertical;
   min-height: 100px;
 
@@ -231,33 +249,46 @@ export const FormTextarea = styled.textarea`
   }
 
   &:focus {
-    background: rgba(63, 0, 51, 0.35);
+    background: rgba(43, 16, 86, 0.5);
+    border-color: #ff7fc2;
+    box-shadow: 0 0 10px rgba(255, 127, 194, 0.2);
   }
 
   &:focus + ${FormLabel}, &:not(:placeholder-shown) + ${FormLabel} {
     top: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(10, 1, 24, 0.8);
     padding: 0 6px;
     font-size: 12px;
-    color: #fff;
+    color: #ff7fc2;
   }
 `;
 
 export const FormButton = styled.button`
   width: 80%;
   padding: 12px;
-  background: linear-gradient(45deg, #8a2be2, #da70d6);
+  background-image: linear-gradient(120deg, #ff7fc2 0%, #b47cfd 100%);
+  box-shadow: 0 4px 15px rgba(180, 124, 253, 0.3);
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-image 0.3s ease;
   margin: 10px auto;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(120deg, #b47cfd 0%, #ff7fc2 100%);
+    box-shadow: 0px 8px 20px rgba(255, 127, 194, 0.4);
+    transition: all 0.2s ease;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 10px;
+    font-size: 14px;
   }
 `;
 
@@ -346,7 +377,8 @@ export const VideosContainer = styled.div`
 
 export const VideosGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  max-width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
   padding: 20px;
   justify-content: center;

@@ -24,8 +24,16 @@ import {
   SelectWrapper,
   CaretDown,
 } from "./StyledForms";
+import { useState } from "react";
 
 const Forms = () => {
+  const [formValues, setFormValues] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <StyledForms className="container">
       <FormContainer>
@@ -42,23 +50,25 @@ const Forms = () => {
                 Twojej marki!
               </FormDescription>
               <StyledForm name="Viral_form" method="post">
-                <HiddenInput name="post_id" value="587" />
-                <HiddenInput name="form_id" value="27e24f5" />
+                <HiddenInput name="post_id" defaultValue="587" />
+                <HiddenInput name="form_id" defaultValue="27e24f5" />
                 <HiddenInput
                   name="referer_title"
-                  value="AI dla Twojego biznesu | COFO technologia jutra"
+                  defaultValue="AI dla Twojego biznesu | COFO technologia jutra"
                 />
-                <HiddenInput name="queried_id" value="587" />
+                <HiddenInput name="queried_id" defaultValue="587" />
                 <HiddenInput
                   name="form_fields[hidden_form]"
-                  value="Cześć, to jest fajny, niestandardowy prompt od Cofo do stworzenia Virala dla ciebie!"
+                  defaultValue="Cześć, to jest fajny, niestandardowy prompt od Cofo do stworzenia Virala dla ciebie!"
                 />
 
                 <FormField>
-                  <FormSelect name="form_fields[awatar]" required>
-                    <option value="Rafal" selected>
-                      Rafal
-                    </option>
+                  <FormSelect
+                    name="form_fields[awatar]"
+                    required
+                    defaultValue="Rafal"
+                  >
+                    <option value="Rafal">Rafal</option>
                     <option value="Chad in Blue Shirt (Upper Body)">
                       Chad in Blue Shirt (Upper Body)
                     </option>
@@ -74,10 +84,13 @@ const Forms = () => {
                   </SelectWrapper>
                 </FormField>
 
-                <HiddenInput name="form_fields[client_id]" value="0001" />
+                <HiddenInput
+                  name="form_fields[client_id]"
+                  defaultValue="0001"
+                />
                 <HiddenInput
                   name="form_fields[avatar_id]"
-                  value="926a8ba693cf47be97837d16b20a694b"
+                  defaultValue="926a8ba693cf47be97837d16b20a694b"
                 />
 
                 <FormButton type="submit">Stwórz dla mnie viral</FormButton>
@@ -87,13 +100,13 @@ const Forms = () => {
             <FormSection>
               <FormTitle>Wstaw skrypt</FormTitle>
               <StyledForm name="CustomScrypt_form" method="post">
-                <HiddenInput name="post_id" value="587" />
-                <HiddenInput name="form_id" value="0dc4fd1" />
+                <HiddenInput name="post_id" defaultValue="587" />
+                <HiddenInput name="form_id" defaultValue="0dc4fd1" />
                 <HiddenInput
                   name="referer_title"
-                  value="AI dla Twojego biznesu | COFO technologia jutra"
+                  defaultValue="AI dla Twojego biznesu | COFO technologia jutra"
                 />
-                <HiddenInput name="queried_id" value="587" />
+                <HiddenInput name="queried_id" defaultValue="587" />
 
                 <FormField>
                   <FormTextarea
@@ -101,15 +114,19 @@ const Forms = () => {
                     rows="4"
                     placeholder=" "
                     required
+                    onChange={handleChange}
+                    value={formValues["form_fields[adres_email]"] || ""}
                   />
-                  <FormLabel isTextarea>Wklej swój skrypt</FormLabel>
+                  <FormLabel $isTextarea>Wklej swój skrypt</FormLabel>
                 </FormField>
 
                 <FormField>
-                  <FormSelect name="form_fields[awatar]" required>
-                    <option value="Rafal" selected>
-                      Rafal
-                    </option>
+                  <FormSelect
+                    name="form_fields[awatar]"
+                    required
+                    defaultValue="Rafal"
+                  >
+                    <option value="Rafal">Rafal</option>
                     <option value="Chad in Blue Shirt (Upper Body)">
                       Chad in Blue Shirt (Upper Body)
                     </option>
@@ -125,10 +142,13 @@ const Forms = () => {
                   </SelectWrapper>
                 </FormField>
 
-                <HiddenInput name="form_fields[client_id]" value="0001" />
+                <HiddenInput
+                  name="form_fields[client_id]"
+                  defaultValue="0001"
+                />
                 <HiddenInput
                   name="form_fields[avatar_id]"
-                  value="926a8ba693cf47be97837d16b20a694b"
+                  defaultValue="926a8ba693cf47be97837d16b20a694b"
                 />
 
                 <FormButton type="submit">Wyślij</FormButton>
@@ -144,19 +164,21 @@ const Forms = () => {
               platforma zajmie się resztą!
             </FormDescription>
             <StyledForm name="CoFoForm" method="post">
-              <HiddenInput name="post_id" value="587" />
-              <HiddenInput name="form_id" value="9950dfe" />
+              <HiddenInput name="post_id" defaultValue="587" />
+              <HiddenInput name="form_id" defaultValue="9950dfe" />
               <HiddenInput
                 name="referer_title"
-                value="AI dla Twojego biznesu | COFO technologia jutra"
+                defaultValue="AI dla Twojego biznesu | COFO technologia jutra"
               />
-              <HiddenInput name="queried_id" value="587" />
+              <HiddenInput name="queried_id" defaultValue="587" />
 
               <FormField>
-                <FormSelect name="form_fields[awatar]" required>
-                  <option value="Rafal" selected>
-                    Rafal
-                  </option>
+                <FormSelect
+                  name="form_fields[awatar]"
+                  required
+                  defaultValue="Rafal"
+                >
+                  <option value="Rafal">Rafal</option>
                   <option value="Chad in Blue Shirt (Upper Body)">
                     Chad in Blue Shirt (Upper Body)
                   </option>
@@ -173,7 +195,11 @@ const Forms = () => {
               </FormField>
 
               <FormField>
-                <FormSelect name="form_fields[cel_video]" required>
+                <FormSelect
+                  name="form_fields[cel_video]"
+                  required
+                  defaultValue="sprzedaż"
+                >
                   <option value="sprzedaż">Sprzedaż</option>
                   <option value="lead magnet">Lead magnet</option>
                   <option value="giveaway">Giveaway</option>
@@ -193,6 +219,8 @@ const Forms = () => {
                   name="form_fields[opis]"
                   placeholder=" "
                   required
+                  onChange={handleChange}
+                  value={formValues["form_fields[opis]"] || ""}
                 />
                 <FormLabel>Opisz krótko treść rolki</FormLabel>
               </FormField>
@@ -203,6 +231,8 @@ const Forms = () => {
                   name="form_fields[koncepcja]"
                   placeholder=" "
                   required
+                  onChange={handleChange}
+                  value={formValues["form_fields[koncepcja]"] || ""}
                 />
                 <FormLabel>Opisz krótko styl rolki</FormLabel>
               </FormField>
@@ -236,8 +266,10 @@ const Forms = () => {
                   name="form_fields[promt]"
                   rows="4"
                   placeholder=" "
+                  onChange={handleChange}
+                  value={formValues["form_fields[promt]"] || ""}
                 />
-                <FormLabel isTextarea>Twój prompt</FormLabel>
+                <FormLabel $isTextarea>Twój prompt</FormLabel>
               </FormField>
 
               <FormField>

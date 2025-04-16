@@ -31,7 +31,7 @@ const Automation = () => {
       </AutomationHeader>
 
       <AutomationGrid>
-        <AutomationCard variant="primary">
+        <AutomationCard $variant="primary">
           <CardTitle>TWÓJ CRM</CardTitle>
           <CardDescription>
             Twój pakiet: 50000 rekordów
@@ -44,7 +44,7 @@ const Automation = () => {
           <AutomationCardImage src={automationImage} alt="CRM Automation" />
         </AutomationCard>
 
-        <AutomationCard variant="secondary">
+        <AutomationCard $variant="secondary">
           <CardTitle>AI DM SETTING</CardTitle>
           <CardDescription>
             Twój pakiet: 500 leadów
@@ -79,7 +79,7 @@ const Automation = () => {
           </WebinarButton>
         </WebinarCard>
 
-        <AutomationCard variant="gradient">
+        <AutomationCard $variant="gradient">
           <CardTitle>AI DM SETTING</CardTitle>
           <CardDescription>
             Twój pakiet: 1 rolka + 1 story dziennie

@@ -1,5 +1,6 @@
 import styled, { keyframes, css } from "styled-components";
 import { theme } from "../../theme";
+import backgroundImage from "/src/assets/images/CoFoAisolutions.webp";
 
 const fadeInUp = keyframes`
   from {
@@ -38,13 +39,35 @@ export const StyledAutomation = styled.section`
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  background-color: ${theme.colors.primary};
+  background-image: url(${backgroundImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
   color: white;
   min-height: 100vh;
   margin-top: 2rem;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+
+  > * {
+    position: relative;
+    z-index: 2;
+  }
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1rem;
+    padding: 1rem 0.5rem;
+    margin-top: 1rem;
   }
 `;
 
@@ -64,6 +87,10 @@ export const HeaderTitle = styled.h2`
   margin: 0;
   text-align: center;
   color: #fff;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 1.8rem;
+  }
 `;
 
 export const AutomationGrid = styled.div`
@@ -73,7 +100,13 @@ export const AutomationGrid = styled.div`
   width: 100%;
 
   @media (max-width: ${theme.media.tablet}) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 `;
 
@@ -87,8 +120,13 @@ export const AutomationCard = styled.div`
   position: relative;
   overflow: hidden;
 
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
   ${(props) => {
-    if (props.variant === "primary") {
+    if (props.$variant === "primary") {
       return css`
         background: linear-gradient(
           135deg,
@@ -96,14 +134,14 @@ export const AutomationCard = styled.div`
           rgba(218, 112, 214, 0.7)
         );
       `;
-    } else if (props.variant === "secondary") {
+    } else if (props.$variant === "secondary") {
       return css`
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(10px);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         animation: ${fadeInUp} 0.6s ease-out;
       `;
-    } else if (props.variant === "gradient") {
+    } else if (props.$variant === "gradient") {
       return css`
         background: linear-gradient(
           135deg,
@@ -119,32 +157,50 @@ export const CardTitle = styled.h3`
   font-size: 1.8rem;
   margin: 0;
   color: #fff;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const CardDescription = styled.p`
   font-size: 1.1rem;
   line-height: 1.6;
   margin: 0;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
 `;
 
 export const CardButton = styled.a`
   display: inline-block;
-  background: linear-gradient(45deg, #8a2be2, #da70d6);
+  background-image: linear-gradient(120deg, #ff7fc2 0%, #b47cfd 100%);
+  box-shadow: -25px 0px 20px -10px #ff7fc2 inset;
   color: white;
   padding: 0.8rem 1.5rem;
   text-align: center;
   text-decoration: none;
   font-size: 0.9rem;
   border: none;
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 30px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-image 0.3s ease;
   cursor: pointer;
   align-self: flex-start;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(120deg, #b47cfd 0%, #ff7fc2 100%);
+    box-shadow: 0px 5px 30px 0px rgba(255, 255, 255, 0.3);
     color: white;
+    transition: all 0.2s ease;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -159,7 +215,8 @@ export const AutomationCardImage = styled.img`
   z-index: 0;
 
   @media (max-width: ${theme.media.mobile}) {
-    display: none;
+    width: 35%;
+    opacity: 0.3;
   }
 `;
 
@@ -173,6 +230,11 @@ export const StatsCard = styled.div`
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   animation: ${fadeInDown} 0.6s ease-out;
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 1.5rem;
+    gap: 0.8rem;
+  }
 `;
 
 export const StatsValue = styled.div`
@@ -180,6 +242,10 @@ export const StatsValue = styled.div`
   font-weight: bold;
   color: #fff;
   text-align: center;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 2.5rem;
+  }
 `;
 
 export const StatsTitle = styled.h3`
@@ -187,6 +253,10 @@ export const StatsTitle = styled.h3`
   margin: 0;
   color: #fff;
   text-align: center;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const StatsDescription = styled.p`
@@ -194,6 +264,82 @@ export const StatsDescription = styled.p`
   line-height: 1.6;
   margin: 0;
   text-align: center;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+`;
+
+export const WebinarCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 15px;
+  animation: ${fadeInUp} 0.6s ease-out;
+  background-color: transparent;
+  background-image: linear-gradient(180deg, #9b00e3 0%, #0a01187a 100%);
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+`;
+
+export const WebinarTitle = styled.h2`
+  font-size: 1.8rem;
+  margin: 0;
+  color: #fff;
+  text-align: center;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 1.5rem;
+  }
+`;
+
+export const WebinarDescription = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  color: #fff;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+`;
+
+export const WebinarButton = styled.a`
+  display: inline-block;
+  background-image: linear-gradient(120deg, #ff7fc2 0%, #b47cfd 100%);
+  box-shadow: -25px 0px 20px -10px #ff7fc2 inset;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 30px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-image 0.3s ease;
+  cursor: pointer;
+  align-self: flex-start;
+
+  &:hover {
+    transform: translateY(-3px);
+    background-image: linear-gradient(120deg, #b47cfd 0%, #ff7fc2 100%);
+    box-shadow: 0px 5px 30px 0px rgba(255, 255, 255, 0.3);
+    color: white;
+    transition: all 0.2s ease;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.8rem;
+  }
 `;
 
 export const ConsultationCard = styled.div`
@@ -207,6 +353,11 @@ export const ConsultationCard = styled.div`
     rgba(138, 43, 226, 0.7),
     rgba(218, 112, 214, 0.7)
   );
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
 `;
 
 export const ConsultationTitle = styled.h3`
@@ -228,79 +379,55 @@ export const ConsultationTitle = styled.h3`
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 1.5rem;
+    padding-left: 2rem;
+
+    &:before {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
 `;
 
 export const ConsultationText = styled.p`
   font-size: 1.1rem;
   line-height: 1.6;
   margin: 0;
+
+  @media (max-width: ${theme.media.mobile}) {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
 `;
 
 export const ConsultationButton = styled.a`
   display: inline-block;
-  background: linear-gradient(45deg, #8a2be2, #da70d6);
+  background-image: linear-gradient(120deg, #ff7fc2 0%, #b47cfd 100%);
+  box-shadow: -25px 0px 20px -10px #ff7fc2 inset;
   color: white;
   padding: 0.8rem 1.5rem;
   text-align: center;
   text-decoration: none;
   font-size: 1rem;
   border: none;
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 30px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-image 0.3s ease;
   cursor: pointer;
   align-self: center;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(120deg, #b47cfd 0%, #ff7fc2 100%);
+    box-shadow: 0px 5px 30px 0px rgba(255, 255, 255, 0.3);
     color: white;
+    transition: all 0.2s ease;
   }
-`;
 
-export const WebinarCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 2rem;
-  border-radius: 15px;
-  animation: ${fadeInUp} 0.6s ease-out;
-  background-color: transparent;
-  background-image: linear-gradient(180deg, #9b00e3 0%, #0a01187a 100%);
-  position: relative;
-  overflow: hidden;
-`;
-
-export const WebinarTitle = styled.h2`
-  font-size: 1.8rem;
-  margin: 0;
-  color: #fff;
-  text-align: center;
-`;
-
-export const WebinarDescription = styled.p`
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin: 0;
-  color: #fff;
-`;
-
-export const WebinarButton = styled.a`
-  display: inline-block;
-  background: linear-gradient(45deg, #8a2be2, #da70d6);
-  color: white;
-  padding: 0.8rem 1.5rem;
-  text-align: center;
-  text-decoration: none;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  align-self: flex-start;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    color: white;
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
   }
 `;
