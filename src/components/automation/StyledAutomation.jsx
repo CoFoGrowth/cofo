@@ -66,8 +66,8 @@ export const StyledAutomation = styled.section`
   }
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1rem 0.5rem;
-    margin-top: 1rem;
+    padding: 0.8rem 0.5rem;
+    margin-top: 0.8rem;
   }
 `;
 
@@ -78,7 +78,7 @@ export const AutomationHeader = styled.div`
   animation: ${fadeInUp} 0.6s ease-out;
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1rem 0;
+    padding: 0.8rem 0;
   }
 `;
 
@@ -121,8 +121,8 @@ export const AutomationCard = styled.div`
   overflow: hidden;
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1.5rem;
-    gap: 1rem;
+    padding: 0.8rem;
+    gap: 0.8rem;
   }
 
   ${(props) => {
@@ -232,7 +232,7 @@ export const StatsCard = styled.div`
   animation: ${fadeInDown} 0.6s ease-out;
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1.5rem;
+    padding: 0.8rem;
     gap: 0.8rem;
   }
 `;
@@ -284,8 +284,8 @@ export const WebinarCard = styled.div`
   overflow: hidden;
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1.5rem;
-    gap: 1rem;
+    padding: 0.8rem;
+    gap: 0.8rem;
   }
 `;
 
@@ -355,8 +355,8 @@ export const ConsultationCard = styled.div`
   );
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1.5rem;
-    gap: 1rem;
+    padding: 0.8rem;
+    gap: 0.8rem;
   }
 `;
 

@@ -32,7 +32,7 @@ export const StyledForms = styled.section`
   position: relative;
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 1rem;
+    padding: 0.8rem;
   }
 `;
 
@@ -86,7 +86,7 @@ export const FormSection = styled.div`
   transition: background 0.3s, box-shadow 0.3s;
 
   @media (max-width: 480px) {
-    padding: 30px;
+    padding: 0.8rem;
   }
 `;
 
@@ -148,6 +148,17 @@ export const FormLabel = styled.label`
     left: 0;
     transform: none;
   }
+
+  @media (max-width: ${theme.media.mobile}) {
+    left: 8px;
+    font-size: 0.9rem;
+
+    ${(props) =>
+      props.$isTextarea &&
+      `
+      top: 8px;
+    `}
+  }
 `;
 
 export const SelectWrapper = styled.div`
@@ -167,6 +178,11 @@ export const CaretDown = styled.div`
   border-top: 5px solid white;
   pointer-events: none;
   z-index: 1;
+
+  @media (max-width: ${theme.media.mobile}) {
+    top: -18px;
+    right: 8px;
+  }
 `;
 
 export const FormSelect = styled.select`
@@ -198,6 +214,13 @@ export const FormSelect = styled.select`
     color: white;
     padding: 10px;
   }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 3px;
+    padding-right: 20px;
+    height: 2.5rem;
+    font-size: 14px;
+  }
 `;
 
 export const FormInput = styled.input`
@@ -228,6 +251,16 @@ export const FormInput = styled.input`
     padding: 0 6px;
     font-size: 12px;
     color: #ff7fc2;
+
+    @media (max-width: ${theme.media.mobile}) {
+      top: -14px;
+      left: 6px;
+    }
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 3px;
+    height: 2.5rem;
   }
 `;
 
@@ -260,6 +293,16 @@ export const FormTextarea = styled.textarea`
     padding: 0 6px;
     font-size: 12px;
     color: #ff7fc2;
+
+    @media (max-width: ${theme.media.mobile}) {
+      top: -14px;
+      left: 6px;
+    }
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 3px;
+    min-height: 80px;
   }
 `;
 

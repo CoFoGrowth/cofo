@@ -8,8 +8,12 @@ export const StyledFooter = styled.footer`
   justify-content: space-between;
   align-items: center;
   color: white;
+
   @media (max-width: ${theme.media.mobile}) {
-    padding: 10px;
+    padding: 0.8rem 1rem;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
   }
 `;
 
@@ -20,6 +24,11 @@ export const Copyright = styled.div`
 export const Links = styled.div`
   display: flex;
   gap: 2rem;
+
+  @media (max-width: ${theme.media.mobile}) {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
 `;
 
 export const Link = styled.a`
