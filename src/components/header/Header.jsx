@@ -1,4 +1,5 @@
 import { StyledHeader, Logo, Button } from "./StyledHeader";
+import logoImage from "/src/assets/images/Logo.webp";
 
 const Header = () => {
   const scrollToSection = () => {
@@ -6,8 +7,8 @@ const Header = () => {
   };
 
   return (
-    <StyledHeader>
-      <Logo src="/src/assets/images/Logo.webp" alt="CoFo Logo" />
+    <StyledHeader className="container">
+      <Logo src={logoImage} alt="CoFo Logo" />
       <Button onClick={scrollToSection}>WSPÓŁPRACUJ Z NAMI</Button>
     </StyledHeader>
   );

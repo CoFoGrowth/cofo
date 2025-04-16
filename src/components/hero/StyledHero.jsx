@@ -16,10 +16,8 @@ export const StyledHero = styled.section`
   display: flex;
   padding: 4rem 2rem;
   background-color: ${theme.colors.primary};
-
   color: white;
   gap: 4rem;
-  max-width: 1600px;
 
   @media (max-width: ${theme.media.mobile}) {
     flex-direction: column;
@@ -91,19 +89,20 @@ export const ButtonRow = styled.div`
 
 export const StyledButton = styled.a`
   flex: 1;
-  background-color: transparent;
-  border: 2px solid white;
+  background: linear-gradient(45deg, #8a2be2, #da70d6);
   color: white;
   padding: 1rem 2rem;
   text-align: center;
   text-decoration: none;
   font-size: 1rem;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  border: none;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    background-color: white;
-    color: ${theme.colors.primary};
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    color: white;
   }
 `;

@@ -10,17 +10,11 @@ import {
   StyledButton,
   ProfileImage,
 } from "./StyledHero";
+import profileImage from "/src/assets/images/Jakub-Bodys.png";
 
 const Hero = () => {
   return (
-    <StyledHero>
-      <ImageContainer>
-        <ProfileImage
-          src="https://cofo.pl/wp-content/uploads/2025/01/Jakub-Bodys-CoFo-Email-footer-1024x1024.png"
-          alt="Jakub Bodys"
-        />
-      </ImageContainer>
-
+    <StyledHero className="container">
       <ContentContainer>
         <SubTitle>Twoja strefa contentu</SubTitle>
         <Title>Cześć, Jakub Bodys</Title>
@@ -62,6 +56,9 @@ const Hero = () => {
           </ButtonRow>
         </ButtonsContainer>
       </ContentContainer>
+      <ImageContainer>
+        <ProfileImage src={profileImage} alt="Jakub Bodys" />
+      </ImageContainer>
     </StyledHero>
   );
 };

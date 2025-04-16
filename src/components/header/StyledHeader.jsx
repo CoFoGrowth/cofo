@@ -21,16 +21,18 @@ export const Logo = styled.img`
 `;
 
 export const Button = styled.button`
-  background-color: purple;
-  color: white;
-  padding: 12px 24px;
+  background: linear-gradient(45deg, #8a2be2, #da70d6);
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   font-weight: bold;
-  transition: opacity 0.3s ease;
 
   &:hover {
-    opacity: 0.9;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
 `;
