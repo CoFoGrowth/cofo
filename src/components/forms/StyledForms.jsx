@@ -33,6 +33,7 @@ export const StyledForms = styled.section`
 
   @media (max-width: ${theme.media.mobile}) {
     padding: 0.8rem;
+    overflow-x: hidden;
   }
 `;
 
@@ -47,6 +48,11 @@ export const FormContainer = styled.div`
 
   @media (max-width: ${theme.media.tablet}) {
     flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    overflow-x: hidden;
   }
 `;
 
@@ -58,6 +64,7 @@ export const FormsWrapper = styled.div`
 
   @media (max-width: ${theme.media.tablet}) {
     width: 100%;
+    overflow-x: hidden;
   }
 `;
 
@@ -87,6 +94,7 @@ export const FormSection = styled.div`
 
   @media (max-width: 480px) {
     padding: 0.8rem;
+    overflow-x: hidden;
   }
 `;
 
@@ -116,6 +124,10 @@ export const FormField = styled.div`
   position: relative;
   margin-bottom: 20px;
   width: 100%;
+
+  @media (max-width: ${theme.media.mobile}) {
+    overflow-x: hidden;
+  }
 `;
 
 export const FormLabel = styled.label`
