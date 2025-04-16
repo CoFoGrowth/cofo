@@ -30,7 +30,6 @@ export const FormContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  max-width: 1600px;
   margin: 0 auto;
   width: 100%;
 
@@ -43,7 +42,7 @@ export const FormsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 75%;
+  width: 55%;
 
   @media (max-width: ${theme.media.tablet}) {
     width: 100%;
@@ -125,9 +124,16 @@ export const FormLabel = styled.label`
   ${(props) =>
     props.isSelect &&
     `
-    top: 50%;
-    transform: translateY(-50%);
+    top: 60%;
+    transform: translateY(-60%);
   `}
+  
+  &.broll-label {
+    position: relative;
+    top: -25px;
+    left: 0;
+    transform: none;
+  }
 `;
 
 export const SelectWrapper = styled.div`
@@ -137,9 +143,9 @@ export const SelectWrapper = styled.div`
 
 export const CaretDown = styled.div`
   position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 0px;
+  top: -20px;
+  transform: translateY(-70%);
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
@@ -150,12 +156,12 @@ export const CaretDown = styled.div`
 `;
 
 export const FormSelect = styled.select`
-  width: 100%;
+  width: 103%;
   padding: 12px 16px;
   padding-right: 40px;
-  border: none;
+  border: 1px solid #da70d6;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
   color: #fff;
   font-size: 16px;
   outline: none;
@@ -168,7 +174,7 @@ export const FormSelect = styled.select`
   z-index: 1;
 
   &:focus {
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(63, 0, 51, 0.35);
   }
 
   option {
@@ -179,11 +185,11 @@ export const FormSelect = styled.select`
 `;
 
 export const FormInput = styled.input`
-  width: 100%;
+  width: 98%;
   padding: 12px 16px;
-  border: none;
+  border: 1px solid #da70d6;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
   color: #fff;
   font-size: 16px;
   outline: none;
@@ -195,7 +201,7 @@ export const FormInput = styled.input`
   }
 
   &:focus {
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(63, 0, 51, 0.35);
   }
 
   &:focus + ${FormLabel}, &:not(:placeholder-shown) + ${FormLabel} {
@@ -208,11 +214,11 @@ export const FormInput = styled.input`
 `;
 
 export const FormTextarea = styled.textarea`
-  width: 100%;
+  width: 98%;
   padding: 12px 16px;
-  border: none;
+  border: 1px solid #da70d6;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
   color: #fff;
   font-size: 16px;
   outline: none;
@@ -225,7 +231,7 @@ export const FormTextarea = styled.textarea`
   }
 
   &:focus {
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(63, 0, 51, 0.35);
   }
 
   &:focus + ${FormLabel}, &:not(:placeholder-shown) + ${FormLabel} {
@@ -238,16 +244,16 @@ export const FormTextarea = styled.textarea`
 `;
 
 export const FormButton = styled.button`
-  width: 100%;
+  width: 80%;
   padding: 12px;
-  background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+  background: linear-gradient(45deg, #8a2be2, #da70d6);
   border: none;
   border-radius: 8px;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-top: 10px;
+  margin: 10px auto;
 
   &:hover {
     transform: translateY(-3px);
@@ -270,21 +276,15 @@ export const HiddenInput = styled.input`
 
 export const FormRange = styled.input`
   -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
+  width: 50%;
+  height: 5px;
   background: transparent;
   cursor: pointer;
   margin: 1rem 0;
 
   &::-webkit-slider-runnable-track {
     height: 8px;
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-    border-radius: 4px;
-  }
-
-  &::-moz-range-track {
-    height: 8px;
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(90deg, #ffcdff 0%, #b10680 100%);
     border-radius: 4px;
   }
 
@@ -293,28 +293,14 @@ export const FormRange = styled.input`
     height: 20px;
     width: 20px;
     background: #ffffff;
-    border: 2px solid #4facfe;
+    border: 2px solid #da70d6;
     border-radius: 50%;
     margin-top: -6px;
     transition: background 0.3s ease;
   }
 
-  &::-moz-range-thumb {
-    height: 20px;
-    width: 20px;
-    background: #ffffff;
-    border: 2px solid #4facfe;
-    border-radius: 50%;
-    transition: background 0.3s ease;
-  }
-
-  /* Efekt hover na kciuku */
   &::-webkit-slider-thumb:hover {
-    background: #4facfe;
-  }
-
-  &::-moz-range-thumb:hover {
-    background: #4facfe;
+    background: #ff4fb6;
   }
 `;
 
@@ -327,7 +313,7 @@ export const RangeValue = styled.span`
 `;
 
 export const VideosContainer = styled.div`
-  width: 25%;
+  width: 45%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -360,15 +346,16 @@ export const VideosContainer = styled.div`
 
 export const VideosGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-  width: 100%;
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
 `;
 
 export const VideoItem = styled.div`
-  background: rgba(255, 255, 255, 0.1);
+  background: #f9f9f9;
   border-radius: 8px;
-  height: 180px !important;
+  height: 200px !important;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -379,7 +366,7 @@ export const VideoItem = styled.div`
 
   iframe {
     width: 100%;
-    height: 180px;
+    height: 200px;
     border: none;
   }
 `;

@@ -24,31 +24,10 @@ import {
   SelectWrapper,
   CaretDown,
 } from "./StyledForms";
-import { useEffect, useRef } from "react";
 
 const Forms = () => {
-  const rangeSliderRef = useRef(null);
-
-  useEffect(() => {
-    const rangeSlider = rangeSliderRef.current;
-    if (rangeSlider) {
-      const updateSliderBackground = () => {
-        const value = rangeSlider.value;
-        rangeSlider.style.background = `linear-gradient(90deg, #4facfe ${value}%, #e0e0e0 ${value}%)`;
-      };
-
-      rangeSlider.addEventListener("input", updateSliderBackground);
-
-      updateSliderBackground();
-
-      return () => {
-        rangeSlider.removeEventListener("input", updateSliderBackground);
-      };
-    }
-  }, []);
-
   return (
-    <StyledForms>
+    <StyledForms className="container">
       <FormContainer>
         <FormsWrapper>
           <FormsRow>
@@ -229,11 +208,11 @@ const Forms = () => {
               </FormField>
 
               <FormField>
-                <FormLabel>Wybierz procent B-roll:</FormLabel>
+                <FormLabel className="broll-label">
+                  Wybierz procent B-roll:
+                </FormLabel>
                 <FormRange
                   type="range"
-                  id="slider"
-                  ref={rangeSliderRef}
                   name="form_fields[slider]"
                   min="0"
                   max="100"
@@ -243,14 +222,12 @@ const Forms = () => {
                     document.getElementById(
                       "percentage"
                     ).textContent = `${value}%`;
-                    document.getElementById("form-field-slider_value").value =
-                      value;
                   }}
                 />
                 <RangeValue id="percentage">50%</RangeValue>
                 <HiddenInput
-                  id="form-field-slider_value"
                   name="form_fields[slider_value]"
+                  defaultValue="50"
                 />
               </FormField>
 
