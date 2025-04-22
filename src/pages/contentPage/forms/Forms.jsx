@@ -35,7 +35,7 @@ const Forms = () => {
   };
 
   return (
-    <StyledForms className="container">
+    <StyledForms>
       <FormContainer>
         <FormsWrapper>
           <FormsRow>

@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { theme } from "../../theme";
+import { theme } from "../../../theme";
 import bgPattern from "/src/assets/images/bg_pattern.png";
 
 const fadeInUp = keyframes`
@@ -16,7 +16,8 @@ const fadeInUp = keyframes`
 export const StyledForms = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  align-items: center;
+  padding: 5rem 2rem;
   background-color: #0a0118;
   background-image: linear-gradient(
       0deg,
@@ -28,11 +29,12 @@ export const StyledForms = styled.section`
   background-size: 100px 100px, 100px 100px, 100% 100%;
   color: white;
   min-height: 100vh;
-  margin-top: 2rem;
+  margin-top: 4rem;
   position: relative;
+  width: 100%;
 
   @media (max-width: ${theme.media.mobile}) {
-    padding: 0.8rem;
+    padding: 3rem 1rem;
     overflow-x: hidden;
   }
 `;
@@ -42,6 +44,7 @@ export const FormContainer = styled.div`
   flex-direction: row;
   gap: 2rem;
   margin: 0 auto;
+  max-width: 1600px;
   width: 100%;
   position: relative;
   z-index: 2;
