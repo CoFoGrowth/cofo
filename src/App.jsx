@@ -18,6 +18,7 @@ import { Solutions } from "./common";
 
 // Import obrazów na potrzeby przykładu
 import automationImage from "./assets/images/automatyzacja-scaled.webp";
+import cofoLogo from "./assets/images/cofologominimalistic-954x1024.webp";
 
 const NavLink = styled(Link)`
   margin: 0 1rem;
@@ -115,7 +116,7 @@ const HomePage = () => {
         subtitle="ZOPTYMALIZUJ SWÓJ BIZNES"
         title="AI TO PRZYSZŁOŚĆ TWOJEGO BIZNESU"
         description="Zautomatyzuj procesy, podejmuj lepsze decyzje i rozwijaj się szybciej dzięki inteligentnym rozwiązaniom. Przekształć swoją firmę, oszczędzając czas, zasoby i zdobywając przewagę, która liczy się w biznesie."
-        imageSrc="src/assets/images/cofologominimalistic-954x1024.webp"
+        imageSrc={cofoLogo}
         imageAlt="AI to technologia jutra, dostępna już dziś dla Twojego binezsu."
       />
       <HomeContact />
@@ -153,7 +154,8 @@ const HomePage = () => {
           title: "AI SOCIAL MEDIA CONTENT GENERATOR",
           description:
             "Media społecznościowe to kanał sprzedaży z największym potencjałem. Co, gdyby wygenerowanie 1000 rolek zajęło Ci tylko 15 minut? Z AI Social Media Content Generatorem zautomatyzujesz najbardziej czasochłonny element Twojego biznesu.",
-          videoSrc: "http://cofo.pl/wp-content/uploads/2025/01/Lukasz_cofo.mp4",
+          videoSrc:
+            "https://cofo.pl/wp-content/uploads/2025/01/Lukasz_cofo.mp4",
         }}
         webinar={{
           title: "NADCHODZĄCY WEBINAR",

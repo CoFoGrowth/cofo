@@ -9,6 +9,7 @@ import {
   Title,
   Description,
 } from "./StyledHomeWhy";
+import teamImage from "../../../assets/images/LukaszRafalCoFo.webp";
 
 const HomeWhy = () => {
   return (
@@ -34,10 +35,7 @@ const HomeWhy = () => {
             </svg>
           </CircleText>
           <ImageWrapper>
-            <img
-              src="src/assets/images/LukaszRafalCoFo.webp"
-              alt="Rewolucyjne rozwiązania AI"
-            />
+            <img src={teamImage} alt="Rewolucyjne rozwiązania AI" />
           </ImageWrapper>
         </ImageColumn>
 
