@@ -35,7 +35,7 @@ const HomeWhy = () => {
           </CircleText>
           <ImageWrapper>
             <img
-              src="http://cofolocal.local/wp-content/uploads/2025/01/LukaszRafalCoFo.webp"
+              src="src/assets/images/LukaszRafalCoFo.webp"
               alt="Rewolucyjne rozwiązania AI"
             />
           </ImageWrapper>

@@ -115,7 +115,7 @@ const HomePage = () => {
         subtitle="ZOPTYMALIZUJ SWÓJ BIZNES"
         title="AI TO PRZYSZŁOŚĆ TWOJEGO BIZNESU"
         description="Zautomatyzuj procesy, podejmuj lepsze decyzje i rozwijaj się szybciej dzięki inteligentnym rozwiązaniom. Przekształć swoją firmę, oszczędzając czas, zasoby i zdobywając przewagę, która liczy się w biznesie."
-        imageSrc="http://cofolocal.local/wp-content/uploads/2025/01/cofologominimalistic-954x1024.webp"
+        imageSrc="src/assets/images/cofologominimalistic-954x1024.webp"
         imageAlt="AI to technologia jutra, dostępna już dziś dla Twojego binezsu."
       />
       <HomeContact />
