@@ -54,7 +54,7 @@ export const StyledSolutions = styled.section`
   position: relative;
 
   ${(props) =>
-    props.$variant === "automation" &&
+    (props.$variant === "automation" || props.$variant === "home") &&
     css`
       background-image: url(${backgroundImage});
       background-size: cover;
