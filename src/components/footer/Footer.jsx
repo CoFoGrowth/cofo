@@ -2,7 +2,7 @@ import { StyledFooter, Copyright, Links, Link } from "./StyledFooter";
 
 const Footer = () => {
   return (
-    <StyledFooter className="container">
+    <StyledFooter>
       <Copyright>
         Copyright© 2025 CoFo All rights reserved. Powered by Strony Jakubowe
       </Copyright>
