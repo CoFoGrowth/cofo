@@ -14,8 +14,18 @@ export const StyledHeader = styled.header`
   padding: 0 2rem;
   z-index: 1000;
 
+  nav {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: ${theme.media.mobile}) {
+      display: none;
+    }
+  }
+
   @media (max-width: ${theme.media.mobile}) {
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0 1rem;
   }
 `;
 
