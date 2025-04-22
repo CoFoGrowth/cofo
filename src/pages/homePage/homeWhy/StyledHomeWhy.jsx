@@ -1,0 +1,132 @@
+import styled, { keyframes } from "styled-components";
+import { theme } from "../../../theme";
+
+const fadeInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const fadeInRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const rotateText = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const StyledHomeWhy = styled.section`
+  padding: 6rem 2rem;
+  background-color: #0c0a12;
+  color: white;
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: 3rem 1rem;
+  }
+`;
+
+export const Container = styled.div`
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4rem;
+
+  @media (max-width: ${theme.media.tablet}) {
+    flex-direction: column;
+    gap: 2rem;
+  }
+`;
+
+export const ImageColumn = styled.div`
+  flex: 1;
+  position: relative;
+  animation: ${fadeInLeft} 0.8s ease-out;
+`;
+
+export const ContentColumn = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+  animation: ${fadeInRight} 0.8s ease-out;
+`;
+
+export const ImageWrapper = styled.div`
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+`;
+
+export const CircleText = styled.div`
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 200px;
+  height: 200px;
+  animation: ${rotateText} 20s linear infinite;
+  z-index: 2;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  text {
+    fill: #ff7fc2;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    display: none;
+  }
+`;
+
+export const SubTitle = styled.h6`
+  font-size: 16px;
+  margin: 0;
+  text-transform: uppercase;
+  color: #ff7fc2;
+`;
+
+export const Title = styled.h2`
+  font-size: 2.5rem;
+  margin: 0;
+  line-height: 1.2;
+`;
+
+export const Description = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+`;
