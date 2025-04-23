@@ -14,15 +14,6 @@ export const StyledHeader = styled.header`
   padding: 0 2rem;
   z-index: 1000;
 
-  nav {
-    display: flex;
-    align-items: center;
-
-    @media (max-width: ${theme.media.mobile}) {
-      display: none;
-    }
-  }
-
   @media (max-width: ${theme.media.mobile}) {
     justify-content: space-between;
     padding: 0 1rem;
@@ -30,18 +21,21 @@ export const StyledHeader = styled.header`
 `;
 
 export const Logo = styled.img`
-  height: 60px;
+  width: 180px;
+  height: 80px;
   object-fit: contain;
 `;
 
 export const Button = styled.button`
+  width: 285px;
+  height: 40px;
   background-image: linear-gradient(120deg, #ff7fc2 20%, #b47cfd 60%);
   box-shadow: -25px 0px 20px -10px #ff7fc2 inset;
   border: none;
   border-radius: 30px;
   color: #fff;
   padding: 12px 24px;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease,
     background-image 0.3s ease;

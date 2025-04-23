@@ -25,7 +25,7 @@ const fadeInDown = keyframes`
 
 export const StyledHomeHero = styled.section`
   display: flex;
-  padding: 3rem 2rem;
+  padding: 120px 2rem 3rem;
   background-color: #5b424221;
   backdrop-filter: blur(5px);
   color: white;
@@ -34,7 +34,7 @@ export const StyledHomeHero = styled.section`
 
   @media (max-width: ${theme.media.mobile}) {
     flex-direction: column;
-    padding: 2rem 1rem;
+    padding: 120px 1rem 2rem;
   }
 `;
 

@@ -1,7 +1,13 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import styled from "styled-components";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
+import {
+  StyledNavLink,
+  NavigationContainer,
+  BurgerMenu,
+} from "./components/navigation/StyledNavLink";
 import Auth from "./pages/authPage/Auth";
 import Hero from "./pages/contentPage/hero/Hero";
 import Forms from "./pages/contentPage/forms/Forms";
@@ -19,17 +25,6 @@ import { Solutions } from "./common";
 // Import obrazów na potrzeby przykładu
 import automationImage from "./assets/images/automatyzacja-scaled.webp";
 import cofoLogo from "./assets/images/cofologominimalistic-954x1024.webp";
-
-const NavLink = styled(Link)`
-  margin: 0 1rem;
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 const MainContent = styled.main`
   margin-top: 100px; /* offset for fixed header */
@@ -185,15 +180,32 @@ const HomePage = () => {
 };
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <Router>
       <div className="app">
         <Header>
-          <nav>
-            <NavLink to="/">Strona główna</NavLink>
-            <NavLink to="/content">Strefa contentu</NavLink>
-            <NavLink to="/auth">Logowanie</NavLink>
-          </nav>
+          <NavigationContainer className={isMenuOpen ? "open" : ""}>
+            <StyledNavLink to="/" onClick={() => setIsMenuOpen(false)}>
+              Strona główna
+            </StyledNavLink>
+            <StyledNavLink to="/content" onClick={() => setIsMenuOpen(false)}>
+              Strefa contentu
+            </StyledNavLink>
+            <StyledNavLink to="/auth" onClick={() => setIsMenuOpen(false)}>
+              Logowanie
+            </StyledNavLink>
+          </NavigationContainer>
+          <BurgerMenu open={isMenuOpen} onClick={toggleMenu}>
+            <div />
+            <div />
+            <div />
+          </BurgerMenu>
         </Header>
         <MainContent>
           <Routes>
