@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { theme } from "../../../theme";
+import { theme } from "../../theme";
 
 const fadeIn = keyframes`
   from {
@@ -24,24 +24,22 @@ const fadeInUp = keyframes`
 export const StyledHero = styled.section`
   display: flex;
   width: 100%;
-  padding: 2rem 2rem;
-  gap: 4rem;
+  padding: ${(props) =>
+    props.$variant === "home" ? "3rem 5rem" : "2rem 2rem"};
+  gap: ${(props) => (props.$variant === "home" ? "4rem" : "4rem")};
   align-items: center;
   justify-content: center;
   margin-bottom: 4rem;
 
-  /* Wariant stylu dla content */
-  /* background-color: ${(props) =>
-    props.$variant === "content" ? "#5b424221" : "#0c0a12"};
-  backdrop-filter: ${(props) =>
-    props.$variant === "content" ? "blur(5px)" : "none"}; */
   color: white;
   min-height: ${(props) => (props.$variant === "home" ? "55vh" : "auto")};
 
   @media (max-width: ${theme.media.mobile}) {
     flex-direction: column;
-    padding: 3rem 1rem;
+    padding: ${(props) =>
+      props.$variant === "home" ? "140px 2rem 3rem" : "3rem 1rem"};
     margin-bottom: 2rem;
+    gap: ${(props) => (props.$variant === "home" ? "3rem" : "4rem")};
   }
 `;
 
@@ -53,6 +51,7 @@ export const ImageContainer = styled.div`
     props.$variant === "home" ? "center" : "flex-start"};
   max-width: ${(props) => (props.$variant === "content" ? "800px" : "none")};
   animation: ${fadeIn} 0.8s ease-out;
+  padding: ${(props) => (props.$variant === "home" ? "1rem" : "0")};
 
   @media (max-width: ${theme.media.tablet}) {
     order: ${(props) => (props.$variant === "home" ? "1" : "2")};
@@ -79,8 +78,10 @@ export const ContentContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ${(props) => (props.$variant === "home" ? "3rem" : "1.5rem")};
   animation: ${fadeInUp} 0.8s ease-out;
+  justify-content: center;
+  padding: ${(props) => (props.$variant === "home" ? "1.5rem" : "0")};
 
   @media (max-width: ${theme.media.tablet}) {
     order: ${(props) => (props.$variant === "home" ? "2" : "1")};

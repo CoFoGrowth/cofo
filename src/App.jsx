@@ -9,7 +9,7 @@ import {
   BurgerMenu,
 } from "./components/navigation/StyledNavLink";
 import Auth from "./pages/authPage/Auth";
-import Hero from "./pages/contentPage/hero/Hero";
+import Hero from "./common/hero/Hero";
 import Forms from "./pages/contentPage/forms/Forms";
 import HomeContact from "./pages/homePage/homeContact/HomeContact";
 import HomeWhy from "./pages/homePage/homeWhy/HomeWhy";
