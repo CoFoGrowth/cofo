@@ -25,10 +25,10 @@ const fadeInRight = keyframes`
 
 const rotateText = keyframes`
   from {
-    transform: rotate(0deg);
+    transform: rotate(360deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(0deg);
   }
 `;
 
@@ -88,23 +88,25 @@ export const ImageWrapper = styled.div`
 
 export const CircleText = styled.div`
   position: absolute;
-  top: -40px;
-  left: -40px;
-  width: 200px;
-  height: 200px;
+  top: -25px;
+  left: -25px;
+  width: 150px;
+  height: 150px;
   animation: ${rotateText} 20s linear infinite;
   z-index: 2;
+  display: block;
 
   svg {
     width: 100%;
     height: 100%;
+    overflow: visible;
   }
 
   text {
     fill: #ff7fc2;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
   }
 
   @media (max-width: ${theme.media.mobile}) {

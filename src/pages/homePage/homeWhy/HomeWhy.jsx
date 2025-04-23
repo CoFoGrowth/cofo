@@ -18,17 +18,18 @@ const HomeWhy = () => {
         <ImageColumn>
           <CircleText>
             <svg
-              viewBox="0 0 250.5 250.5"
-              height="250.5"
-              width="250.5"
+              viewBox="0 0 180 180"
+              height="150"
+              width="150"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M.25,125.25a125,125,0,1,1,125,125,125,125,0,0,1-125-125"
+                d="M30,90a60,60 0 1,0 120,0a60,60 0 1,0 -120,0"
                 id="circle-path"
-              ></path>
+                fill="none"
+              />
               <text>
-                <textPath href="#circle-path" startOffset="0%">
+                <textPath href="#circle-path" startOffset="5%">
                   REWOLUCYJNE ROZWIĄZANIA AI
                 </textPath>
               </text>
