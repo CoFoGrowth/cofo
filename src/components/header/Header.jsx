@@ -3,7 +3,10 @@ import logoImage from "/src/assets/images/Logo.webp";
 
 const Header = ({ children }) => {
   const scrollToSection = () => {
-    console.log("Scroll to collaboration section");
+    const contactSection = document.getElementById("kontakt-cta");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (

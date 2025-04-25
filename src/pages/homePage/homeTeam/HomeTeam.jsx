@@ -63,7 +63,7 @@ const TeamMember = ({
         </TeamInfoBoxes>
 
         <TeamDescription>{description}</TeamDescription>
-        <TeamButton href="#kontakt">WSPÓŁPRACUJ ZE MNĄ</TeamButton>
+        <TeamButton href="#kontakt-cta">WSPÓŁPRACUJ ZE MNĄ</TeamButton>
       </TeamInfoOverlay>
     </TeamCard>
   );

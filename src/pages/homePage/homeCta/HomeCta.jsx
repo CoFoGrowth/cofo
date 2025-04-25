@@ -20,7 +20,7 @@ const HomeCta = () => {
             nami technologia staje się prostym narzędziem, które działa na
             korzyść Twojego biznesu. Bez obaw – pomożemy Ci na każdym kroku.
           </CtaDescription>
-          <CtaButton href="#kontakt">WSPÓŁPRACUJ Z NAMI</CtaButton>
+          <CtaButton href="#kontakt-cta">WSPÓŁPRACUJ Z NAMI</CtaButton>
         </CtaCard>
       </CtaContainer>
     </StyledHomeCta>

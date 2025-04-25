@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyledHomeCta2,
   Container,
@@ -19,9 +19,65 @@ import {
 } from "./StyledHomeCta2";
 
 const HomeCta2 = () => {
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logika obsługi formularza
+    setIsSubmitting(true);
+    setSubmitError(false);
+
+    try {
+      const response = await fetch("http://localhost:3000/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          to: "cofogrowth@gmail.com",
+          subject: "Nowa wiadomość - Zacznijmy Współpracę",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Błąd HTTP: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Odpowiedź serwera:", data);
+
+      // Sukces
+      setSubmitSuccess(true);
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Błąd podczas wysyłania formularza:", error);
+      setSubmitError(true);
+    } finally {
+      setIsSubmitting(false);
+
+      // Po 5 sekundach ukryj komunikat o sukcesie
+      if (submitSuccess) {
+        setTimeout(() => {
+          setSubmitSuccess(false);
+        }, 5000);
+      }
+    }
   };
 
   return (
@@ -59,6 +115,43 @@ const HomeCta2 = () => {
 
         <FormColumn>
           <FormTitle>ZACZNIJMY WSPÓŁPRACĘ</FormTitle>
+
+          {submitSuccess && (
+            <div
+              style={{
+                backgroundColor: "rgba(46, 204, 113, 0.2)",
+                border: "1px solid #2ecc71",
+                borderRadius: "5px",
+                padding: "15px",
+                marginBottom: "20px",
+                color: "#2ecc71",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              Dziękujemy! Twoja wiadomość została wysłana. Skontaktujemy się
+              wkrótce.
+            </div>
+          )}
+
+          {submitError && (
+            <div
+              style={{
+                backgroundColor: "rgba(231, 76, 60, 0.2)",
+                border: "1px solid #e74c3c",
+                borderRadius: "5px",
+                padding: "15px",
+                marginBottom: "20px",
+                color: "#e74c3c",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              Wystąpił błąd podczas wysyłania wiadomości. Spróbuj ponownie
+              później.
+            </div>
+          )}
+
           <Form onSubmit={handleSubmit}>
             <FormField>
               <Label htmlFor="name">Imię i Nazwisko</Label>
@@ -67,6 +160,8 @@ const HomeCta2 = () => {
                 id="name"
                 name="name"
                 placeholder="Imię i Nazwisko"
+                value={formData.name}
+                onChange={handleChange}
               />
             </FormField>
 
@@ -80,6 +175,8 @@ const HomeCta2 = () => {
                   placeholder="Numer telefonu"
                   required
                   pattern="[0-9()#&+*\-=.]+"
+                  value={formData.phone}
+                  onChange={handleChange}
                 />
               </FormField>
 
@@ -91,16 +188,24 @@ const HomeCta2 = () => {
                   name="email"
                   placeholder="Adres email"
                   required
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </FormField>
             </FieldGroup>
 
             <FormField>
               <Label htmlFor="message">Wiadomość</Label>
-              <Textarea id="message" name="message" placeholder="Wiadomość" />
+              <Textarea
+                id="message"
+                name="message"
+                placeholder="Wiadomość"
+                value={formData.message}
+                onChange={handleChange}
+              />
             </FormField>
 
-            <SubmitButton type="submit">
+            <SubmitButton type="submit" disabled={isSubmitting}>
               <svg
                 width="16"
                 height="16"
@@ -109,7 +214,7 @@ const HomeCta2 = () => {
               >
                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
               </svg>
-              Wyślij wiadomość
+              {isSubmitting ? "Wysyłanie..." : "Wyślij wiadomość"}
             </SubmitButton>
           </Form>
         </FormColumn>
