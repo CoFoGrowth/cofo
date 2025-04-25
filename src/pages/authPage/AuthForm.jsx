@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const FormContainer = styled.div`
   display: flex;
@@ -76,26 +77,6 @@ const Button = styled.button`
   }
 `;
 
-const SwitchButton = styled.button`
-  background: none;
-  border: none;
-  color: #b47cfd;
-  font-size: 0.875rem;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-top: 1rem;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #ff7fc2;
-  }
-
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-`;
-
 const WelcomeContainer = styled.div`
   text-align: center;
 `;
@@ -107,14 +88,34 @@ const ErrorMessage = styled.p`
   font-size: 0.875rem;
 `;
 
+const InfoText = styled.p`
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #718096;
+`;
+
 const AuthForm = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [page, setPage] = useState("register");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  // Sprawdź, czy użytkownik jest zalogowany przy ładowaniu komponentu
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const userData = JSON.parse(loggedInUser);
+      setIsLoggedIn(true);
+      setEmail(userData.email || "");
+      setUsername(userData.username || "");
+      setUserId(userData.userId || "");
+    }
+  }, []);
 
   const api = axios.create({
     baseURL: "https://api.airtable.com/v0/appJ0Fnjjn1oJdLEk/Users",
@@ -124,75 +125,56 @@ const AuthForm = () => {
     },
   });
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    if (!email || !password || !username) {
-      setError("Wypełnij wszystkie pola");
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const checkResponse = await api.get(
-        `?filterByFormula=OR(Email="${email}",Username="${username}")`
-      );
-
-      if (checkResponse.data.records.length > 0) {
-        const existingUser = checkResponse.data.records[0].fields;
-        if (existingUser.Email === email) {
-          setError("Użytkownik o tym adresie email już istnieje");
-        } else if (existingUser.Username === username) {
-          setError("Ta nazwa użytkownika jest już zajęta");
-        }
-        setIsLoading(false);
-        return;
-      }
-
-      await api.post("", {
-        fields: { Email: email, Password: password, Username: username },
-      });
-
-      alert("Zarejestrowano! Możesz się zalogować.");
-      setPage("login");
-      setIsLoading(false);
-    } catch (error) {
-      setError("Błąd rejestracji: " + (error.message || "Nieznany błąd"));
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-    if (!email || !password) {
+    if (!email || !password || !userId || !username) {
       setError("Wypełnij wszystkie pola");
       setIsLoading(false);
       return;
     }
 
     try {
-      const response = await api.get(`?filterByFormula=Email="${email}"`);
+      // Sprawdzamy logowanie na podstawie emaila i UserID
+      const response = await api.get(
+        `?filterByFormula=AND(Email="${email}",UserID="${userId}")`
+      );
 
       if (response.data.records.length === 0) {
-        setError("Nie znaleziono użytkownika o tym adresie email");
+        setError(
+          "Nieprawidłowe dane logowania. Sprawdź email i ID użytkownika."
+        );
         setIsLoading(false);
         return;
       }
 
       const user = response.data.records[0];
 
-      if (user.fields.Password === password) {
+      // Sprawdzamy czy hasło i nazwa użytkownika są prawidłowe
+      if (
+        user.fields.Password === password &&
+        user.fields.Username === username
+      ) {
+        // Zapisujemy dane użytkownika w localStorage
+        const userData = {
+          email: email,
+          username: username,
+          userId: userId,
+          recordId: user.id,
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+
         setIsLoggedIn(true);
-        setUsername(user.fields.Username || "");
         setIsLoading(false);
+
+        // Po zalogowaniu przekieruj do strefy contentu
+        navigate("/content");
       } else {
-        setError("Niepoprawne hasło");
+        setError(
+          "Nieprawidłowe dane logowania. Sprawdź hasło i nazwę użytkownika."
+        );
         setIsLoading(false);
       }
     } catch (error) {
@@ -203,10 +185,12 @@ const AuthForm = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
     setEmail("");
     setPassword("");
     setUsername("");
+    setUserId("");
   };
 
   if (isLoggedIn) {
@@ -214,8 +198,9 @@ const AuthForm = () => {
       <FormContainer>
         <FormCard>
           <WelcomeContainer>
-            <Title>Witaj, {username || email}!</Title>
+            <Title>Witaj, {username}!</Title>
             <p>Twój email: {email}</p>
+            <p>Twoje ID: {userId}</p>
             <Button onClick={handleLogout}>Wyloguj</Button>
           </WelcomeContainer>
         </FormCard>
@@ -226,23 +211,28 @@ const AuthForm = () => {
   return (
     <FormContainer>
       <FormCard>
-        <Title>{page === "register" ? "Rejestracja" : "Logowanie"}</Title>
+        <Title>Logowanie</Title>
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <Form onSubmit={page === "register" ? handleRegister : handleLogin}>
-          {page === "register" && (
-            <Input
-              type="text"
-              placeholder="Nazwa użytkownika"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              disabled={isLoading}
-            />
-          )}
+        <Form onSubmit={handleLogin}>
+          <Input
+            type="text"
+            placeholder="Nazwa użytkownika"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            disabled={isLoading}
+          />
           <Input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+          />
+          <Input
+            type="text"
+            placeholder="ID użytkownika"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
             disabled={isLoading}
           />
           <Input
@@ -253,21 +243,13 @@ const AuthForm = () => {
             disabled={isLoading}
           />
           <Button type="submit" disabled={isLoading}>
-            {isLoading
-              ? "Przetwarzanie..."
-              : page === "register"
-              ? "Zarejestruj"
-              : "Zaloguj"}
+            {isLoading ? "Przetwarzanie..." : "Zaloguj"}
           </Button>
         </Form>
-        <SwitchButton
-          onClick={() => setPage(page === "register" ? "login" : "register")}
-          disabled={isLoading}
-        >
-          {page === "register"
-            ? "Mam konto, chcę się zalogować"
-            : "Nie mam konta, chcę się zarejestrować"}
-        </SwitchButton>
+        <InfoText>
+          Nie masz dostępu? Skontaktuj się z administratorem, aby uzyskać dane
+          logowania.
+        </InfoText>
       </FormCard>
     </FormContainer>
   );

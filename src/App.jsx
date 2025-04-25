@@ -1,5 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -18,6 +23,8 @@ import HomeStats from "./pages/homePage/homeStats/HomeStats";
 import HomeTeam from "./pages/homePage/homeTeam/HomeTeam";
 import HomeCta from "./pages/homePage/homeCta/HomeCta";
 import HomeCta2 from "./pages/homePage/homeCta2/HomeCta2";
+import { PrivacyPolicy } from "./pages/policeprivaci";
+import { CookiesInfo } from "./pages/cookiesInfo";
 
 // Import komponentów z common
 import { Solutions } from "./common";
@@ -36,14 +43,33 @@ const ContentWrapper = styled.div`
   width: 100%;
 `;
 
+// Komponent zabezpieczający prywatne ścieżki
+const PrivateRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem("user") !== null;
+  return isAuthenticated ? children : <Navigate to="/auth" />;
+};
+
 // Komponent zawierający Hero, Forms i Solutions (Automation) przeniesiony do strefy contentu
 const ContentZone = () => {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setUserData(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  if (!userData) {
+    return <div>Ładowanie...</div>;
+  }
+
   return (
     <ContentWrapper>
       <Hero
         variant="content"
         subtitle="TWOJA STREFA CONTENTU"
-        title="Cześć, Jakub Bodys"
+        title={`Cześć, ${userData.username}`}
         socialLinks={true}
         buttons={true}
       />
@@ -149,8 +175,6 @@ const HomePage = () => {
           title: "AI SOCIAL MEDIA CONTENT GENERATOR",
           description:
             "Media społecznościowe to kanał sprzedaży z największym potencjałem. Co, gdyby wygenerowanie 1000 rolek zajęło Ci tylko 15 minut? Z AI Social Media Content Generatorem zautomatyzujesz najbardziej czasochłonny element Twojego biznesu.",
-          videoSrc:
-            "https://cofo.pl/wp-content/uploads/2025/01/Lukasz_cofo.mp4",
         }}
         webinar={{
           title: "NADCHODZĄCY WEBINAR",
@@ -181,6 +205,12 @@ const HomePage = () => {
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    setIsLoggedIn(!!loggedInUser);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -197,9 +227,6 @@ function App() {
             <StyledNavLink to="/content" onClick={() => setIsMenuOpen(false)}>
               Strefa contentu
             </StyledNavLink>
-            <StyledNavLink to="/auth" onClick={() => setIsMenuOpen(false)}>
-              Logowanie
-            </StyledNavLink>
           </NavigationContainer>
           <BurgerMenu open={isMenuOpen} onClick={toggleMenu}>
             <div />
@@ -210,7 +237,16 @@ function App() {
         <MainContent>
           <Routes>
             <Route path="/auth" element={<Auth />} />
-            <Route path="/content" element={<ContentZone />} />
+            <Route
+              path="/content"
+              element={
+                <PrivateRoute>
+                  <ContentZone />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/cookies" element={<CookiesInfo />} />
             <Route path="/" element={<HomePage />} />
           </Routes>
         </MainContent>
