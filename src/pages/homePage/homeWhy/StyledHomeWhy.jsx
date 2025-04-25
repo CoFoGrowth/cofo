@@ -76,12 +76,21 @@ export const ImageWrapper = styled.div`
 
   img {
     width: 100%;
-    height: auto;
+    height: 450px;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.5;
+    filter: brightness(100%) contrast(100%) saturate(0%) blur(0px)
+      hue-rotate(0deg);
+    transition-duration: 1s;
+    border-radius: 10px;
     display: block;
-    transition: transform 0.5s ease;
   }
 
   &:hover img {
+    opacity: 0.8;
+    filter: brightness(100%) contrast(100%) saturate(100%) blur(0px)
+      hue-rotate(0deg);
     transform: scale(1.05);
   }
 `;

@@ -20,13 +20,6 @@ const HomeOffer = () => {
         <GridLayout>
           <VideoColumn>
             <VideoCard>
-              <video
-                autoPlay
-                muted
-                playsInline
-                loop
-                src="https://yqpganjjgn.cfolks.pl/wp-content/uploads/2025/01/Rafal_COFO.mp4"
-              />
               <IconLink href="#">
                 <i className="mdi mdi-call-made"></i>
               </IconLink>
@@ -39,7 +32,7 @@ const HomeOffer = () => {
                 cele są dla nas fundamentem, na którym budujemy inteligentne
                 rozwiązania. Razem tworzymy przewagę, która trwa.
               </Description>
-              <Button href="#kontakt">ZACZNJ WSPÓŁPRACĘ</Button>
+              <Button href="#kontakt-cta">ZACZNIJ WSPÓŁPRACĘ</Button>
             </VideoCard>
           </VideoColumn>
 

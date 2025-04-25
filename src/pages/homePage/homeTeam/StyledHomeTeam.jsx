@@ -69,17 +69,29 @@ export const TeamGrid = styled.div`
 
 export const TeamCard = styled.div`
   position: relative;
-  min-height: 550px;
+  height: 620px;
   animation: ${fadeIn} 0.8s ease-out;
   animation-delay: ${(props) => props.delay || "0s"};
+  border-radius: 20px;
+  overflow: hidden;
 `;
 
 export const TeamMemberImage = styled.img`
   width: 100%;
-  height: 500px;
+  height: 100%;
   object-fit: cover;
   border-radius: 20px;
   display: block;
+  opacity: 0.5;
+  filter: brightness(100%) contrast(100%) saturate(0%) blur(0px)
+    hue-rotate(0deg);
+  transition-duration: 1s;
+
+  ${TeamCard}:hover & {
+    opacity: 0.8;
+    filter: brightness(100%) contrast(100%) saturate(100%) blur(0px)
+      hue-rotate(0deg);
+  }
 `;
 
 export const TeamRole = styled.div`
@@ -99,13 +111,26 @@ export const TeamInfoOverlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, #0c0a12, transparent);
-  border-radius: 20px;
+  background: linear-gradient(
+    to top,
+    rgba(12, 10, 18, 1) 70%,
+    rgba(12, 10, 18, 0.8) 85%,
+    rgba(12, 10, 18, 0) 100%
+  );
+  border-radius: 0 0 20px 20px;
   padding: 2rem;
-  transition: all 0.5s ease;
-  height: 225px;
-  overflow: hidden;
-  transform: translateY(${(props) => (props.isHovered ? "0" : "225px")});
+  transition: transform 0.5s ease;
+  min-height: 225px;
+  max-height: 425px;
+  overflow-y: auto;
+  transform: translateY(${(props) => (props.isHovered ? "0" : "175px")});
+  will-change: transform;
+
+  /* Hide scrollbar but keep functionality */
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
 
   ${TeamCard}:hover & {
     transform: translateY(0);
@@ -149,7 +174,7 @@ export const TeamInfoBoxText = styled.div`
 `;
 
 export const TeamDescription = styled.p`
-  font-size: 0.9rem;
+  font-size: 16px;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 1.5rem;
@@ -166,6 +191,8 @@ export const TeamButton = styled.a`
   text-transform: uppercase;
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 10;
 
   &:hover {
     transform: translateY(-3px);

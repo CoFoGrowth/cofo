@@ -183,7 +183,7 @@ export const SelectWrapper = styled.div`
 
 export const CaretDown = styled.div`
   position: absolute;
-  right: 0px;
+  right: 10px;
   top: -20px;
   transform: translateY(-70%);
   width: 0;
@@ -196,12 +196,12 @@ export const CaretDown = styled.div`
 
   @media (max-width: ${theme.media.mobile}) {
     top: -18px;
-    right: 8px;
+    right: 5px;
   }
 `;
 
 export const FormSelect = styled.select`
-  width: 103%;
+  width: 100%;
   padding: 12px 16px;
   padding-right: 40px;
   border: 1px solid rgba(218, 112, 214, 0.5);
@@ -239,7 +239,7 @@ export const FormSelect = styled.select`
 `;
 
 export const FormInput = styled.input`
-  width: 98%;
+  width: 100%;
   padding: 12px 16px;
   border: 1px solid rgba(218, 112, 214, 0.5);
   border-radius: 8px;
@@ -351,7 +351,7 @@ export const FormButton = styled.button`
 `;
 
 export const FormCheckbox = styled.input`
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   transition: all 0.3s ease;
 
   &:checked {
@@ -365,7 +365,7 @@ export const HiddenInput = styled.input`
 
 export const FormRange = styled.input`
   -webkit-appearance: none;
-  width: 50%;
+  width: 100%;
   height: 5px;
   background: transparent;
   cursor: pointer;

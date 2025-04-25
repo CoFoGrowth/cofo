@@ -14,8 +14,9 @@ const fadeInUp = keyframes`
 
 export const StyledHomeContact = styled.section`
   padding: 4rem 2rem;
-  background-image: linear-gradient(120deg, #060104 0%, #b47cfd 100%);
+  background-image: linear-gradient(180deg, #0d0c1c 10%, #540045 100%);
   color: white;
+  min-height: 500px;
 
   @media (max-width: ${theme.media.mobile}) {
     padding: 2rem 1rem;
@@ -23,14 +24,18 @@ export const StyledHomeContact = styled.section`
 `;
 
 export const ContactContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: -330px auto;
   padding: 2rem;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(5px);
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   animation: ${fadeInUp} 0.6s ease-out;
+  z-index: 100;
+  @media (max-width: 1200px) {
+    margin: 0 auto;
+  }
 `;
 
 export const ContactTitle = styled.h2`

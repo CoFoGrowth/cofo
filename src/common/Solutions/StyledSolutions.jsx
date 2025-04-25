@@ -82,13 +82,6 @@ export const StyledSolutions = styled.section`
       }
     `}
 
-  /* ${(props) =>
-    props.$variant === "home" &&
-    css`
-      padding: 6rem 2rem;
-      background-color: #0c0a12;
-    `} */
-
   @media (max-width: ${theme.media.mobile}) {
     padding: ${(props) =>
       props.$variant === "home" ? "3rem 1rem" : "3rem 1rem"};
@@ -128,7 +121,65 @@ export const SolutionsGrid = styled.div`
   width: 100%;
 
   ${(props) =>
-    (props.$variant === "automation" || props.$variant === "home") &&
+    props.$variant === "home" &&
+    css`
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto auto;
+      grid-auto-flow: row;
+
+      & > *:nth-child(1),
+      & > *:nth-child(2),
+      & > *:nth-child(3),
+      & > *:nth-child(4),
+      & > *:nth-child(5),
+      & > *:nth-child(6) {
+        height: 340px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      & > *:nth-child(7) {
+        grid-column: 1 / -1;
+        height: auto;
+      }
+
+      @media (max-width: ${theme.media.tablet}) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+
+        & > *:nth-child(1),
+        & > *:nth-child(2),
+        & > *:nth-child(3),
+        & > *:nth-child(4),
+        & > *:nth-child(5),
+        & > *:nth-child(6) {
+          height: 300px;
+        }
+
+        & > *:nth-child(7) {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: ${theme.media.mobile}) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        & > *:nth-child(1),
+        & > *:nth-child(2),
+        & > *:nth-child(3),
+        & > *:nth-child(4),
+        & > *:nth-child(5),
+        & > *:nth-child(6),
+        & > *:nth-child(7) {
+          height: auto;
+          grid-column: 1;
+        }
+      }
+    `}
+
+  ${(props) =>
+    props.$variant === "automation" &&
     css`
       grid-template-columns: repeat(3, 1fr);
 
@@ -153,6 +204,7 @@ export const SolutionCard = styled.div`
   animation: ${fadeInLeft} 0.6s ease-out;
   position: relative;
   overflow: hidden;
+  height: 100%;
 
   @media (max-width: ${theme.media.mobile}) {
     padding: 0.8rem;
@@ -494,8 +546,84 @@ export const AuditCard = styled.div`
   flex-direction: column;
   gap: 1.5rem;
 
+  ${(props) =>
+    props.$variant === "home" &&
+    css`
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 4rem;
+
+      ${CardTitle} {
+        font-size: 2.2rem;
+        grid-column: 1 / 2;
+      }
+
+      ${CardDescription} {
+        grid-column: 1 / 2;
+        max-width: 600px;
+      }
+
+      ${CardButton} {
+        grid-column: 1 / 2;
+        justify-self: start;
+        margin-top: 1rem;
+        background-image: linear-gradient(120deg, #101520 0%, #2a3042 100%);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        border: none;
+
+        &:hover {
+          background-image: linear-gradient(120deg, #2a3042 0%, #101520 100%);
+          transform: translateY(-3px);
+          box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+        }
+      }
+
+      ${IconCircle} {
+        grid-column: 2 / 3;
+        grid-row: 1 / 4;
+        justify-self: center;
+        width: 120px;
+        height: 120px;
+
+        svg {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    `}
+
   @media (max-width: ${theme.media.tablet}) {
     padding: 2rem;
+
+    ${(props) =>
+      props.$variant === "home" &&
+      css`
+        grid-template-columns: 1fr;
+
+        ${CardTitle}, ${CardDescription}, ${CardButton} {
+          grid-column: 1;
+        }
+
+        ${CardButton} {
+          background-image: linear-gradient(120deg, #101520 0%, #2a3042 100%);
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+          border: none;
+        }
+
+        ${IconCircle} {
+          grid-column: 1;
+          grid-row: 1;
+          margin-bottom: 1.5rem;
+          width: 80px;
+          height: 80px;
+
+          svg {
+            width: 40px;
+            height: 40px;
+          }
+        }
+      `}
   }
 `;
 

@@ -20,29 +20,102 @@ const HomeContact = () => {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Tutaj będzie logika wysyłania formularza
-    console.log("Form submitted:", formData);
-    alert("Wiadomość została wysłana. Dziękujemy!");
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      message: "",
-    });
+    setIsSubmitting(true);
+    setSubmitError(false);
+
+    try {
+      const response = await fetch("http://localhost:3000/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          to: "cofogrowth@gmail.com",
+          subject: "Nowa wiadomość z formularza kontaktowego",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Błąd HTTP: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Odpowiedź serwera:", data);
+
+      // Sukces
+      setSubmitSuccess(true);
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Błąd podczas wysyłania formularza:", error);
+      setSubmitError(true);
+    } finally {
+      setIsSubmitting(false);
+
+      // Po 5 sekundach ukryj komunikat o sukcesie
+      if (submitSuccess) {
+        setTimeout(() => {
+          setSubmitSuccess(false);
+        }, 5000);
+      }
+    }
   };
 
   return (
     <StyledHomeContact>
       <ContactContainer>
         <ContactTitle>Wyślij wiadomość, my zajmiemy się resztą.</ContactTitle>
+
+        {submitSuccess && (
+          <div
+            style={{
+              backgroundColor: "rgba(46, 204, 113, 0.2)",
+              border: "1px solid #2ecc71",
+              borderRadius: "5px",
+              padding: "15px",
+              marginBottom: "20px",
+              color: "#2ecc71",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            Dziękujemy! Twoja wiadomość została wysłana. Skontaktujemy się
+            wkrótce.
+          </div>
+        )}
+
+        {submitError && (
+          <div
+            style={{
+              backgroundColor: "rgba(231, 76, 60, 0.2)",
+              border: "1px solid #e74c3c",
+              borderRadius: "5px",
+              padding: "15px",
+              marginBottom: "20px",
+              color: "#e74c3c",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            Wystąpił błąd podczas wysyłania wiadomości. Spróbuj ponownie
+            później.
+          </div>
+        )}
+
         <StyledForm onSubmit={handleSubmit}>
           <FormGroup full>
             <Label htmlFor="name">Imię i Nazwisko</Label>
@@ -102,9 +175,9 @@ const HomeContact = () => {
             />
           </FormGroup>
 
-          <SubmitButton type="submit">
+          <SubmitButton type="submit" disabled={isSubmitting}>
             <i className="icons icon-envelope"></i>
-            <span>Wyślij wiadomość</span>
+            <span>{isSubmitting ? "Wysyłanie..." : "Wyślij wiadomość"}</span>
           </SubmitButton>
 
           <Hidden>
