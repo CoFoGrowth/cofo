@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { theme } from "../../theme";
+import { Canvas } from "@react-three/fiber";
 
 const fadeIn = keyframes`
   from {
@@ -21,25 +22,81 @@ const fadeInUp = keyframes`
   }
 `;
 
+export const ParticleBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(12, 10, 18, 0.5);
+    backdrop-filter: blur(1px);
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    display: none;
+  }
+`;
+
+export const GalaxyCanvas = styled(Canvas)`
+  width: 100% !important;
+  height: 100% !important;
+`;
+
+export const HeroWrapper = styled.div`
+  width: 100%;
+  max-width: ${(props) => (props.$variant === "home" ? "1200px" : "1600px")};
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+  z-index: 5;
+  @media (max-width: ${theme.media.tablet}) {
+    flex-direction: column;
+    gap: 30px;
+  }
+`;
+
 export const StyledHero = styled.section`
   display: flex;
   width: 100%;
-  padding: ${(props) =>
-    props.$variant === "home" ? "3rem 5rem" : "2rem 2rem"};
+  padding: ${(props) => (props.$variant === "home" ? "0px" : "4rem 2rem")};
   gap: ${(props) => (props.$variant === "home" ? "4rem" : "4rem")};
-  align-items: center;
+  align-items: start;
   justify-content: center;
   margin-bottom: 4rem;
-
+  position: relative;
   color: white;
-  min-height: ${(props) => (props.$variant === "home" ? "55vh" : "auto")};
+  min-height: ${(props) => (props.$variant === "home" ? "800px" : "auto")};
+  background-color: ${(props) =>
+    props.$variant === "home" ? "transparent" : "inherit"};
+
+  &.container {
+    max-width: ${(props) => (props.$variant === "home" ? "100%" : "1600px")};
+  }
+
+  @media (max-width: ${theme.media.tablet}) {
+    padding: ${(props) =>
+      props.$variant === "home" ? "3rem 2rem 200px 2rem" : "3rem 1.5rem"};
+    gap: ${(props) => (props.$variant === "home" ? "3rem" : "3rem")};
+    margin-bottom: 3rem;
+  }
 
   @media (max-width: ${theme.media.mobile}) {
     flex-direction: column;
     padding: ${(props) =>
-      props.$variant === "home" ? "140px 2rem 3rem" : "3rem 1rem"};
+      props.$variant === "home" ? "100px 1.5rem 2rem" : "2rem 1rem"};
     margin-bottom: 2rem;
-    gap: ${(props) => (props.$variant === "home" ? "3rem" : "4rem")};
+    gap: ${(props) => (props.$variant === "home" ? "2rem" : "3rem")};
   }
 `;
 
@@ -54,10 +111,11 @@ export const ImageContainer = styled.div`
   padding: ${(props) => (props.$variant === "home" ? "1rem" : "0")};
 
   @media (max-width: ${theme.media.tablet}) {
-    order: ${(props) => (props.$variant === "home" ? "1" : "2")};
+    order: 1;
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
+    padding: ${(props) => (props.$variant === "home" ? "0.5rem" : "0")};
   }
 `;
 
@@ -66,8 +124,8 @@ export const ProfileImage = styled.img`
   width: 100%;
   height: auto;
   border-radius: 10px;
-  box-shadow: ${(props) =>
-    props.$variant === "home" ? "0 10px 30px rgba(0, 0, 0, 0.2)" : "none"};
+  /* box-shadow: ${(props) =>
+    props.$variant === "home" ? "0 10px 30px rgba(0, 0, 0, 0.2)" : "none"}; */
 
   @media (max-width: ${theme.media.tablet}) {
     max-height: ${(props) => (props.$variant === "home" ? "350px" : "auto")};
@@ -81,11 +139,19 @@ export const ContentContainer = styled.div`
   gap: ${(props) => (props.$variant === "home" ? "3rem" : "1.5rem")};
   animation: ${fadeInUp} 0.8s ease-out;
   justify-content: center;
-  padding: ${(props) => (props.$variant === "home" ? "1.5rem" : "0")};
+  padding: ${(props) => (props.$variant === "home" ? "3.5rem" : "0")};
+  max-width: ${(props) => (props.$variant === "home" ? "800px" : "none")};
 
   @media (max-width: ${theme.media.tablet}) {
-    order: ${(props) => (props.$variant === "home" ? "2" : "1")};
+    order: 2;
     text-align: ${(props) => (props.$variant === "home" ? "center" : "left")};
+    padding: ${(props) => (props.$variant === "home" ? "2rem" : "0")};
+    gap: ${(props) => (props.$variant === "home" ? "2rem" : "1.5rem")};
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    padding: ${(props) => (props.$variant === "home" ? "1rem 0" : "0")};
+    gap: ${(props) => (props.$variant === "home" ? "1.5rem" : "1rem")};
   }
 `;
 
@@ -161,6 +227,11 @@ export const ButtonsContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   margin-top: 2rem;
+
+  @media (max-width: ${theme.media.mobile}) {
+    margin-top: 1rem;
+    gap: 0.75rem;
+  }
 `;
 
 export const ButtonRow = styled.div`
