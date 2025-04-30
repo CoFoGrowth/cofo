@@ -13,6 +13,11 @@ const fadeInUp = keyframes`
   }
 `;
 
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
 export const StyledForms = styled.section`
   display: flex;
   flex-direction: column;
@@ -463,4 +468,59 @@ export const VideoItem = styled.div`
 
 export const VideoTitle = styled.h3`
   display: none;
+`;
+
+export const SuccessMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(10, 1, 24, 0.7);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 127, 194, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: ${fadeInUp} 0.6s ease-out;
+
+  h3 {
+    color: #ff7fc2;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  button {
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-image: linear-gradient(120deg, #ff7fc2 0%, #b47cfd 100%);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      background-image: linear-gradient(120deg, #b47cfd 0%, #ff7fc2 100%);
+      box-shadow: 0px 8px 20px rgba(255, 127, 194, 0.4);
+    }
+  }
+`;
+
+export const LoadingSpinner = styled.div`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: ${spin} 1s ease-in-out infinite;
+  margin-right: 10px;
+  vertical-align: middle;
 `;
