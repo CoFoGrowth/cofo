@@ -40,15 +40,18 @@ const HomeCta2 = () => {
     setSubmitError(false);
 
     try {
-      const response = await fetch("http://localhost:3000/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          to: "cofogrowth@gmail.com",
-          subject: "Nowa wiadomość - Zacznijmy Współpracę",
-        }),
-      });
+      const response = await fetch(
+        "https://form-webhook.onrender.com/send-email",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...formData,
+            to: "cofogrowth@gmail.com",
+            subject: "Nowa wiadomość - Zacznijmy Współpracę",
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Błąd HTTP: ${response.status}`);
