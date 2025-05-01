@@ -120,7 +120,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const ProfileImage = styled.img`
-  max-width: ${(props) => (props.$variant === "content" ? "400px" : "400px")};
+  max-width: ${(props) => (props.$variant === "content" ? "400px" : "100%")};
   width: 100%;
   height: auto;
   border-radius: 10px;
@@ -128,7 +128,12 @@ export const ProfileImage = styled.img`
     props.$variant === "home" ? "0 10px 30px rgba(0, 0, 0, 0.2)" : "none"}; */
 
   @media (max-width: ${theme.media.tablet}) {
-    max-height: ${(props) => (props.$variant === "home" ? "350px" : "auto")};
+    max-height: ${(props) => (props.$variant === "home" ? "unset" : "auto")};
+    width: ${(props) => (props.$variant === "home" ? "100%" : "auto")};
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    max-width: 100%;
   }
 `;
 
