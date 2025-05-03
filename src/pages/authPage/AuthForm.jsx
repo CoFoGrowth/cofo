@@ -120,7 +120,7 @@ const AuthForm = () => {
   const api = axios.create({
     baseURL: "https://api.airtable.com/v0/appJ0Fnjjn1oJdLEk/Users",
     headers: {
-      Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
+      Authorization: `Bearer pat9CmZDY2QnawlZv.f8531fe9cf7ccb09232a87a3e3dc2d2807d4ed532c3c160d016d284862ad01f5`,
       "Content-Type": "application/json",
     },
   });
@@ -169,6 +169,13 @@ const AuthForm = () => {
         setIsLoggedIn(true);
         setIsLoading(false);
 
+        // Wysyłamy zdarzenie o zmianie stanu logowania
+        window.dispatchEvent(
+          new CustomEvent("loginStateChanged", {
+            detail: { isLoggedIn: true },
+          })
+        );
+
         // Po zalogowaniu przekieruj do strefy contentu
         navigate("/content");
       } else {
@@ -191,6 +198,13 @@ const AuthForm = () => {
     setPassword("");
     setUsername("");
     setUserId("");
+
+    // Wysyłamy zdarzenie o zmianie stanu logowania
+    window.dispatchEvent(
+      new CustomEvent("loginStateChanged", {
+        detail: { isLoggedIn: false },
+      })
+    );
   };
 
   if (isLoggedIn) {

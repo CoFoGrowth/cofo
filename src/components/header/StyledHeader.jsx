@@ -52,3 +52,43 @@ export const Button = styled.button`
     display: none;
   }
 `;
+
+export const LogoutButton = styled.button`
+  width: auto;
+  height: 40px;
+  margin-right: 15px;
+  background-image: linear-gradient(120deg, #ff5555 20%, #ff9966 60%);
+  box-shadow: -15px 0px 15px -5px #ff5555 inset;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  padding: 8px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background-image 0.3s ease;
+  font-weight: bold;
+
+  &:hover {
+    transform: translateY(-3px);
+    background-image: linear-gradient(120deg, #ff9966 0%, #ff5555 100%);
+    box-shadow: 0px 5px 15px 0px rgba(255, 255, 255, 0.3);
+  }
+
+  @media (max-width: ${theme.media.mobile}) {
+    margin-right: 10px;
+    padding: 6px 15px;
+    font-size: 14px;
+  }
+`;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media (max-width: ${theme.media.mobile}) {
+    .main-button {
+      display: none;
+    }
+  }
+`;

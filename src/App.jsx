@@ -210,10 +210,41 @@ function App() {
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     setIsLoggedIn(!!loggedInUser);
+
+    // Funkcja do sprawdzania zmian w localStorage
+    const handleStorageChange = (e) => {
+      if (e.key === "user") {
+        setIsLoggedIn(!!e.newValue);
+        // Wywołaj własne zdarzenie, aby poinformować inne komponenty o zmianie stanu zalogowania
+        window.dispatchEvent(
+          new CustomEvent("loginStateChanged", {
+            detail: { isLoggedIn: !!e.newValue },
+          })
+        );
+      }
+    };
+
+    // Słuchaj zmian w localStorage
+    window.addEventListener("storage", handleStorageChange);
+
+    // Czyszczenie listenera
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Funkcja do wylogowania, którą możemy przekazać do komponentów potomnych
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    // Wywołaj własne zdarzenie
+    window.dispatchEvent(
+      new CustomEvent("loginStateChanged", {
+        detail: { isLoggedIn: false },
+      })
+    );
   };
 
   return (
@@ -227,6 +258,17 @@ function App() {
             <StyledNavLink to="/content" onClick={() => setIsMenuOpen(false)}>
               Strefa contentu
             </StyledNavLink>
+            {isLoggedIn && (
+              <StyledNavLink
+                to="/auth"
+                onClick={() => {
+                  handleLogout();
+                  setIsMenuOpen(false);
+                }}
+              >
+                Wyloguj
+              </StyledNavLink>
+            )}
           </NavigationContainer>
           <BurgerMenu open={isMenuOpen} onClick={toggleMenu}>
             <div />

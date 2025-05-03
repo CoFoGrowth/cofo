@@ -26,7 +26,7 @@ import {
   SuccessMessage,
   LoadingSpinner,
 } from "./StyledForms";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Forms = () => {
   const [formValues, setFormValues] = useState({});
@@ -36,6 +36,72 @@ const Forms = () => {
     customScript: { submitted: false, loading: false },
     cofo: { submitted: false, loading: false },
   });
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Mapping of client IDs to API endpoints
+  const API_ENDPOINTS = {
+    "0001":
+      "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLjQqrtOaXf2_8yPna53zcfEHF6EA0G5MJuAoL2TTW6xLJXOQu7snpQ1ypLSwCHTfx4fYMZWbtVHW1gNSDUdK611tltHK8o9TJL_osE7q8fRh2xWOB6Idyk1WIOCA_fW-NBsBKncK3bsHEYV9h5ii3spI3BgsGcB4Xu8620UFnqRK-TmkWYMsKU0PqNTv59VzfGAV-fWREevqaBQIzz1bS78Fj1BZP3MaVcXOi6pvZhgVMh-WKLBdY3ic8DnzQ6iq8WJVScU537bWYdFm5UwKbqC_hvXsKOpGiB_gKJk&lib=Mi7trqxNEGFQySBA6_TzTmQUG83AMZgVw",
+    "0002":
+      "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLhm9FYMHp9JePkherFuZ2X0BHfcorrVWxxP90Jxay4QRuM9C_gmRvh4RxcmKJXYV80t9VUUS_3L8FC-V9e4LQObrvJW_LMdI3YnZEJHLJhJLhuVNa4UYs5S3595jGPw51CsseCC9L9wstfzyNeVBmDWAVgTjc8J5CPXhmtHw52nx29-3ibgXG6KUXgGkFuk58Y6_ZXwoRXuEf-PRPLnUGGv6lzc-uvuGJEzOKyi26sHipTsRvIceTAikLQYOB4KIjUmcIBQIpjTSyeGKiZ36NDKyj8KltgChX94yVfp&lib=Mi7trqxNEGFQySBA6_TzTmQUG83AMZgVw",
+    "0003":
+      "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLjCfeTF9KV3SlTo2icWJyCFWLmUfJf9d34LtpzysPABTf_nnQWTsbGWdEEWJlrUQax61rXRxjxiDAiyi69F1cP5WNtJrmFtUYvd8SoKwDC3V-CaMO9hxA3hzBBmg4VP_5cjD9BLaJSspGDJlVTTq80Lt6AGAg1Y5nNMfFUMoilCQsf9-4JFAlaTSijWnCIoEnaHbBhu9NmMShcqjNNoFW7iWYBwJgSStwdGJcnTnVZhwCpM89CHsSL4lFVhr77pKe8MiMPIa87NY-OWMXGdtyLzu-4EmpUCf7bxAjwl&lib=Mi7trqxNEGFQySBA6_TzTmQUG83AMZgVw",
+    "0004":
+      "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLis_yOl_HK_zB09V2kW_G_5kd2nU7NzZ_Fqa7dfh8fXnlOBK7p9uKWeeBZLrM6FAKC-LnF6XT5zoDI6Xq-OBqmc20SZTS5KMSMYxm0S0O90MQHYL5JzilF0ULc94R5a846gJLFZpsHXYdJimjnDQG8t18wXSx2P7SRRWXZ2aPKHPxHJot8PmJ3Sl-5a8zqQ7LMgjB8ocN-VtPgIMK3cK8kex5pSTcIKl3QdOoCjC0OkZk7ZsidrHzzOLzNP9OOL_yqH98SxHg5jPDoHvjZE0k44wpLbz07RVpIwQODn&lib=Mi7trqxNEGFQySBA6_TzTmQUG83AMZgVw",
+    "0005":
+      "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgkE2Pn7FLc42p3gQeaBwfgK-shhgl4ozfRk4XQZDttQJwhi-qLUsKFyLzi8PjAc43WLy-SeWnSL0ltOoGLDZ3TLdSD6R1UKTZsWnNOhVrLo28pSzKcSTQK6UuI8K4ni7bsvyjX_LuE1cAeHDQLBbS4JXSLKfsvHQBs6YtZ04NmSHyY151faKD6Z9VioyAhHb0K7xExMULt5OoCao0ctfzpNEcaayXw7EEu5bQ67aiALeQPAMgD64rBmCvt1hxMe4asIn_8bBRkW4O2iv2_4AnJyTXns_OGIHuxbBWF&lib=Mi7trqxNEGFQySBA6_TzTmQUG83AMZgVw",
+    default:
+      "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgCvNjyR38Q4Rco7YxShvVmhPJxnpc3cj0mIdyWYZmLB3NGhE-Zch4VszBDF5SU86_ZwjlrKjVAo6Qc6XHYvXzdCDCQHGeXiYQtT80QuOU152d0bIjHqDEk-8db-XNP9gMer2veVHGkkknt9wolaKRLpSIz5UeA7CTGT7KeKrL96BUqMQDad2fvMCY0rTmMun9d8hIRfrm7LCDFGvf4QWO0SIF4TMHKLaQxH3c1NgoWJ4MjmBNPB0pY5eilTXqrMfpsQOmBxp2AL5CBTY1QPuReB9AMKCecVETXAO-d&lib=Mi7trqxNEGFQySBA6_TzTmQUG83AMZgVw",
+  };
+
+  // Get user data and fetch videos on component mount
+  useEffect(() => {
+    const fetchUserVideos = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        // Get user data from localStorage
+        const userData = localStorage.getItem("user");
+
+        if (!userData) {
+          setError("Użytkownik nie jest zalogowany");
+          setLoading(false);
+          return;
+        }
+
+        // Parse user data to get client ID
+        const { userId } = JSON.parse(userData);
+
+        // Get API endpoint for the client ID or use default
+        const endpoint = API_ENDPOINTS[userId] || API_ENDPOINTS.default;
+
+        // Fetch videos from the endpoint
+        const response = await fetch(endpoint);
+
+        if (!response.ok) {
+          throw new Error("Błąd pobierania filmów");
+        }
+
+        const data = await response.json();
+
+        if (data && data.data) {
+          setVideos(data.data);
+        } else {
+          setVideos([]);
+        }
+      } catch (err) {
+        console.error("Error fetching videos:", err);
+        setError("Nie udało się załadować filmów. Spróbuj ponownie później.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserVideos();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -225,7 +291,17 @@ const Forms = () => {
                     </SelectWrapper>
                   </FormField>
 
-                  <HiddenInput name="client_id" defaultValue="0001" />
+                  <HiddenInput
+                    name="client_id"
+                    defaultValue={(() => {
+                      const userData = localStorage.getItem("user");
+                      if (userData) {
+                        const { userId } = JSON.parse(userData);
+                        return userId || "0001";
+                      }
+                      return "0001";
+                    })()}
+                  />
                   <HiddenInput
                     name="avatar_id"
                     defaultValue="926a8ba693cf47be97837d16b20a694b"
@@ -312,7 +388,17 @@ const Forms = () => {
                     </SelectWrapper>
                   </FormField>
 
-                  <HiddenInput name="client_id" defaultValue="0001" />
+                  <HiddenInput
+                    name="client_id"
+                    defaultValue={(() => {
+                      const userData = localStorage.getItem("user");
+                      if (userData) {
+                        const { userId } = JSON.parse(userData);
+                        return userId || "0001";
+                      }
+                      return "0001";
+                    })()}
+                  />
                   <HiddenInput
                     name="avatar_id"
                     defaultValue="926a8ba693cf47be97837d16b20a694b"
@@ -519,7 +605,17 @@ const Forms = () => {
                   name="avatar_id"
                   value="926a8ba693cf47be97837d16b20a694b"
                 />
-                <HiddenInput name="client_id" value="0001" />
+                <HiddenInput
+                  name="client_id"
+                  value={(() => {
+                    const userData = localStorage.getItem("user");
+                    if (userData) {
+                      const { userId } = JSON.parse(userData);
+                      return userId || "0001";
+                    }
+                    return "0001";
+                  })()}
+                />
 
                 <FormButton type="submit" disabled={formStatus.cofo.loading}>
                   {formStatus.cofo.loading ? <LoadingSpinner /> : "Wyślij"}
@@ -532,92 +628,35 @@ const Forms = () => {
         <VideosContainer>
           <FormSection>
             <FormTitle>Twoje poprzednie wideo:</FormTitle>
-            <VideosGrid>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1BRnV-XL14Zh4FY3MFLJ4U59BoHZ5F0SW/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>processed_1744631287070.mp4</VideoTitle>
-              </VideoItem>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1SC-88fdoMACFORQRNhbrazcVclPqRDxl/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>original_1744631287070.mp4</VideoTitle>
-              </VideoItem>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1BdXxUeREgHABO-lXakiXBCwKizROeN4e/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>original_1744621372970.mp4</VideoTitle>
-              </VideoItem>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1HVUSCOakT8XTdKPOjeU3loJVhT-x-qjK/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>processed_1744619173795.mp4</VideoTitle>
-              </VideoItem>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1XkBt7jG_v3LsLH0sfum-vNZ3RyK1Hdm_/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>original_1744619173795.mp4</VideoTitle>
-              </VideoItem>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1ClyZjgqNVD4R-RPSpmW3T_PvMqDCrMLs/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>
-                  custom_script_processed_1744618699899.mp4
-                </VideoTitle>
-              </VideoItem>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1-Fct2QpTpD8r-NDYlIALEvtBHEjZ6kPn/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>
-                  custom_script_original_1744618699899.mp4
-                </VideoTitle>
-              </VideoItem>
-              <VideoItem>
-                <iframe
-                  src="https://drive.google.com/file/d/1d2hLE-3MlK2-pAUoeuF7_kZE5Asm-HRn/preview"
-                  width="100%"
-                  height="200"
-                  frameBorder="0"
-                  allowFullScreen
-                />
-                <VideoTitle>processed_1744023288981.mp4</VideoTitle>
-              </VideoItem>
-            </VideosGrid>
+            {loading ? (
+              <div style={{ textAlign: "center", padding: "2rem" }}>
+                <LoadingSpinner />
+                <p>Ładowanie filmów...</p>
+              </div>
+            ) : error ? (
+              <div style={{ textAlign: "center", padding: "2rem" }}>
+                <p>{error}</p>
+              </div>
+            ) : videos.length === 0 ? (
+              <div style={{ textAlign: "center", padding: "2rem" }}>
+                <p>Brak dostępnych filmów dla Twojego konta.</p>
+              </div>
+            ) : (
+              <VideosGrid>
+                {videos.map((video, index) => (
+                  <VideoItem key={index}>
+                    <iframe
+                      src={video.url}
+                      width="100%"
+                      height="200"
+                      frameBorder="0"
+                      allowFullScreen
+                    />
+                    <VideoTitle>{video.title}</VideoTitle>
+                  </VideoItem>
+                ))}
+              </VideosGrid>
+            )}
           </FormSection>
         </VideosContainer>
       </FormContainer>
