@@ -42,6 +42,12 @@ const Forms = () => {
   const [error, setError] = useState("");
   const [avatars, setAvatars] = useState([]);
   const [loadingAvatars, setLoadingAvatars] = useState(false);
+  // Nowy stan do przechowywania wybranych awatarów dla każdego formularza
+  const [selectedAvatars, setSelectedAvatars] = useState({
+    viral: "",
+    customScript: "",
+    cofo: "",
+  });
 
   // Mapping of client IDs to API endpoints
   const API_ENDPOINTS = {
@@ -285,8 +291,18 @@ const Forms = () => {
     }
   };
 
-  const handleChange = (e) => {
+  // Aktualizacja funkcji handleChange, aby obsługiwała zmianę awatara
+  const handleChange = (e, formType) => {
     const { name, value } = e.target;
+
+    // Jeśli to pole wyboru awatara, zapisz jego wartość w odpowiednim stanie
+    if (name === "Wybierz awatara") {
+      setSelectedAvatars((prev) => ({
+        ...prev,
+        [formType]: value,
+      }));
+    }
+
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -304,6 +320,14 @@ const Forms = () => {
 
     // Create FormData object to extract values
     const formData = new FormData(form);
+
+    // Ustawienie wartości avatar_id na podstawie wybranego awatara
+    if (selectedAvatars[formType]) {
+      // Usuń poprzednią wartość avatar_id z formData, jeśli istnieje
+      formData.delete("avatar_id");
+      // Dodaj nową wartość
+      formData.append("avatar_id", selectedAvatars[formType]);
+    }
 
     // Convert FormData to URLSearchParams for x-www-form-urlencoded format
     const params = new URLSearchParams();
@@ -418,6 +442,17 @@ const Forms = () => {
     ));
   };
 
+  // Inicjalizacja wybranych awatarów przy załadowaniu komponentu
+  useEffect(() => {
+    if (avatars.length > 0) {
+      setSelectedAvatars({
+        viral: avatars[0].value,
+        customScript: avatars[0].value,
+        cofo: avatars[0].value,
+      });
+    }
+  }, [avatars]);
+
   return (
     <StyledForms>
       <FormContainer>
@@ -473,6 +508,7 @@ const Forms = () => {
                       name="Wybierz awatara"
                       required
                       defaultValue={avatars.length > 0 ? avatars[0].value : ""}
+                      onChange={(e) => handleChange(e, "viral")}
                     >
                       {renderAvatarOptions()}
                     </FormSelect>
@@ -495,7 +531,10 @@ const Forms = () => {
                   />
                   <HiddenInput
                     name="avatar_id"
-                    defaultValue="926a8ba693cf47be97837d16b20a694b"
+                    value={
+                      selectedAvatars.viral ||
+                      "926a8ba693cf47be97837d16b20a694b"
+                    }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
 
@@ -549,7 +588,7 @@ const Forms = () => {
                       rows="4"
                       placeholder=" "
                       required
-                      onChange={handleChange}
+                      onChange={(e) => handleChange(e, "customScript")}
                       value={formValues["Wklej swój skrypt:"] || ""}
                     />
                     <FormLabel $isTextarea>Wklej swój skrypt</FormLabel>
@@ -560,6 +599,7 @@ const Forms = () => {
                       name="Wybierz awatara"
                       required
                       defaultValue={avatars.length > 0 ? avatars[0].value : ""}
+                      onChange={(e) => handleChange(e, "customScript")}
                     >
                       {renderAvatarOptions()}
                     </FormSelect>
@@ -582,7 +622,10 @@ const Forms = () => {
                   />
                   <HiddenInput
                     name="avatar_id"
-                    defaultValue="926a8ba693cf47be97837d16b20a694b"
+                    value={
+                      selectedAvatars.customScript ||
+                      "926a8ba693cf47be97837d16b20a694b"
+                    }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
 
@@ -644,6 +687,7 @@ const Forms = () => {
                     name="Wybierz awatara"
                     required
                     defaultValue={avatars.length > 0 ? avatars[0].value : ""}
+                    onChange={(e) => handleChange(e, "cofo")}
                   >
                     {renderAvatarOptions()}
                   </FormSelect>
@@ -654,7 +698,12 @@ const Forms = () => {
                 </FormField>
 
                 <FormField>
-                  <FormSelect name="Cel video" required defaultValue="sprzedaż">
+                  <FormSelect
+                    name="Cel video"
+                    required
+                    defaultValue="sprzedaż"
+                    onChange={(e) => handleChange(e, "cofo")}
+                  >
                     <option value="sprzedaż">Sprzedaż</option>
                     <option value="lead magnet">Lead magnet</option>
                     <option value="giveaway">Giveaway</option>
@@ -674,7 +723,7 @@ const Forms = () => {
                     name="Opisz krótko treść rolki"
                     placeholder=" "
                     required
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, "cofo")}
                     value={formValues["Opisz krótko treść rolki"] || ""}
                   />
                   <FormLabel>Opisz krótko treść rolki</FormLabel>
@@ -686,7 +735,7 @@ const Forms = () => {
                     name="Opisz krótko styl rolki"
                     placeholder=" "
                     required
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, "cofo")}
                     value={formValues["Opisz krótko styl rolki"] || ""}
                   />
                   <FormLabel>Opisz krótko styl rolki</FormLabel>
@@ -719,7 +768,7 @@ const Forms = () => {
                     type="text"
                     name="Strona www"
                     placeholder=" "
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, "cofo")}
                     value={formValues["Strona www"] || ""}
                   />
                   <FormLabel>Strona www</FormLabel>
@@ -730,7 +779,7 @@ const Forms = () => {
                     type="text"
                     name="Konto na Instagramie (np. @cofo.pl)"
                     placeholder=" "
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, "cofo")}
                     value={
                       formValues["Konto na Instagramie (np. @cofo.pl)"] || ""
                     }
@@ -744,7 +793,7 @@ const Forms = () => {
                     name="Adres e-mail:"
                     placeholder=" "
                     required
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, "cofo")}
                     value={formValues["Adres e-mail:"] || ""}
                   />
                   <FormLabel>Adres e-mail</FormLabel>
@@ -755,7 +804,7 @@ const Forms = () => {
                     name="Twój prompt"
                     rows="4"
                     placeholder=" "
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, "cofo")}
                     value={formValues["Twój prompt"] || ""}
                   />
                   <FormLabel $isTextarea>Twój prompt</FormLabel>
@@ -776,7 +825,9 @@ const Forms = () => {
 
                 <HiddenInput
                   name="avatar_id"
-                  value="926a8ba693cf47be97837d16b20a694b"
+                  value={
+                    selectedAvatars.cofo || "926a8ba693cf47be97837d16b20a694b"
+                  }
                 />
                 <HiddenInput
                   name="client_id"
