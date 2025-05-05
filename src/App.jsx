@@ -258,17 +258,6 @@ function App() {
             <StyledNavLink to="/content" onClick={() => setIsMenuOpen(false)}>
               Strefa contentu
             </StyledNavLink>
-            {isLoggedIn && (
-              <StyledNavLink
-                to="/auth"
-                onClick={() => {
-                  handleLogout();
-                  setIsMenuOpen(false);
-                }}
-              >
-                Wyloguj
-              </StyledNavLink>
-            )}
           </NavigationContainer>
           <BurgerMenu open={isMenuOpen} onClick={toggleMenu}>
             <div />

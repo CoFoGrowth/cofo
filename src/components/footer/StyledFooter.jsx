@@ -25,6 +25,11 @@ export const Links = styled.div`
   display: flex;
   gap: 2rem;
 
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
   @media (max-width: ${theme.media.mobile}) {
     flex-direction: column;
     gap: 0.8rem;

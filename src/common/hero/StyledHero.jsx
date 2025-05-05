@@ -120,7 +120,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const ProfileImage = styled.img`
-  max-width: ${(props) => (props.$variant === "content" ? "400px" : "100%")};
+  max-width: ${(props) => (props.$variant === "content" ? "400px" : "500px")};
   width: 100%;
   height: auto;
   border-radius: 10px;
@@ -144,7 +144,7 @@ export const ContentContainer = styled.div`
   gap: ${(props) => (props.$variant === "home" ? "3rem" : "1.5rem")};
   animation: ${fadeInUp} 0.8s ease-out;
   justify-content: center;
-  padding: ${(props) => (props.$variant === "home" ? "3.5rem" : "0")};
+  padding: ${(props) => (props.$variant === "home" ? "3.5rem" : "2rem")};
   max-width: ${(props) => (props.$variant === "home" ? "800px" : "none")};
 
   @media (max-width: ${theme.media.tablet}) {

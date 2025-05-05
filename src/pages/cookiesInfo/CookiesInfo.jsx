@@ -40,6 +40,15 @@ const Section = styled.div`
     margin-bottom: 8px;
     color: #ffffff;
   }
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 const CookiesInfo = () => {
