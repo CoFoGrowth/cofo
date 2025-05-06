@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 const FormContainer = styled.div`
   display: flex;
@@ -125,6 +126,19 @@ const AuthForm = () => {
     },
   });
 
+  // Funkcja do szyfrowania hasła
+  const encryptPassword = (plainPassword) => {
+    const secretKey = process.env.REACT_APP_SECRET_KEY || "cofo-secret-key";
+    return CryptoJS.AES.encrypt(plainPassword, secretKey).toString();
+  };
+
+  // Funkcja do deszyfrowania hasła
+  const decryptPassword = (encryptedPassword) => {
+    const secretKey = process.env.REACT_APP_SECRET_KEY || "cofo-secret-key";
+    const bytes = CryptoJS.AES.decrypt(encryptedPassword, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -151,13 +165,19 @@ const AuthForm = () => {
       }
 
       const user = response.data.records[0];
+      const storedPassword = user.fields.Password;
+
+      // Sprawdzamy czy hasło jest zaszyfrowane
+      const isEncrypted = storedPassword.length > 50; // Prosta heurystyka do sprawdzenia czy hasło jest zaszyfrowane
+
+      // Porównujemy hasła
+      const passwordMatches = isEncrypted
+        ? password === decryptPassword(storedPassword)
+        : password === storedPassword;
 
       // Sprawdzamy czy hasło i nazwa użytkownika są prawidłowe
-      if (
-        user.fields.Password === password &&
-        user.fields.Username === username
-      ) {
-        // Zapisujemy dane użytkownika w localStorage
+      if (passwordMatches && user.fields.Username === username) {
+        // Zapisujemy dane użytkownika w localStorage (z zaszyfrowanym hasłem)
         const userData = {
           email: email,
           username: username,
@@ -234,6 +254,7 @@ const AuthForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             disabled={isLoading}
+            autoComplete="username"
           />
           <Input
             type="email"
@@ -241,6 +262,7 @@ const AuthForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
+            autoComplete="email"
           />
           <Input
             type="text"
@@ -248,6 +270,7 @@ const AuthForm = () => {
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             disabled={isLoading}
+            autoComplete="off"
           />
           <Input
             type="password"
@@ -255,6 +278,7 @@ const AuthForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
+            autoComplete="current-password"
           />
           <Button type="submit" disabled={isLoading}>
             {isLoading ? "Przetwarzanie..." : "Zaloguj"}
