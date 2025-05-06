@@ -48,6 +48,10 @@ const Forms = () => {
     customScript: "",
     cofo: "",
   });
+  // Nowy stan do przechowywania niestandardowego promptu użytkownika
+  const [customPrompt, setCustomPrompt] = useState(
+    "Cześć, to jest fajny, niestandardowy prompt od Cofo do stworzenia Virala dla ciebie!"
+  );
 
   // Mapping of client IDs to API endpoints
   const API_ENDPOINTS = {
@@ -112,7 +116,53 @@ const Forms = () => {
     fetchUserVideos();
     console.log("Rozpoczęcie pobierania awatarów...");
     fetchUserAvatars();
+    fetchUserCustomPrompt(); // Pobierz niestandardowy prompt użytkownika
   }, []);
+
+  // Nowa funkcja do pobierania niestandardowego promptu dla użytkownika
+  const fetchUserCustomPrompt = async () => {
+    try {
+      // Get user data from localStorage
+      const userData = localStorage.getItem("user");
+
+      if (!userData) {
+        console.error("Użytkownik nie jest zalogowany");
+        return;
+      }
+
+      // Parse user data to get client ID
+      const { userId } = JSON.parse(userData);
+
+      // Połączenie z Airtable
+      const api = axios.create({
+        baseURL: "https://api.airtable.com/v0/appJ0Fnjjn1oJdLEk/Users",
+        headers: {
+          Authorization: `Bearer pat9CmZDY2QnawlZv.f8531fe9cf7ccb09232a87a3e3dc2d2807d4ed532c3c160d016d284862ad01f5`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Pobranie niestandardowego promptu użytkownika
+      const response = await api.get(`?filterByFormula=UserID="${userId}"`);
+
+      if (response.data.records.length > 0) {
+        const user = response.data.records[0];
+
+        // Pobierz niestandardowy prompt użytkownika
+        if (user.fields.CustomPrompt) {
+          console.log(
+            "Pobrano niestandardowy prompt:",
+            user.fields.CustomPrompt
+          );
+          setCustomPrompt(user.fields.CustomPrompt);
+        } else {
+          console.log("Brak niestandardowego promptu, używam domyślnego");
+        }
+      }
+    } catch (error) {
+      console.error("Błąd podczas pobierania niestandardowego promptu:", error);
+    }
+  };
 
   // Funkcja do pobierania dostępnych awatarów dla użytkownika
   const fetchUserAvatars = async () => {
@@ -498,10 +548,7 @@ const Forms = () => {
                   onSubmit={(e) => handleSubmit(e, "viral")}
                 >
                   <HiddenInput name="form_id" defaultValue="27e24f5" />
-                  <HiddenInput
-                    name="Viral"
-                    defaultValue="Cześć, to jest fajny, niestandardowy prompt od Cofo do stworzenia Virala dla ciebie!"
-                  />
+                  <HiddenInput name="Viral" value={customPrompt} />
 
                   <FormField>
                     <FormSelect

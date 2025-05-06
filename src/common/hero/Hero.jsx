@@ -14,6 +14,8 @@ import {
 } from "./StyledHero";
 import GalaxyBackground from "./GalaxyBackground";
 import profileImage from "/src/assets/images/Jakub-Bodys.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Hero = ({
   variant = "content",
@@ -25,6 +27,64 @@ const Hero = ({
   socialLinks,
   buttons,
 }) => {
+  const [userImage, setUserImage] = useState(imageSrc);
+  const [userName, setUserName] = useState(title);
+  const [instagramLink, setInstagramLink] = useState("");
+  const [tiktokLink, setTiktokLink] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const loggedInUser = localStorage.getItem("user");
+
+      if (loggedInUser) {
+        const userData = JSON.parse(loggedInUser);
+
+        if (userData.userId) {
+          try {
+            const response = await axios.get(
+              `https://api.airtable.com/v0/appJ0Fnjjn1oJdLEk/Users?filterByFormula=UserID="${userData.userId}"`,
+              {
+                headers: {
+                  Authorization: `Bearer pat9CmZDY2QnawlZv.f8531fe9cf7ccb09232a87a3e3dc2d2807d4ed532c3c160d016d284862ad01f5`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (response.data.records.length > 0) {
+              const user = response.data.records[0];
+
+              // Pobierz nazwę użytkownika
+              if (user.fields.Username) {
+                setUserName(`Cześć, ${user.fields.Username}`);
+              }
+
+              // Pobierz zdjęcie użytkownika
+              if (user.fields.UserImg && user.fields.UserImg.length > 0) {
+                setUserImage(user.fields.UserImg[0].url);
+              }
+
+              // Pobierz linki społecznościowe
+              if (user.fields.Instagram) {
+                setInstagramLink(user.fields.Instagram);
+              }
+
+              if (user.fields.TikTok) {
+                setTiktokLink(user.fields.TikTok);
+              }
+            }
+          } catch (error) {
+            console.error("Błąd podczas pobierania danych użytkownika:", error);
+          }
+        }
+      }
+    };
+
+    if (variant === "content") {
+      fetchUserData();
+    }
+  }, [variant]);
+
   return (
     <>
       {variant === "home" && <GalaxyBackground />}
@@ -40,7 +100,7 @@ const Hero = ({
                 }}
               />
             ) : (
-              <Title $variant={variant}>{title}</Title>
+              <Title $variant={variant}>{userName}</Title>
             )}
 
             {description && (
@@ -49,22 +109,21 @@ const Hero = ({
 
             {socialLinks && variant === "content" && (
               <SocialLinks>
-                Instagram:{" "}
-                <a
-                  href="https://www.instagram.com/jakubodys"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  @jakubodys
-                </a>
-                , TikTok:{" "}
-                <a
-                  href="https://www.tiktok.com/@jakubodys"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  @jakubodys
-                </a>
+                {instagramLink && (
+                  <>
+                    <a href={instagramLink} target="_blank" rel="noopener">
+                      Twój Instagram
+                    </a>
+                  </>
+                )}
+                {instagramLink && tiktokLink && <>, </>}
+                {tiktokLink && (
+                  <>
+                    <a href={tiktokLink} target="_blank" rel="noopener">
+                      Twój TikTok
+                    </a>
+                  </>
+                )}
               </SocialLinks>
             )}
 
@@ -96,7 +155,7 @@ const Hero = ({
             )}
           </ContentContainer>
           <ImageContainer $variant={variant}>
-            <ProfileImage src={imageSrc} alt={imageAlt} $variant={variant} />
+            <ProfileImage src={userImage} alt={imageAlt} $variant={variant} />
           </ImageContainer>
         </HeroWrapper>
       </StyledHero>
