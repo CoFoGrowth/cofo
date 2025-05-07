@@ -58,7 +58,6 @@ const HomeCta2 = () => {
       }
 
       const data = await response.json();
-      console.log("Odpowiedź serwera:", data);
 
       // Sukces
       setSubmitSuccess(true);
@@ -69,7 +68,6 @@ const HomeCta2 = () => {
         message: "",
       });
     } catch (error) {
-      console.error("Błąd podczas wysyłania formularza:", error);
       setSubmitError(true);
     } finally {
       setIsSubmitting(false);

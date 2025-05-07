@@ -106,7 +106,6 @@ const Forms = () => {
           setVideos([]);
         }
       } catch (err) {
-        console.error("Error fetching videos:", err);
         setError("Nie udało się załadować filmów. Spróbuj ponownie później.");
       } finally {
         setLoading(false);
@@ -114,7 +113,6 @@ const Forms = () => {
     };
 
     fetchUserVideos();
-    console.log("Rozpoczęcie pobierania awatarów...");
     fetchUserAvatars();
     fetchUserCustomPrompt(); // Pobierz niestandardowy prompt użytkownika
   }, []);
@@ -126,7 +124,6 @@ const Forms = () => {
       const userData = localStorage.getItem("user");
 
       if (!userData) {
-        console.error("Użytkownik nie jest zalogowany");
         return;
       }
 
@@ -150,17 +147,11 @@ const Forms = () => {
 
         // Pobierz niestandardowy prompt użytkownika
         if (user.fields.CustomPrompt) {
-          console.log(
-            "Pobrano niestandardowy prompt:",
-            user.fields.CustomPrompt
-          );
           setCustomPrompt(user.fields.CustomPrompt);
-        } else {
-          console.log("Brak niestandardowego promptu, używam domyślnego");
         }
       }
     } catch (error) {
-      console.error("Błąd podczas pobierania niestandardowego promptu:", error);
+      // Błąd obsłużony cicho
     }
   };
 
@@ -170,17 +161,14 @@ const Forms = () => {
     try {
       // Get user data from localStorage
       const userData = localStorage.getItem("user");
-      console.log("1. Dane użytkownika z localStorage:", userData);
 
       if (!userData) {
-        console.error("Użytkownik nie jest zalogowany");
         setLoadingAvatars(false);
         return;
       }
 
       // Parse user data to get client ID
       const { userId } = JSON.parse(userData);
-      console.log("2. ID użytkownika:", userId);
 
       // Połączenie z Airtable
       const api = axios.create({
@@ -191,23 +179,10 @@ const Forms = () => {
         },
       });
 
-      console.log(
-        "3. Próba pobrania danych z Airtable z URL:",
-        `https://api.airtable.com/v0/appJ0Fnjjn1oJdLEk/Users?filterByFormula=UserID="${userId}"`
-      );
-
       // Pobranie użytkownika i jego dostępnych awatarów
       const response = await api.get(`?filterByFormula=UserID="${userId}"`);
-      console.log("4. Odpowiedź z Airtable:", response.data);
-      console.log(
-        "4a. Liczba znalezionych rekordów:",
-        response.data.records ? response.data.records.length : 0
-      );
 
       if (response.data.records.length === 0) {
-        console.log(
-          "5. Nie znaleziono użytkownika w Airtable, ustawiam domyślne awatary"
-        );
         // Ustaw domyślne awatary, jeśli nie znaleziono użytkownika
         setAvatars([
           { value: "Rafal", label: "Rafal" },
@@ -224,76 +199,31 @@ const Forms = () => {
         ]);
       } else {
         const user = response.data.records[0];
-        console.log("5. Znaleziono użytkownika w Airtable:", user);
-        console.log("6. Pola użytkownika:", user.fields);
-
-        // Sprawdź wszystkie pola użytkownika, aby zobaczyć gdzie mogą być awatary
-        console.log("6a. Lista wszystkich pól:", Object.keys(user.fields));
-
-        console.log("7. Pole AvatarId:", user.fields.AvatarId);
-        console.log(
-          "7a. Typ pola AvatarId:",
-          user.fields.AvatarId ? typeof user.fields.AvatarId : "undefined"
-        );
-        console.log(
-          "7b. Czy AvatarId jest tablicą:",
-          user.fields.AvatarId
-            ? Array.isArray(user.fields.AvatarId)
-            : "brak pola"
-        );
-
-        // Sprawdź inne możliwe nazwy pola z awatarami
-        console.log("7c. Pole Avatar:", user.fields.Avatar);
-        console.log("7d. Pole Avatars:", user.fields.Avatars);
-        console.log("7e. Pole avatars:", user.fields.avatars);
-        console.log("7f. Pole avatarId:", user.fields.avatarId);
 
         // Sprawdź, czy użytkownik ma przypisane awatary w polu AvatarId
         if (user.fields.AvatarId && Array.isArray(user.fields.AvatarId)) {
-          console.log(
-            "8. Użytkownik ma przypisane awatary, liczba:",
-            user.fields.AvatarId.length
-          );
           const userAvatars = user.fields.AvatarId.map((avatarName) => ({
             value: avatarName,
             label: avatarName,
           }));
-          console.log("9. Przygotowane awatary do wyświetlenia:", userAvatars);
           setAvatars(userAvatars);
         } else {
-          console.log(
-            "8. Użytkownik NIE ma przypisanych awatarów lub pole nie jest tablicą"
-          );
-
           // Sprawdźmy, czy możemy znaleźć awatary w innych polach
           let foundAvatarsField = null;
           for (const [key, value] of Object.entries(user.fields)) {
             if (Array.isArray(value) && key.toLowerCase().includes("avatar")) {
-              console.log(
-                "8a. Znaleziono potencjalne pole z awatarami:",
-                key,
-                value
-              );
               foundAvatarsField = { key, value };
               break;
             }
           }
 
           if (foundAvatarsField) {
-            console.log(
-              "8b. Używam pola",
-              foundAvatarsField.key,
-              "jako źródła awatarów"
-            );
             const userAvatars = foundAvatarsField.value.map((avatarName) => ({
               value: avatarName,
               label: avatarName,
             }));
             setAvatars(userAvatars);
           } else {
-            console.log(
-              "8c. Nie znaleziono żadnego pola z awatarami, ustawiam domyślne"
-            );
             // Jeśli brak awatarów w Airtable, użyj domyślnych
             setAvatars([
               { value: "Rafal", label: "Rafal" },
@@ -312,16 +242,6 @@ const Forms = () => {
         }
       }
     } catch (error) {
-      console.error("Błąd pobierania awatarów:", error);
-      if (error.response) {
-        console.error("Szczegóły błędu Airtable:", {
-          status: error.response.status,
-          statusText: error.response.statusText,
-          data: error.response.data,
-        });
-      } else {
-        console.error("Błąd bez odpowiedzi:", error.message);
-      }
       // Ustaw domyślne awatary w przypadku błędu
       setAvatars([
         { value: "Rafal", label: "Rafal" },
@@ -387,7 +307,6 @@ const Forms = () => {
 
     // Timeout for showing success message even if the server doesn't respond
     const successTimeout = setTimeout(() => {
-      console.log("Showing success message due to timeout");
       setFormStatus((prev) => ({
         ...prev,
         [formType]: { submitted: true, loading: false },
@@ -397,96 +316,83 @@ const Forms = () => {
       form.reset();
       if (formType === "cofo") {
         setFormValues({});
-        setSliderValue(50);
-        document.getElementById("percentage").textContent = "50%";
       }
-    }, 3000); // 3 seconds timeout
 
-    // Send the form data
-    fetch(form.action, {
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setFormStatus((prev) => ({
+          ...prev,
+          [formType]: { ...prev[formType], submitted: false },
+        }));
+      }, 5000);
+    }, 10000);
+
+    // Post to the API endpoint
+    fetch("https://hook.us1.make.com/3yb8trgqoxr1wckgw8bnz766ebv9d5un", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: params.toString(),
+      body: params,
     })
-      .then((response) => {
-        // Clear timeout as we got a response
+      .then((response) => response.json())
+      .then((data) => {
         clearTimeout(successTimeout);
 
-        // Check if response is ok even if it's not valid JSON
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        // Try to parse JSON response, but continue even if it fails
-        return response.text().then((text) => {
-          try {
-            return JSON.parse(text);
-          } catch (e) {
-            console.log(
-              "Response is not valid JSON, but form was submitted:",
-              text
-            );
-            return { success: true, message: "Form submitted successfully" };
-          }
-        });
-      })
-      .then((data) => {
-        console.log("Success:", data);
-        // Set submitted state
         setFormStatus((prev) => ({
           ...prev,
           [formType]: { submitted: true, loading: false },
         }));
 
-        // Reset form after successful submission
-        form.reset();
-
         // Reset form values
+        form.reset();
+        setSelectedAvatars((prev) => ({
+          ...prev,
+          [formType]: "",
+        }));
         if (formType === "cofo") {
           setFormValues({});
-          setSliderValue(50);
-          document.getElementById("percentage").textContent = "50%";
         }
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setFormStatus((prev) => ({
+            ...prev,
+            [formType]: { ...prev[formType], submitted: false },
+          }));
+        }, 5000);
       })
       .catch((error) => {
-        // Clear timeout as we got a response (even if it's an error)
         clearTimeout(successTimeout);
 
-        console.error("Error submitting form:", error);
-        // Still show success message even on error (for better UX)
+        // Pokaż komunikat o sukcesie nawet w przypadku błędu
+        // (zrobione dla celów UX, ponieważ nawet jeśli API nie odpowiada,
+        // chcemy dać użytkownikowi pozytywne doświadczenie)
         setFormStatus((prev) => ({
           ...prev,
           [formType]: { submitted: true, loading: false },
         }));
 
-        // Reset form even on error
-        form.reset();
-
         // Reset form values
+        form.reset();
         if (formType === "cofo") {
           setFormValues({});
-          setSliderValue(50);
-          document.getElementById("percentage").textContent = "50%";
         }
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setFormStatus((prev) => ({
+            ...prev,
+            [formType]: { ...prev[formType], submitted: false },
+          }));
+        }, 5000);
       });
   };
 
-  // Pokaż loader podczas ładowania awatarów
+  // Renderowanie opcji awatarów w formularzu
   const renderAvatarOptions = () => {
-    console.log(
-      "10. Renderowanie opcji awatarów, loadingAvatars:",
-      loadingAvatars
-    );
-    console.log("11. Dostępne awatary:", avatars);
-
-    if (loadingAvatars) {
-      return <option value="">Ładowanie awatarów...</option>;
-    }
-
-    return avatars.map((avatar, index) => (
-      <option key={index} value={avatar.value}>
+    return avatars.map((avatar) => (
+      <option key={avatar.value} value={avatar.value}>
         {avatar.label}
       </option>
     ));

@@ -120,6 +120,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const ProfileImage = styled.img`
+  padding: 10px;
   max-width: ${(props) => (props.$variant === "content" ? "450px" : "500px")};
   width: 100%;
   height: ${(props) => (props.$variant === "content" ? "450px" : "auto")};

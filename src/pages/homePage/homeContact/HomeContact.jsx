@@ -53,7 +53,6 @@ const HomeContact = () => {
       }
 
       const data = await response.json();
-      console.log("Odpowiedź serwera:", data);
 
       // Sukces
       setSubmitSuccess(true);
@@ -64,7 +63,7 @@ const HomeContact = () => {
         message: "",
       });
     } catch (error) {
-      console.error("Błąd podczas wysyłania formularza:", error);
+      // console.error("Błąd podczas wysyłania formularza:", error);
       setSubmitError(true);
     } finally {
       setIsSubmitting(false);
