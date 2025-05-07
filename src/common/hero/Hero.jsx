@@ -13,7 +13,7 @@ import {
   Description,
 } from "./StyledHero";
 import GalaxyBackground from "./GalaxyBackground";
-import profileImage from "/src/assets/images/Jakub-Bodys.png";
+import profileImage from "/src/assets/images/placeHolder.webp";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -112,7 +112,7 @@ const Hero = ({
                 {instagramLink && (
                   <>
                     <a href={instagramLink} target="_blank" rel="noopener">
-                      Twój Instagram
+                      @Twój Instagram
                     </a>
                   </>
                 )}
@@ -120,7 +120,7 @@ const Hero = ({
                 {tiktokLink && (
                   <>
                     <a href={tiktokLink} target="_blank" rel="noopener">
-                      Twój TikTok
+                      @Twój TikTok
                     </a>
                   </>
                 )}

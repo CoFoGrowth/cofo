@@ -120,16 +120,18 @@ export const ImageContainer = styled.div`
 `;
 
 export const ProfileImage = styled.img`
-  max-width: ${(props) => (props.$variant === "content" ? "400px" : "500px")};
+  max-width: ${(props) => (props.$variant === "content" ? "450px" : "500px")};
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  /* box-shadow: ${(props) =>
-    props.$variant === "home" ? "0 10px 30px rgba(0, 0, 0, 0.2)" : "none"}; */
+  height: ${(props) => (props.$variant === "content" ? "450px" : "auto")};
+  border-radius: ${(props) => (props.$variant === "content" ? "70%" : "10px")};
+  box-shadow: ${(props) =>
+    props.$variant === "content"
+      ? "0 10px 30px rgba(156, 20, 20, 0.2)"
+      : "none"};
 
   @media (max-width: ${theme.media.tablet}) {
-    max-height: ${(props) => (props.$variant === "home" ? "unset" : "auto")};
-    width: ${(props) => (props.$variant === "home" ? "100%" : "auto")};
+    max-height: ${(props) => (props.$variant === "home" ? "unset" : "350px")};
+    width: ${(props) => (props.$variant === "home" ? "100%" : "350px")};
   }
 
   @media (max-width: ${theme.media.mobile}) {
@@ -215,7 +217,7 @@ export const Description = styled.p`
 `;
 
 export const SocialLinks = styled.div`
-  font-size: 1rem;
+  font-size: 1.5rem;
 
   a {
     color: white;
