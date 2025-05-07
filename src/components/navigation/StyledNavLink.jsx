@@ -37,7 +37,7 @@ export const StyledNavLink = styled(NavLink)`
     }
   }
 
-  @media (max-width: ${theme.media.mobile}) {
+  @media (max-width: 1024px) {
     margin: 1rem 0;
     font-size: 1.2rem;
     width: 100%;
@@ -49,7 +49,11 @@ export const NavigationContainer = styled.nav`
   display: flex;
   align-items: center;
 
-  @media (max-width: ${theme.media.mobile}) {
+  .mobile-buttons {
+    display: none;
+  }
+
+  @media (max-width: 1024px) {
     display: none;
     position: fixed;
     top: 100px;
@@ -64,6 +68,41 @@ export const NavigationContainer = styled.nav`
     &.open {
       display: flex;
     }
+
+    .mobile-buttons {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .mobile-logout-button,
+    .mobile-cta-button {
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: none;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      width: 100%;
+    }
+
+    .mobile-logout-button {
+      background-image: linear-gradient(120deg, #ff5555 20%, #ff9966 60%);
+      box-shadow: -15px 0px 15px -5px #ff5555 inset;
+    }
+
+    .mobile-cta-button {
+      background-image: linear-gradient(120deg, #ff7fc2 20%, #b47cfd 60%);
+      box-shadow: -25px 0px 20px -10px #ff7fc2 inset;
+    }
+
+    .mobile-logout-button:hover,
+    .mobile-cta-button:hover {
+      transform: translateY(-3px);
+    }
   }
 `;
 
@@ -76,7 +115,7 @@ export const BurgerMenu = styled.div`
   cursor: pointer;
   z-index: 1000;
 
-  @media (max-width: ${theme.media.mobile}) {
+  @media (max-width: 1024px) {
     display: flex;
   }
 

@@ -250,7 +250,7 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Header>
+        <Header isMenuOpen={isMenuOpen} toggleMenu={toggleMenu}>
           <NavigationContainer className={isMenuOpen ? "open" : ""}>
             <StyledNavLink to="/" onClick={() => setIsMenuOpen(false)}>
               Strona główna
@@ -258,12 +258,32 @@ function App() {
             <StyledNavLink to="/content" onClick={() => setIsMenuOpen(false)}>
               Strefa contentu
             </StyledNavLink>
+            <div className="mobile-buttons">
+              {isLoggedIn && (
+                <button
+                  className="mobile-logout-button"
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  WYLOGUJ SIĘ
+                </button>
+              )}
+              <button
+                className="mobile-cta-button"
+                onClick={() => {
+                  const contactSection = document.getElementById("kontakt-cta");
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                  setIsMenuOpen(false);
+                }}
+              >
+                WSPÓŁPRACUJ Z NAMI
+              </button>
+            </div>
           </NavigationContainer>
-          <BurgerMenu open={isMenuOpen} onClick={toggleMenu}>
-            <div />
-            <div />
-            <div />
-          </BurgerMenu>
         </Header>
         <MainContent>
           <Routes>

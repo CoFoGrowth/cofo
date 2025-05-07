@@ -7,9 +7,10 @@ import {
   LogoutButton,
   ButtonsContainer,
 } from "./StyledHeader";
+import { BurgerMenu } from "../navigation/StyledNavLink";
 import logoImage from "/src/assets/images/Logo.webp";
 
-const Header = ({ children }) => {
+const Header = ({ children, isMenuOpen, toggleMenu }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
@@ -67,14 +68,24 @@ const Header = ({ children }) => {
     <StyledHeader>
       <Logo src={logoImage} alt="CoFo Logo" />
       {children}
-      <ButtonsContainer>
-        {isLoggedIn && (
-          <LogoutButton onClick={handleLogout}>WYLOGUJ SIĘ</LogoutButton>
-        )}
-        <Button className="main-button" onClick={scrollToSection}>
-          WSPÓŁPRACUJ Z NAMI
-        </Button>
-      </ButtonsContainer>
+      <div className="desktop-buttons">
+        <ButtonsContainer>
+          {isLoggedIn && (
+            <LogoutButton onClick={handleLogout}>WYLOGUJ SIĘ</LogoutButton>
+          )}
+          <Button className="main-button" onClick={scrollToSection}>
+            WSPÓŁPRACUJ Z NAMI
+          </Button>
+        </ButtonsContainer>
+      </div>
+
+      <div className="mobile-burger">
+        <BurgerMenu open={isMenuOpen} onClick={toggleMenu}>
+          <div />
+          <div />
+          <div />
+        </BurgerMenu>
+      </div>
     </StyledHeader>
   );
 };

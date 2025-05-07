@@ -14,6 +14,24 @@ export const StyledHeader = styled.header`
   padding: 0 2rem;
   z-index: 1000;
 
+  .desktop-buttons {
+    display: flex;
+  }
+
+  .mobile-burger {
+    display: none;
+  }
+
+  @media (max-width: 1024px) {
+    .desktop-buttons {
+      display: none;
+    }
+
+    .mobile-burger {
+      display: block;
+    }
+  }
+
   @media (max-width: ${theme.media.mobile}) {
     justify-content: space-between;
     padding: 0 1rem;
@@ -85,6 +103,7 @@ export const LogoutButton = styled.button`
 export const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-left: 20px;
 
   @media (max-width: ${theme.media.mobile}) {
     .main-button {
