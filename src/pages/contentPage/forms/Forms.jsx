@@ -327,8 +327,14 @@ const Forms = () => {
       }, 5000);
     }, 10000);
 
+    // Wybierz odpowiedni endpoint w zależności od typu formularza
+    const endpoint =
+      formType === "cofo"
+        ? "https://form-webhook.onrender.com/form-webhook"
+        : "https://form-webhook.onrender.com/custom-script-for-heygen";
+
     // Post to the API endpoint
-    fetch("https://hook.us1.make.com/3yb8trgqoxr1wckgw8bnz766ebv9d5un", {
+    fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -386,6 +392,8 @@ const Forms = () => {
             [formType]: { ...prev[formType], submitted: false },
           }));
         }, 5000);
+
+        console.error("Błąd wysyłania formularza:", error); // Dodaj logowanie błędu
       });
   };
 
