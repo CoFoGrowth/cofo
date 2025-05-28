@@ -779,8 +779,8 @@ const Forms = () => {
                     required
                   />
                   <FormLabel htmlFor="form-field-zgoda_na_dane">
-                    Zgadzam się na wszystko, co mi powie CoFo kiedykolwiek w
-                    życiu. CoFo is life, CoFo is AI.
+                    Chce wygenerować moje wideo zgadzam się na pobranie jednego
+                    kredytu z mojego konta.
                   </FormLabel>
                 </FormField>
 
