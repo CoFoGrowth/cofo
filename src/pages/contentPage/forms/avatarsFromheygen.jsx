@@ -75,7 +75,9 @@ const AvatarsFromHeygen = () => {
             type: "talking_photo",
             fullData: photo,
           })),
-        ].slice(0, 30); // Ograniczenie do pierwszych 30 awatarów
+        ]
+          .filter((avatar) => avatar.name && avatar.name.includes("_0001")) // Filtruj tylko awatary z "_0001" w nazwie
+          .slice(0, 30); // Ograniczenie do pierwszych 30 awatarów
 
         setAvatars(combinedAvatars);
 
@@ -91,7 +93,11 @@ const AvatarsFromHeygen = () => {
         });
 
         console.log(
-          `🎯 Wyświetlam pierwszych ${combinedAvatars.length} awatarów/zdjęć (ograniczenie do 30)`
+          `🎯 Wyświetlam ${
+            combinedAvatars.length
+          } awatarów z "_0001" w nazwie (z ${
+            allAvatars.length + talkingPhotos.length
+          } dostępnych)`
         );
       } else {
         console.log("⚠️ Brak danych awatarów w odpowiedzi");
