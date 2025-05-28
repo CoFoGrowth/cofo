@@ -53,7 +53,7 @@ export const AvatarsTitle = styled.h2`
   }
 `;
 
-export const LoadingInfo = styled.p`
+export const LoadingInfo = styled.div`
   font-size: 1.1rem;
   text-align: center;
   color: #ff7fc2;

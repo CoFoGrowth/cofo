@@ -10,11 +10,11 @@ export default defineConfig({
         target: "http://localhost:3000",
         changeOrigin: true,
       },
-      "/api/heygen": {
-        target: "https://api.heygen.com",
+      "/api/avatars": {
+        target: "https://api.heygen.com/v2/avatars",
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => path.replace(/^\/api\/heygen/, ""),
+        rewrite: (path) => "",
         configure: (proxy, _options) => {
           proxy.on("error", (err, req, res) => {
             console.log("❌ Proxy error:", err.message);

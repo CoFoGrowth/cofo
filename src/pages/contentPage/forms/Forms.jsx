@@ -544,7 +544,7 @@ const Forms = () => {
                   onSubmit={(e) => handleSubmit(e, "viral")}
                 >
                   <HiddenInput name="form_id" defaultValue="27e24f5" />
-                  <HiddenInput name="Viral" value={customPrompt} />
+                  <HiddenInput name="Viral" defaultValue={customPrompt} />
 
                   <FormField>
                     <FormSelect
@@ -574,7 +574,7 @@ const Forms = () => {
                   />
                   <HiddenInput
                     name="avatar_id"
-                    value={
+                    defaultValue={
                       selectedAvatars.viral ||
                       (avatars.length > 0
                         ? avatars[0].value
@@ -667,7 +667,7 @@ const Forms = () => {
                   />
                   <HiddenInput
                     name="avatar_id"
-                    value={
+                    defaultValue={
                       selectedAvatars.customScript ||
                       (avatars.length > 0
                         ? avatars[0].value
@@ -807,7 +807,7 @@ const Forms = () => {
                     }}
                   />
                   <RangeValue id="percentage">{sliderValue}%</RangeValue>
-                  <HiddenInput name="slider_value" value={sliderValue} />
+                  <HiddenInput name="slider_value" defaultValue={sliderValue} />
                 </FormField>
 
                 <FormField>
@@ -872,7 +872,7 @@ const Forms = () => {
 
                 <HiddenInput
                   name="avatar_id"
-                  value={
+                  defaultValue={
                     selectedAvatars.cofo ||
                     (avatars.length > 0
                       ? avatars[0].value
@@ -881,7 +881,7 @@ const Forms = () => {
                 />
                 <HiddenInput
                   name="client_id"
-                  value={(() => {
+                  defaultValue={(() => {
                     const userData = localStorage.getItem("user");
                     if (userData) {
                       const { userId } = JSON.parse(userData);
