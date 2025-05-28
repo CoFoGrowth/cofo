@@ -19,6 +19,8 @@ const spin = keyframes`
 
 export const AvatarsContainer = styled.div`
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -33,10 +35,12 @@ export const AvatarsContainer = styled.div`
 
   @media (max-width: ${theme.media.tablet}) {
     padding: 15px;
+    max-width: 95%;
   }
 
   @media (max-width: ${theme.media.mobile}) {
     padding: 10px;
+    max-width: 95%;
   }
 `;
 
@@ -79,6 +83,8 @@ export const AvatarsScrollContainer = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
 
   &::-webkit-scrollbar {
     height: 6px;
@@ -102,8 +108,11 @@ export const AvatarsScrollContainer = styled.div`
 export const AvatarsGrid = styled.div`
   display: flex;
   gap: 20px;
-  min-width: max-content;
   padding: 20px 0;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 100%;
 
   @media (max-width: ${theme.media.tablet}) {
     gap: 15px;
@@ -113,6 +122,7 @@ export const AvatarsGrid = styled.div`
   @media (max-width: ${theme.media.mobile}) {
     gap: 10px;
     padding: 10px 0;
+    justify-content: center;
   }
 `;
 
