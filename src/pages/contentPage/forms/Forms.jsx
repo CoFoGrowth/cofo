@@ -360,12 +360,21 @@ const Forms = () => {
     // Create FormData object to extract values
     const formData = new FormData(form);
 
-    // Ustawienie wartości avatar_id na podstawie wybranego awatara
+    // Upewnij się, że avatar_id jest ustawiony na podstawie wybranego awatara
     if (selectedAvatars[formType]) {
       // Usuń poprzednią wartość avatar_id z formData, jeśli istnieje
       formData.delete("avatar_id");
-      // Dodaj nową wartość
+      // Dodaj nową wartość - używamy value z selectedAvatars, które już zawiera avatar ID
       formData.append("avatar_id", selectedAvatars[formType]);
+      console.log(
+        `🎯 Wysyłanie avatar_id dla ${formType}:`,
+        selectedAvatars[formType]
+      );
+    } else {
+      // Fallback do domyślnego ID jeśli nie ma wybranego awatara
+      formData.delete("avatar_id");
+      formData.append("avatar_id", "926a8ba693cf47be97837d16b20a694b");
+      console.log(`⚠️ Używanie domyślnego avatar_id dla ${formType}`);
     }
 
     // Convert FormData to URLSearchParams for x-www-form-urlencoded format
@@ -373,6 +382,9 @@ const Forms = () => {
     for (const [key, value] of formData.entries()) {
       params.append(key, value);
     }
+
+    // Debug: wyloguj wszystkie parametry wysyłane na serwer
+    console.log("📤 Parametry wysyłane na serwer:", Object.fromEntries(params));
 
     // Timeout for showing success message even if the server doesn't respond
     const successTimeout = setTimeout(() => {
@@ -564,7 +576,9 @@ const Forms = () => {
                     name="avatar_id"
                     value={
                       selectedAvatars.viral ||
-                      "926a8ba693cf47be97837d16b20a694b"
+                      (avatars.length > 0
+                        ? avatars[0].value
+                        : "926a8ba693cf47be97837d16b20a694b")
                     }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
@@ -655,7 +669,9 @@ const Forms = () => {
                     name="avatar_id"
                     value={
                       selectedAvatars.customScript ||
-                      "926a8ba693cf47be97837d16b20a694b"
+                      (avatars.length > 0
+                        ? avatars[0].value
+                        : "926a8ba693cf47be97837d16b20a694b")
                     }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
@@ -857,7 +873,10 @@ const Forms = () => {
                 <HiddenInput
                   name="avatar_id"
                   value={
-                    selectedAvatars.cofo || "926a8ba693cf47be97837d16b20a694b"
+                    selectedAvatars.cofo ||
+                    (avatars.length > 0
+                      ? avatars[0].value
+                      : "926a8ba693cf47be97837d16b20a694b")
                   }
                 />
                 <HiddenInput
