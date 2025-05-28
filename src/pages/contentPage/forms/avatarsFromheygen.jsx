@@ -21,20 +21,22 @@ const AvatarsFromHeygen = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Dane do HeyGen API
+  // ZAKOMENTOWANE: Dane do HeyGen API (nie używane już)
+  /*
   const API_TOKEN =
     "N2Y4M2Y3NWViNmJiNDQ4ZDg5MjY0YWI1ZTQ3YzU5NjYtMTczOTE3OTE4NQ==";
   const AVATARS_URL = "/api/avatars";
+  */
 
   // Funkcja do pobierania awatarów
   const fetchAvatars = async () => {
     try {
-      console.log(
-        "🚀 Rozpoczynam pobieranie awatarów z HeyGen API przez lokalny proxy..."
-      );
+      console.log("🚀 Używam awatarów na sztywno dla klienta 0001...");
       setLoading(true);
       setError("");
 
+      // ZAKOMENTOWANE: Logika pobierania z HeyGen API
+      /*
       // Użyj lokalnego proxy endpoint (działa tylko na localhost przez Vite)
       const response = await fetch("/api/avatars", {
         method: "GET",
@@ -104,8 +106,52 @@ const AvatarsFromHeygen = () => {
         console.log("⚠️ Brak danych awatarów w odpowiedzi");
         setAvatars([]);
       }
+      */
+
+      // NOWE: Awatary na sztywno dla klienta 0001
+      const hardcodedAvatars = [
+        {
+          id: "14bb685a7fe54b59a395a4653e300da9",
+          name: "Biała Koszula_mieszkanie_0001",
+          preview:
+            "https://files2.heygen.ai/avatar/v3/14bb685a7fe54b59a395a4653e300da9/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+        },
+        {
+          id: "d19813e5217547fcaf5293181b0c39b5",
+          name: "Czarna_koszula_mieszkanie_0001",
+          preview:
+            "https://files2.heygen.ai/avatar/v3/d19813e5217547fcaf5293181b0c39b5/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+        },
+        {
+          id: "3cafa5d8091843b3936f4a1592a39b84",
+          name: "Czerwona_sukienka_hipnozy_0001",
+          preview:
+            "https://files2.heygen.ai/avatar/v3/f91cb72e3456475386b6f1a53e63a24c/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+        },
+        {
+          id: "117048e935de41deb14f39a0aa27661e",
+          name: "Dom_pionowy_0001",
+          preview:
+            "https://files2.heygen.ai/avatar/v3/117048e935de41deb14f39a0aa27661e/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+        },
+      ];
+
+      setAvatars(hardcodedAvatars);
+      console.log(
+        `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0001`
+      );
     } catch (err) {
-      console.error("❌ Błąd podczas pobierania awatarów:", err);
+      console.error("❌ Błąd:", err);
+      // ZAKOMENTOWANE: Kod fallback nie jest już potrzebny
+      /*
       console.log("🔄 Używam hardcoded awatarów jako fallback...");
 
       // Użyj hardcoded awatarów jako fallback
@@ -146,6 +192,9 @@ const AvatarsFromHeygen = () => {
 
       setAvatars(fallbackAvatars);
       setError(""); // Nie pokazuj błędu, bo mamy fallback awatary
+      */
+
+      setError("Błąd ładowania awatarów");
     } finally {
       setLoading(false);
     }

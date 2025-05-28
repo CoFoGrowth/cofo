@@ -107,6 +107,7 @@ const Forms = () => {
           setVideos([]);
         }
       } catch (err) {
+        console.error("Error fetching videos:", err);
         setError("Nie udało się załadować filmów. Spróbuj ponownie później.");
       } finally {
         setLoading(false);
@@ -114,6 +115,7 @@ const Forms = () => {
     };
 
     fetchUserVideos();
+    console.log("Rozpoczęcie pobierania awatarów...");
     fetchUserAvatars();
     fetchUserCustomPrompt(); // Pobierz niestandardowy prompt użytkownika
   }, []);
@@ -125,6 +127,7 @@ const Forms = () => {
       const userData = localStorage.getItem("user");
 
       if (!userData) {
+        console.error("Użytkownik nie jest zalogowany");
         return;
       }
 
@@ -148,11 +151,17 @@ const Forms = () => {
 
         // Pobierz niestandardowy prompt użytkownika
         if (user.fields.CustomPrompt) {
+          console.log(
+            "Pobrano niestandardowy prompt:",
+            user.fields.CustomPrompt
+          );
           setCustomPrompt(user.fields.CustomPrompt);
+        } else {
+          console.log("Brak niestandardowego promptu, używam domyślnego");
         }
       }
     } catch (error) {
-      // Błąd obsłużony cicho
+      console.error("Błąd podczas pobierania niestandardowego promptu:", error);
     }
   };
 
@@ -171,163 +180,34 @@ const Forms = () => {
       // Parse user data to get client ID
       const { userId } = JSON.parse(userData);
 
-      // Jeśli klient ma ID "0001", używaj awatarów z HeyGen
+      // Jeśli klient ma ID "0001", używaj awatarów na sztywno
       if (userId === "0001") {
-        console.log("🎯 Klient 0001 - pobieranie awatarów z HeyGen...");
+        console.log("🎯 Klient 0001 - używanie awatarów na sztywno...");
 
-        try {
-          let response;
-          let data;
+        // NOWE: Awatary na sztywno dla klienta 0001
+        const hardcodedAvatars = [
+          {
+            value: "14bb685a7fe54b59a395a4653e300da9",
+            label: "Biała Koszula_mieszkanie_0001",
+          },
+          {
+            value: "d19813e5217547fcaf5293181b0c39b5",
+            label: "Czarna_koszula_mieszkanie_0001",
+          },
+          {
+            value: "3cafa5d8091843b3936f4a1592a39b84",
+            label: "Czerwona_sukienka_hipnozy_0001",
+          },
+          {
+            value: "117048e935de41deb14f39a0aa27661e",
+            label: "Dom_pionowy_0001",
+          },
+        ];
 
-          try {
-            // Pierwsza próba - corsproxy.io (obsługuje niestandardowe nagłówki)
-            console.log("🔄 Próba 1: corsproxy.io z nagłówkami autoryzacji...");
-            const corsProxyUrl1 = `https://corsproxy.io/?${encodeURIComponent(
-              "https://api.heygen.com/v2/avatars"
-            )}`;
-
-            response = await fetch(corsProxyUrl1, {
-              method: "GET",
-              headers: {
-                "X-Api-Key":
-                  "N2Y4M2Y3NWViNmJiNDQ4ZDg5MjY0YWI1ZTQ3YzU5NjYtMTczOTE3OTE4NQ==",
-                "Content-Type": "application/json",
-              },
-            });
-
-            if (response.ok) {
-              data = await response.json();
-              console.log("✅ Sukces z corsproxy.io!");
-            } else {
-              throw new Error(`corsproxy.io error: ${response.status}`);
-            }
-          } catch (error1) {
-            console.warn("⚠️ corsproxy.io failed:", error1.message);
-
-            try {
-              // Druga próba - thingproxy
-              console.log("🔄 Próba 2: thingproxy z nagłówkami...");
-              const corsProxyUrl2 = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(
-                "https://api.heygen.com/v2/avatars"
-              )}`;
-
-              response = await fetch(corsProxyUrl2, {
-                method: "GET",
-                headers: {
-                  "X-Api-Key":
-                    "N2Y4M2Y3NWViNmJiNDQ4ZDg5MjY0YWI1ZTQ3YzU5NjYtMTczOTE3OTE4NQ==",
-                  "Content-Type": "application/json",
-                },
-              });
-
-              if (response.ok) {
-                data = await response.json();
-                console.log("✅ Sukces z thingproxy!");
-              } else {
-                throw new Error(`thingproxy error: ${response.status}`);
-              }
-            } catch (error2) {
-              console.warn("⚠️ thingproxy failed:", error2.message);
-
-              try {
-                // Trzecia próba - whateverorigin
-                console.log("🔄 Próba 3: whateverorigin z nagłówkami...");
-                const corsProxyUrl3 = `https://whatever-origin.herokuapp.com/get?url=${encodeURIComponent(
-                  "https://api.heygen.com/v2/avatars"
-                )}&callback=?`;
-
-                response = await fetch(corsProxyUrl3, {
-                  method: "GET",
-                  headers: {
-                    "X-Api-Key":
-                      "N2Y4M2Y3NWViNmJiNDQ4ZDg5MjY0YWI1ZTQ3YzU5NjYtMTczOTE3OTE4NQ==",
-                    "Content-Type": "application/json",
-                  },
-                });
-
-                if (response.ok) {
-                  const jsonpData = await response.text();
-                  // Parsuj JSONP response
-                  const jsonMatch = jsonpData.match(/\?\((.*)\)$/);
-                  if (jsonMatch) {
-                    const parsedData = JSON.parse(jsonMatch[1]);
-                    data = JSON.parse(parsedData.contents);
-                    console.log("✅ Sukces z whateverorigin!");
-                  } else {
-                    throw new Error("Invalid JSONP response");
-                  }
-                } else {
-                  throw new Error(`whateverorigin error: ${response.status}`);
-                }
-              } catch (error3) {
-                console.warn("⚠️ whateverorigin failed:", error3.message);
-
-                // Czwarta próba - allorigins bez nagłówków autoryzacji
-                console.log(
-                  "🔄 Próba 4: allorigins bez nagłówków autoryzacji..."
-                );
-                const corsProxyUrl4 = `https://api.allorigins.win/raw?url=${encodeURIComponent(
-                  "https://api.heygen.com/v2/avatars"
-                )}`;
-
-                response = await fetch(corsProxyUrl4, {
-                  method: "GET",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                });
-
-                if (!response.ok) {
-                  throw new Error(
-                    `All CORS proxies failed. Last error: ${response.status}`
-                  );
-                }
-
-                data = await response.json();
-                console.log("✅ Sukces z allorigins (bez autoryzacji)!");
-              }
-            }
-          }
-
-          if (data && data.data) {
-            const allAvatars = data.data.avatars || [];
-            const talkingPhotos = data.data.talking_photos || [];
-
-            // Kombinuj wszystkie awatary i filtruj po "_0001"
-            const combinedAvatars = [
-              ...allAvatars.map((avatar) => ({
-                value: avatar.avatar_id,
-                label: avatar.avatar_name,
-              })),
-              ...talkingPhotos.map((photo) => ({
-                value: photo.talking_photo_id,
-                label: photo.talking_photo_name,
-              })),
-            ]
-              .slice(0, 30) // Najpierw ograniczenie do pierwszych 30
-              .filter(
-                (avatar) => avatar.label && avatar.label.includes("_0001")
-              ); // Potem filtrowanie po "_0001" w nazwie
-
-            console.log(
-              `✅ Znaleziono ${combinedAvatars.length} awatarów HeyGen z "_0001" dla klienta 0001`
-            );
-            setAvatars(combinedAvatars);
-          } else {
-            console.log("⚠️ Brak danych awatarów w odpowiedzi HeyGen");
-            setAvatars([]);
-          }
-        } catch (error) {
-          console.error("❌ Błąd podczas pobierania awatarów z HeyGen:", error);
-          // Fallback do domyślnych awatarów
-          setAvatars([
-            { value: "Rafal", label: "Rafal" },
-            {
-              value: "Chad in Blue Shirt (Upper Body)",
-              label: "Chad in Blue Shirt (Upper Body)",
-            },
-          ]);
-        }
+        console.log(
+          `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0001`
+        );
+        setAvatars(hardcodedAvatars);
       } else {
         // Dla innych klientów używaj Airtable (istniejący kod)
         console.log(`📋 Klient ${userId} - pobieranie awatarów z Airtable...`);
@@ -458,21 +338,12 @@ const Forms = () => {
     // Create FormData object to extract values
     const formData = new FormData(form);
 
-    // Upewnij się, że avatar_id jest ustawiony na podstawie wybranego awatara
+    // Ustawienie wartości avatar_id na podstawie wybranego awatara
     if (selectedAvatars[formType]) {
       // Usuń poprzednią wartość avatar_id z formData, jeśli istnieje
       formData.delete("avatar_id");
-      // Dodaj nową wartość - używamy value z selectedAvatars, które już zawiera avatar ID
+      // Dodaj nową wartość
       formData.append("avatar_id", selectedAvatars[formType]);
-      console.log(
-        `🎯 Wysyłanie avatar_id dla ${formType}:`,
-        selectedAvatars[formType]
-      );
-    } else {
-      // Fallback do domyślnego ID jeśli nie ma wybranego awatara
-      formData.delete("avatar_id");
-      formData.append("avatar_id", "926a8ba693cf47be97837d16b20a694b");
-      console.log(`⚠️ Używanie domyślnego avatar_id dla ${formType}`);
     }
 
     // Convert FormData to URLSearchParams for x-www-form-urlencoded format
@@ -481,11 +352,9 @@ const Forms = () => {
       params.append(key, value);
     }
 
-    // Debug: wyloguj wszystkie parametry wysyłane na serwer
-    console.log("📤 Parametry wysyłane na serwer:", Object.fromEntries(params));
-
     // Timeout for showing success message even if the server doesn't respond
     const successTimeout = setTimeout(() => {
+      console.log("Showing success message due to timeout");
       setFormStatus((prev) => ({
         ...prev,
         [formType]: { submitted: true, loading: false },
@@ -495,91 +364,93 @@ const Forms = () => {
       form.reset();
       if (formType === "cofo") {
         setFormValues({});
+        setSliderValue(50);
+        document.getElementById("percentage").textContent = "50%";
       }
+    }, 3000); // 3 seconds timeout
 
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        setFormStatus((prev) => ({
-          ...prev,
-          [formType]: { ...prev[formType], submitted: false },
-        }));
-      }, 5000);
-    }, 10000);
-
-    // Wybierz odpowiedni endpoint w zależności od typu formularza
-    const endpoint =
-      formType === "cofo"
-        ? "https://form-webhook.onrender.com/form-webhook"
-        : "https://form-webhook.onrender.com/custom-script-for-heygen";
-
-    // Post to the API endpoint
-    fetch(endpoint, {
+    // Send the form data
+    fetch(form.action, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: params,
+      body: params.toString(),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then((response) => {
+        // Clear timeout as we got a response
         clearTimeout(successTimeout);
 
+        // Check if response is ok even if it's not valid JSON
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        // Try to parse JSON response, but continue even if it fails
+        return response.text().then((text) => {
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            console.log(
+              "Response is not valid JSON, but form was submitted:",
+              text
+            );
+            return { success: true, message: "Form submitted successfully" };
+          }
+        });
+      })
+      .then((data) => {
+        console.log("Success:", data);
+        // Set submitted state
         setFormStatus((prev) => ({
           ...prev,
           [formType]: { submitted: true, loading: false },
         }));
 
-        // Reset form values
+        // Reset form after successful submission
         form.reset();
-        setSelectedAvatars((prev) => ({
-          ...prev,
-          [formType]: "",
-        }));
+
+        // Reset form values
         if (formType === "cofo") {
           setFormValues({});
+          setSliderValue(50);
+          document.getElementById("percentage").textContent = "50%";
         }
-
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-          setFormStatus((prev) => ({
-            ...prev,
-            [formType]: { ...prev[formType], submitted: false },
-          }));
-        }, 5000);
       })
       .catch((error) => {
+        // Clear timeout as we got a response (even if it's an error)
         clearTimeout(successTimeout);
 
-        // Pokaż komunikat o sukcesie nawet w przypadku błędu
-        // (zrobione dla celów UX, ponieważ nawet jeśli API nie odpowiada,
-        // chcemy dać użytkownikowi pozytywne doświadczenie)
+        console.error("Error submitting form:", error);
+        // Still show success message even on error (for better UX)
         setFormStatus((prev) => ({
           ...prev,
           [formType]: { submitted: true, loading: false },
         }));
 
-        // Reset form values
+        // Reset form even on error
         form.reset();
+
+        // Reset form values
         if (formType === "cofo") {
           setFormValues({});
+          setSliderValue(50);
+          document.getElementById("percentage").textContent = "50%";
         }
-
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-          setFormStatus((prev) => ({
-            ...prev,
-            [formType]: { ...prev[formType], submitted: false },
-          }));
-        }, 5000);
-
-        console.error("Błąd wysyłania formularza:", error); // Dodaj logowanie błędu
       });
   };
 
-  // Renderowanie opcji awatarów w formularzu
+  // Pokaż loader podczas ładowania awatarów
   const renderAvatarOptions = () => {
-    return avatars.map((avatar) => (
-      <option key={avatar.value} value={avatar.value}>
+    console.log("Renderowanie opcji awatarów, loadingAvatars:", loadingAvatars);
+    console.log("Dostępne awatary:", avatars);
+
+    if (loadingAvatars) {
+      return <option value="">Ładowanie awatarów...</option>;
+    }
+
+    return avatars.map((avatar, index) => (
+      <option key={index} value={avatar.value}>
         {avatar.label}
       </option>
     ));
@@ -642,7 +513,7 @@ const Forms = () => {
                   onSubmit={(e) => handleSubmit(e, "viral")}
                 >
                   <HiddenInput name="form_id" defaultValue="27e24f5" />
-                  <HiddenInput name="Viral" defaultValue={customPrompt} />
+                  <HiddenInput name="Viral" value={customPrompt} />
 
                   <FormField>
                     <FormSelect
@@ -672,11 +543,9 @@ const Forms = () => {
                   />
                   <HiddenInput
                     name="avatar_id"
-                    defaultValue={
+                    value={
                       selectedAvatars.viral ||
-                      (avatars.length > 0
-                        ? avatars[0].value
-                        : "926a8ba693cf47be97837d16b20a694b")
+                      "926a8ba693cf47be97837d16b20a694b"
                     }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
@@ -765,11 +634,9 @@ const Forms = () => {
                   />
                   <HiddenInput
                     name="avatar_id"
-                    defaultValue={
+                    value={
                       selectedAvatars.customScript ||
-                      (avatars.length > 0
-                        ? avatars[0].value
-                        : "926a8ba693cf47be97837d16b20a694b")
+                      "926a8ba693cf47be97837d16b20a694b"
                     }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
@@ -905,7 +772,7 @@ const Forms = () => {
                     }}
                   />
                   <RangeValue id="percentage">{sliderValue}%</RangeValue>
-                  <HiddenInput name="slider_value" defaultValue={sliderValue} />
+                  <HiddenInput name="slider_value" value={sliderValue} />
                 </FormField>
 
                 <FormField>
@@ -963,23 +830,20 @@ const Forms = () => {
                     required
                   />
                   <FormLabel htmlFor="form-field-zgoda_na_dane">
-                    Chcę wygenerować moje wideo i zgadzam się na pobranie
-                    jednego kredytu z mojego konta.
+                    Zgadzam się na wszystko, co mi powie CoFo kiedykolwiek w
+                    życiu. CoFo is life, CoFo is AI.
                   </FormLabel>
                 </FormField>
 
                 <HiddenInput
                   name="avatar_id"
-                  defaultValue={
-                    selectedAvatars.cofo ||
-                    (avatars.length > 0
-                      ? avatars[0].value
-                      : "926a8ba693cf47be97837d16b20a694b")
+                  value={
+                    selectedAvatars.cofo || "926a8ba693cf47be97837d16b20a694b"
                   }
                 />
                 <HiddenInput
                   name="client_id"
-                  defaultValue={(() => {
+                  value={(() => {
                     const userData = localStorage.getItem("user");
                     if (userData) {
                       const { userId } = JSON.parse(userData);
