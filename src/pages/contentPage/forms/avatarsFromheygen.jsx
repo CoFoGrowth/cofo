@@ -24,7 +24,7 @@ const AvatarsFromHeygen = () => {
   // Dane do HeyGen API
   const API_TOKEN =
     "N2Y4M2Y3NWViNmJiNDQ4ZDg5MjY0YWI1ZTQ3YzU5NjYtMTczOTE3OTE4NQ==";
-  const AVATARS_URL = "/api/heygen/v2/avatars";
+  const AVATARS_URL = "/api/avatars";
 
   // Funkcja do pobierania awatarów
   const fetchAvatars = async () => {

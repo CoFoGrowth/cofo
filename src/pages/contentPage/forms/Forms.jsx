@@ -176,7 +176,7 @@ const Forms = () => {
         console.log("🎯 Klient 0001 - pobieranie awatarów z HeyGen...");
 
         try {
-          const response = await fetch("/api/heygen/v2/avatars", {
+          const response = await fetch("/api/avatars", {
             method: "GET",
             headers: {
               "x-api-key":
