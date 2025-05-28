@@ -35,25 +35,114 @@ const AvatarsFromHeygen = () => {
       setLoading(true);
       setError("");
 
-      // Bezpośrednie połączenie przez CORS proxy (Render.com nie obsługuje /api endpoints)
-      const corsProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
-        "https://api.heygen.com/v2/avatars"
-      )}`;
+      let response;
+      let data;
 
-      const response = await fetch(corsProxyUrl, {
-        method: "GET",
-        headers: {
-          "X-Api-Key": API_TOKEN,
-          "Content-Type": "application/json",
-          "User-Agent": "CoFo-App/1.0",
-        },
-      });
+      try {
+        // Pierwsza próba - corsproxy.io (obsługuje niestandardowe nagłówki)
+        console.log("🔄 Próba 1: corsproxy.io z nagłówkami autoryzacji...");
+        const corsProxyUrl1 = `https://corsproxy.io/?${encodeURIComponent(
+          "https://api.heygen.com/v2/avatars"
+        )}`;
 
-      if (!response.ok) {
-        throw new Error(`CORS proxy error! status: ${response.status}`);
+        response = await fetch(corsProxyUrl1, {
+          method: "GET",
+          headers: {
+            "X-Api-Key": API_TOKEN,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          data = await response.json();
+          console.log("✅ Sukces z corsproxy.io!");
+        } else {
+          throw new Error(`corsproxy.io error: ${response.status}`);
+        }
+      } catch (error1) {
+        console.warn("⚠️ corsproxy.io failed:", error1.message);
+
+        try {
+          // Druga próba - thingproxy
+          console.log("🔄 Próba 2: thingproxy z nagłówkami...");
+          const corsProxyUrl2 = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(
+            "https://api.heygen.com/v2/avatars"
+          )}`;
+
+          response = await fetch(corsProxyUrl2, {
+            method: "GET",
+            headers: {
+              "X-Api-Key": API_TOKEN,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.ok) {
+            data = await response.json();
+            console.log("✅ Sukces z thingproxy!");
+          } else {
+            throw new Error(`thingproxy error: ${response.status}`);
+          }
+        } catch (error2) {
+          console.warn("⚠️ thingproxy failed:", error2.message);
+
+          try {
+            // Trzecia próba - whateverorigin
+            console.log("🔄 Próba 3: whateverorigin z nagłówkami...");
+            const corsProxyUrl3 = `https://whatever-origin.herokuapp.com/get?url=${encodeURIComponent(
+              "https://api.heygen.com/v2/avatars"
+            )}&callback=?`;
+
+            response = await fetch(corsProxyUrl3, {
+              method: "GET",
+              headers: {
+                "X-Api-Key": API_TOKEN,
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (response.ok) {
+              const jsonpData = await response.text();
+              // Parsuj JSONP response
+              const jsonMatch = jsonpData.match(/\?\((.*)\)$/);
+              if (jsonMatch) {
+                const parsedData = JSON.parse(jsonMatch[1]);
+                data = JSON.parse(parsedData.contents);
+                console.log("✅ Sukces z whateverorigin!");
+              } else {
+                throw new Error("Invalid JSONP response");
+              }
+            } else {
+              throw new Error(`whateverorigin error: ${response.status}`);
+            }
+          } catch (error3) {
+            console.warn("⚠️ whateverorigin failed:", error3.message);
+
+            // Czwarta próba - allorigins bez nagłówków autoryzacji (może API jest publiczne?)
+            console.log("🔄 Próba 4: allorigins bez nagłówków autoryzacji...");
+            const corsProxyUrl4 = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+              "https://api.heygen.com/v2/avatars"
+            )}`;
+
+            response = await fetch(corsProxyUrl4, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (!response.ok) {
+              throw new Error(
+                `All CORS proxies failed. Last error: ${response.status}`
+              );
+            }
+
+            data = await response.json();
+            console.log("✅ Sukces z allorigins (bez autoryzacji)!");
+          }
+        }
       }
 
-      const data = await response.json();
       console.log("✅ Pełna odpowiedź z API awatarów:", data);
 
       // HeyGen API zwraca obiekt z polami 'avatars' i 'talking_photos'
