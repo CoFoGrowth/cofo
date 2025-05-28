@@ -35,16 +35,42 @@ const AvatarsFromHeygen = () => {
       setLoading(true);
       setError("");
 
-      const response = await fetch(AVATARS_URL, {
-        method: "GET",
-        headers: {
-          "x-api-key": API_TOKEN,
-          "Content-Type": "application/json",
-        },
-      });
+      // Pierwsza próba - przez serverless function
+      let response;
+      try {
+        response = await fetch(AVATARS_URL, {
+          method: "GET",
+          headers: {
+            "x-api-key": API_TOKEN,
+            "Content-Type": "application/json",
+          },
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      } catch (serverlessError) {
+        console.warn(
+          "⚠️ Serverless function failed, trying CORS proxy...",
+          serverlessError
+        );
+
+        // Druga próba - przez CORS proxy
+        const corsProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+          "https://api.heygen.com/v2/avatars"
+        )}`;
+
+        response = await fetch(corsProxyUrl, {
+          method: "GET",
+          headers: {
+            "X-Api-Key": API_TOKEN,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`CORS proxy error! status: ${response.status}`);
+        }
       }
 
       const data = await response.json();
