@@ -176,12 +176,18 @@ const Forms = () => {
         console.log("🎯 Klient 0001 - pobieranie awatarów z HeyGen...");
 
         try {
-          const response = await fetch("/api/avatars", {
+          // Używaj CORS proxy zamiast /api/avatars (Render.com nie obsługuje serverless functions)
+          const corsProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+            "https://api.heygen.com/v2/avatars"
+          )}`;
+
+          const response = await fetch(corsProxyUrl, {
             method: "GET",
             headers: {
-              "x-api-key":
+              "X-Api-Key":
                 "N2Y4M2Y3NWViNmJiNDQ4ZDg5MjY0YWI1ZTQ3YzU5NjYtMTczOTE3OTE4NQ==",
               "Content-Type": "application/json",
+              "User-Agent": "CoFo-App/1.0",
             },
           });
 
