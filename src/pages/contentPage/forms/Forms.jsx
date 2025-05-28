@@ -28,6 +28,7 @@ import {
 } from "./StyledForms";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import AvatarsFromHeygen from "./avatarsFromheygen";
 
 const Forms = () => {
   const [formValues, setFormValues] = useState({});
@@ -170,78 +171,146 @@ const Forms = () => {
       // Parse user data to get client ID
       const { userId } = JSON.parse(userData);
 
-      // Połączenie z Airtable
-      const api = axios.create({
-        baseURL: "https://api.airtable.com/v0/appJ0Fnjjn1oJdLEk/Users",
-        headers: {
-          Authorization: `Bearer pat9CmZDY2QnawlZv.f8531fe9cf7ccb09232a87a3e3dc2d2807d4ed532c3c160d016d284862ad01f5`,
-          "Content-Type": "application/json",
-        },
-      });
+      // Jeśli klient ma ID "0001", używaj awatarów z HeyGen
+      if (userId === "0001") {
+        console.log("🎯 Klient 0001 - pobieranie awatarów z HeyGen...");
 
-      // Pobranie użytkownika i jego dostępnych awatarów
-      const response = await api.get(`?filterByFormula=UserID="${userId}"`);
+        try {
+          const response = await fetch("/api/heygen/v2/avatars", {
+            method: "GET",
+            headers: {
+              "x-api-key":
+                "N2Y4M2Y3NWViNmJiNDQ4ZDg5MjY0YWI1ZTQ3YzU5NjYtMTczOTE3OTE4NQ==",
+              "Content-Type": "application/json",
+            },
+          });
 
-      if (response.data.records.length === 0) {
-        // Ustaw domyślne awatary, jeśli nie znaleziono użytkownika
-        setAvatars([
-          { value: "Rafal", label: "Rafal" },
-          {
-            value: "Chad in Blue Shirt (Upper Body)",
-            label: "Chad in Blue Shirt (Upper Body)",
-          },
-          { value: "Daisy in T-shirt", label: "Daisy in T-shirt" },
-          {
-            value: "Francis in Blazer (Upper Body)",
-            label: "Francis in Blazer (Upper Body)",
-          },
-          { value: "Rafal Final 2.mp4", label: "Rafal Final 2.mp4" },
-        ]);
-      } else {
-        const user = response.data.records[0];
-
-        // Sprawdź, czy użytkownik ma przypisane awatary w polu AvatarId
-        if (user.fields.AvatarId && Array.isArray(user.fields.AvatarId)) {
-          const userAvatars = user.fields.AvatarId.map((avatarName) => ({
-            value: avatarName,
-            label: avatarName,
-          }));
-          setAvatars(userAvatars);
-        } else {
-          // Sprawdźmy, czy możemy znaleźć awatary w innych polach
-          let foundAvatarsField = null;
-          for (const [key, value] of Object.entries(user.fields)) {
-            if (Array.isArray(value) && key.toLowerCase().includes("avatar")) {
-              foundAvatarsField = { key, value };
-              break;
-            }
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
 
-          if (foundAvatarsField) {
-            const userAvatars = foundAvatarsField.value.map((avatarName) => ({
+          const data = await response.json();
+
+          if (data && data.data) {
+            const allAvatars = data.data.avatars || [];
+            const talkingPhotos = data.data.talking_photos || [];
+
+            // Kombinuj wszystkie awatary i filtruj po "_0001"
+            const combinedAvatars = [
+              ...allAvatars.map((avatar) => ({
+                value: avatar.avatar_id,
+                label: avatar.avatar_name,
+              })),
+              ...talkingPhotos.map((photo) => ({
+                value: photo.talking_photo_id,
+                label: photo.talking_photo_name,
+              })),
+            ]
+              .slice(0, 30) // Najpierw ograniczenie do pierwszych 30
+              .filter(
+                (avatar) => avatar.label && avatar.label.includes("_0001")
+              ); // Potem filtrowanie po "_0001" w nazwie
+
+            console.log(
+              `✅ Znaleziono ${combinedAvatars.length} awatarów HeyGen z "_0001" dla klienta 0001`
+            );
+            setAvatars(combinedAvatars);
+          } else {
+            console.log("⚠️ Brak danych awatarów w odpowiedzi HeyGen");
+            setAvatars([]);
+          }
+        } catch (error) {
+          console.error("❌ Błąd podczas pobierania awatarów z HeyGen:", error);
+          // Fallback do domyślnych awatarów
+          setAvatars([
+            { value: "Rafal", label: "Rafal" },
+            {
+              value: "Chad in Blue Shirt (Upper Body)",
+              label: "Chad in Blue Shirt (Upper Body)",
+            },
+          ]);
+        }
+      } else {
+        // Dla innych klientów używaj Airtable (istniejący kod)
+        console.log(`📋 Klient ${userId} - pobieranie awatarów z Airtable...`);
+
+        // Połączenie z Airtable
+        const api = axios.create({
+          baseURL: "https://api.airtable.com/v0/appJ0Fnjjn1oJdLEk/Users",
+          headers: {
+            Authorization: `Bearer pat9CmZDY2QnawlZv.f8531fe9cf7ccb09232a87a3e3dc2d2807d4ed532c3c160d016d284862ad01f5`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Pobranie użytkownika i jego dostępnych awatarów
+        const response = await api.get(`?filterByFormula=UserID="${userId}"`);
+
+        if (response.data.records.length === 0) {
+          // Ustaw domyślne awatary, jeśli nie znaleziono użytkownika
+          setAvatars([
+            { value: "Rafal", label: "Rafal" },
+            {
+              value: "Chad in Blue Shirt (Upper Body)",
+              label: "Chad in Blue Shirt (Upper Body)",
+            },
+            { value: "Daisy in T-shirt", label: "Daisy in T-shirt" },
+            {
+              value: "Francis in Blazer (Upper Body)",
+              label: "Francis in Blazer (Upper Body)",
+            },
+            { value: "Rafal Final 2.mp4", label: "Rafal Final 2.mp4" },
+          ]);
+        } else {
+          const user = response.data.records[0];
+
+          // Sprawdź, czy użytkownik ma przypisane awatary w polu AvatarId
+          if (user.fields.AvatarId && Array.isArray(user.fields.AvatarId)) {
+            const userAvatars = user.fields.AvatarId.map((avatarName) => ({
               value: avatarName,
               label: avatarName,
             }));
             setAvatars(userAvatars);
           } else {
-            // Jeśli brak awatarów w Airtable, użyj domyślnych
-            setAvatars([
-              { value: "Rafal", label: "Rafal" },
-              {
-                value: "Chad in Blue Shirt (Upper Body)",
-                label: "Chad in Blue Shirt (Upper Body)",
-              },
-              { value: "Daisy in T-shirt", label: "Daisy in T-shirt" },
-              {
-                value: "Francis in Blazer (Upper Body)",
-                label: "Francis in Blazer (Upper Body)",
-              },
-              { value: "Rafal Final 2.mp4", label: "Rafal Final 2.mp4" },
-            ]);
+            // Sprawdźmy, czy możemy znaleźć awatary w innych polach
+            let foundAvatarsField = null;
+            for (const [key, value] of Object.entries(user.fields)) {
+              if (
+                Array.isArray(value) &&
+                key.toLowerCase().includes("avatar")
+              ) {
+                foundAvatarsField = { key, value };
+                break;
+              }
+            }
+
+            if (foundAvatarsField) {
+              const userAvatars = foundAvatarsField.value.map((avatarName) => ({
+                value: avatarName,
+                label: avatarName,
+              }));
+              setAvatars(userAvatars);
+            } else {
+              // Jeśli brak awatarów w Airtable, użyj domyślnych
+              setAvatars([
+                { value: "Rafal", label: "Rafal" },
+                {
+                  value: "Chad in Blue Shirt (Upper Body)",
+                  label: "Chad in Blue Shirt (Upper Body)",
+                },
+                { value: "Daisy in T-shirt", label: "Daisy in T-shirt" },
+                {
+                  value: "Francis in Blazer (Upper Body)",
+                  label: "Francis in Blazer (Upper Body)",
+                },
+                { value: "Rafal Final 2.mp4", label: "Rafal Final 2.mp4" },
+              ]);
+            }
           }
         }
       }
     } catch (error) {
+      console.error("❌ Błąd podczas pobierania awatarów:", error);
       // Ustaw domyślne awatary w przypadku błędu
       setAvatars([
         { value: "Rafal", label: "Rafal" },
@@ -419,6 +488,7 @@ const Forms = () => {
 
   return (
     <StyledForms>
+      <AvatarsFromHeygen />
       <FormContainer>
         <FormsWrapper>
           <FormsRow>
