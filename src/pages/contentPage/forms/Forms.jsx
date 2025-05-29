@@ -53,6 +53,8 @@ const Forms = () => {
   const [customPrompt, setCustomPrompt] = useState(
     "Cześć, to jest fajny, niestandardowy prompt od Cofo do stworzenia Virala dla ciebie!"
   );
+  // Nowy stan do ładowania generowania tekstu
+  const [generatingText, setGeneratingText] = useState(false);
 
   // Mapping of client IDs to API endpoints
   const API_ENDPOINTS = {
@@ -467,6 +469,35 @@ const Forms = () => {
     }
   }, [avatars]);
 
+  // Funkcja do generowania tekstu
+  const generateText = async () => {
+    const prompt = formValues["Twój prompt"];
+    if (!prompt) {
+      alert("Wprowadź prompt przed generowaniem tekstu!");
+      return;
+    }
+
+    setGeneratingText(true);
+
+    try {
+      const response = await axios.post(
+        "https://form-webhook.onrender.com/generate-text",
+        { prompt }
+      );
+      if (response.data.success) {
+        setFormValues((prev) => ({ ...prev, final_text: response.data.text }));
+      } else {
+        console.error("Failed to generate text");
+        alert("Nie udało się wygenerować tekstu. Spróbuj ponownie.");
+      }
+    } catch (error) {
+      console.error("Error generating text:", error);
+      alert("Wystąpił błąd podczas generowania tekstu. Spróbuj ponownie.");
+    } finally {
+      setGeneratingText(false);
+    }
+  };
+
   return (
     <StyledForms>
       <AvatarsFromHeygen />
@@ -822,6 +853,25 @@ const Forms = () => {
                   <FormLabel $isTextarea>Twój prompt</FormLabel>
                 </FormField>
 
+                <FormButton
+                  type="button"
+                  onClick={generateText}
+                  disabled={generatingText}
+                >
+                  {generatingText ? <LoadingSpinner /> : "Wygeneruj tekst"}
+                </FormButton>
+
+                <FormField>
+                  <FormTextarea
+                    name="final_text"
+                    rows="4"
+                    placeholder=" "
+                    onChange={(e) => handleChange(e, "cofo")}
+                    value={formValues["final_text"] || ""}
+                  />
+                  <FormLabel $isTextarea>Final text for your video</FormLabel>
+                </FormField>
+
                 <FormField>
                   <FormCheckbox
                     type="checkbox"
@@ -830,8 +880,7 @@ const Forms = () => {
                     required
                   />
                   <FormLabel htmlFor="form-field-zgoda_na_dane">
-                    Zgadzam się na wszystko, co mi powie CoFo kiedykolwiek w
-                    życiu. CoFo is life, CoFo is AI.
+                    Zgadzam się na zużycie tokenu i wygenerowanie wideo
                   </FormLabel>
                 </FormField>
 
