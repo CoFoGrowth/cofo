@@ -31,7 +31,16 @@ const AvatarsFromHeygen = () => {
   // Funkcja do pobierania awatarów
   const fetchAvatars = async () => {
     try {
-      console.log("🚀 Używam awatarów na sztywno dla klienta 0001...");
+      // Pobierz dane użytkownika z localStorage
+      const userData = localStorage.getItem("user");
+      if (!userData) {
+        setError("Użytkownik nie jest zalogowany");
+        setLoading(false);
+        return;
+      }
+
+      const { userId } = JSON.parse(userData);
+      console.log(`🚀 Używam awatarów na sztywno dla klienta ${userId}...`);
       setLoading(true);
       setError("");
 
@@ -108,8 +117,9 @@ const AvatarsFromHeygen = () => {
       }
       */
 
-      // NOWE: Awatary na sztywno dla klienta 0001
-      const hardcodedAvatars = [
+      // NOWE: Awatary na sztywno dla różnych klientów
+      const allAvatars = [
+        // Klient 0001
         {
           id: "14bb685a7fe54b59a395a4653e300da9",
           name: "Biała Koszula_mieszkanie_0001",
@@ -117,6 +127,7 @@ const AvatarsFromHeygen = () => {
             "https://files2.heygen.ai/avatar/v3/14bb685a7fe54b59a395a4653e300da9/full/2.2/preview_target.webp",
           type: "avatar",
           fullData: {},
+          clientId: "0001",
         },
         {
           id: "d19813e5217547fcaf5293181b0c39b5",
@@ -125,6 +136,7 @@ const AvatarsFromHeygen = () => {
             "https://files2.heygen.ai/avatar/v3/d19813e5217547fcaf5293181b0c39b5/full/2.2/preview_target.webp",
           type: "avatar",
           fullData: {},
+          clientId: "0001",
         },
         {
           id: "3cafa5d8091843b3936f4a1592a39b84",
@@ -133,6 +145,7 @@ const AvatarsFromHeygen = () => {
             "https://files2.heygen.ai/avatar/v3/f91cb72e3456475386b6f1a53e63a24c/full/2.2/preview_target.webp",
           type: "avatar",
           fullData: {},
+          clientId: "0001",
         },
         {
           id: "117048e935de41deb14f39a0aa27661e",
@@ -141,12 +154,55 @@ const AvatarsFromHeygen = () => {
             "https://files2.heygen.ai/avatar/v3/117048e935de41deb14f39a0aa27661e/full/2.2/preview_target.webp",
           type: "avatar",
           fullData: {},
+          clientId: "0001",
+        },
+        // Klient 0002
+        {
+          id: "649781898578442d936b70762071b79d",
+          name: "CzerwonaKoszulka_0002",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/ef912416d4dc4ed1b492a09ed7c6846a/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0002",
+        },
+        {
+          id: "90e61fb86ac74849ad13ba6b5ea70c8a",
+          name: "RafałWSamochodzie_0002",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/90e61fb86ac74849ad13ba6b5ea70c8a/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0002",
+        },
+        {
+          id: "61b861db8ead447fb481b621f2254273",
+          name: "RafałKurtkaJeans_0002",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/61b861db8ead447fb481b621f2254273/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0002",
+        },
+        {
+          id: "a33a613eacc547fb996f36cf6b3976d4",
+          name: "RafałBlackOutfit_0002",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/a33a613eacc547fb996f36cf6b3976d4/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0002",
         },
       ];
 
-      setAvatars(hardcodedAvatars);
+      // Filtruj awatary dla aktualnie zalogowanego użytkownika
+      const userAvatars = allAvatars.filter(
+        (avatar) => avatar.clientId === userId
+      );
+
+      setAvatars(userAvatars);
       console.log(
-        `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0001`
+        `✅ Załadowano ${userAvatars.length} awatarów dla klienta ${userId}`
       );
     } catch (err) {
       console.error("❌ Błąd:", err);
