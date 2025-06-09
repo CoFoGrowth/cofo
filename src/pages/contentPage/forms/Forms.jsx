@@ -204,6 +204,27 @@ const Forms = () => {
             value: "117048e935de41deb14f39a0aa27661e",
             label: "Dom_pionowy_0001",
           },
+          // Nowe awatary z głosami dla klientki 0001
+          {
+            value: "fc0c0ebdd4da412a8325cec59911ff74",
+            label: "Nowy głos_1_0001",
+          },
+          {
+            value: "88989364f8d34bd2b6a7aee2eef74910",
+            label: "Nowy głos_2_0001",
+          },
+          {
+            value: "7de56ac82e184a3097f540696c1e2b1d",
+            label: "Nowy głos_3_0001",
+          },
+          {
+            value: "74e3eac3e1d145b29b5a5ec2f06e6c2a",
+            label: "Nowy głos_4_0001",
+          },
+          {
+            value: "d53fc781b5d54205b5b713d39906c8cd",
+            label: "Nowy głos_5_0001",
+          },
         ];
 
         console.log(

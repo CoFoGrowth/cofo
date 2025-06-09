@@ -156,6 +156,52 @@ const AvatarsFromHeygen = () => {
           fullData: {},
           clientId: "0001",
         },
+        // Nowe awatary z głosami dla klientki 0001
+        {
+          id: "fc0c0ebdd4da412a8325cec59911ff74",
+          name: "Nowy głos_1_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/e4f99e04c3a64759a8306695446a1315/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "88989364f8d34bd2b6a7aee2eef74910",
+          name: "Nowy głos_2_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/e4f99e04c3a64759a8306695446a1315/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "7de56ac82e184a3097f540696c1e2b1d",
+          name: "Nowy głos_3_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/e4f99e04c3a64759a8306695446a1315/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "74e3eac3e1d145b29b5a5ec2f06e6c2a",
+          name: "Nowy głos_4_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/e4f99e04c3a64759a8306695446a1315/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "d53fc781b5d54205b5b713d39906c8cd",
+          name: "Nowy głos_5_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/e4f99e04c3a64759a8306695446a1315/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
         // Klient 0002
         {
           id: "649781898578442d936b70762071b79d",
