@@ -182,11 +182,11 @@ const Forms = () => {
       // Parse user data to get client ID
       const { userId } = JSON.parse(userData);
 
-      // Jeśli klient ma ID "0001", używaj awatarów na sztywno
+      // Używaj awatarów na sztywno dla klientów 0001 i 0002
       if (userId === "0001") {
         console.log("🎯 Klient 0001 - używanie awatarów na sztywno...");
 
-        // NOWE: Awatary na sztywno dla klienta 0001
+        // Awatary na sztywno dla klienta 0001
         const hardcodedAvatars = [
           {
             value: "14bb685a7fe54b59a395a4653e300da9",
@@ -208,6 +208,33 @@ const Forms = () => {
 
         console.log(
           `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0001`
+        );
+        setAvatars(hardcodedAvatars);
+      } else if (userId === "0002") {
+        console.log("🎯 Klient 0002 - używanie awatarów na sztywno...");
+
+        // Awatary na sztywno dla klienta 0002
+        const hardcodedAvatars = [
+          {
+            value: "649781898578442d936b70762071b79d",
+            label: "CzerwonaKoszulka_0002",
+          },
+          {
+            value: "90e61fb86ac74849ad13ba6b5ea70c8a",
+            label: "RafałWSamochodzie_0002",
+          },
+          {
+            value: "61b861db8ead447fb481b621f2254273",
+            label: "RafałKurtkaJeans_0002",
+          },
+          {
+            value: "a33a613eacc547fb996f36cf6b3976d4",
+            label: "RafałBlackOutfit_0002",
+          },
+        ];
+
+        console.log(
+          `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0002`
         );
         setAvatars(hardcodedAvatars);
       } else {
