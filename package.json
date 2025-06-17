@@ -7,9 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "node server.js",
-    "dev:server": "node server.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@react-three/fiber": "^9.1.2",
@@ -19,10 +17,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.0",
     "styled-components": "^6.1.15",
-    "three": "^0.176.0",
-    "express": "^4.21.2",
-    "cors": "^2.8.5",
-    "node-fetch": "^3.3.2"
+    "three": "^0.176.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
