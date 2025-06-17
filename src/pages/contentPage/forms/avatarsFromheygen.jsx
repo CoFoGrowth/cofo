@@ -204,7 +204,7 @@ const AvatarsFromHeygen = () => {
         },
         // Klient 0002
         {
-          id: "649781898578442d936b70762071b79d",
+          id: "ef912416d4dc4ed1b492a09ed7c6846a",
           name: "CzerwonaKoszulka_0002",
           preview:
             "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/ef912416d4dc4ed1b492a09ed7c6846a/full/2.2/preview_target.webp",
