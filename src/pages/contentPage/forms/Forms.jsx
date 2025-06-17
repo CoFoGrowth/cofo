@@ -237,7 +237,7 @@ const Forms = () => {
         // Awatary na sztywno dla klienta 0002
         const hardcodedAvatars = [
           {
-            value: "649781898578442d936b70762071b79d",
+            value: "ef912416d4dc4ed1b492a09ed7c6846a",
             label: "CzerwonaKoszulka_0002",
           },
           {
@@ -624,7 +624,17 @@ const Forms = () => {
                     name="avatar_id"
                     value={
                       selectedAvatars.viral ||
-                      "926a8ba693cf47be97837d16b20a694b"
+                      (() => {
+                        const userData = localStorage.getItem("user");
+                        if (userData) {
+                          const { userId } = JSON.parse(userData);
+                          if (userId === "0002")
+                            return "ef912416d4dc4ed1b492a09ed7c6846a";
+                          if (userId === "0001")
+                            return "14bb685a7fe54b59a395a4653e300da9";
+                        }
+                        return "926a8ba693cf47be97837d16b20a694b";
+                      })()
                     }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
@@ -715,7 +725,17 @@ const Forms = () => {
                     name="avatar_id"
                     value={
                       selectedAvatars.customScript ||
-                      "926a8ba693cf47be97837d16b20a694b"
+                      (() => {
+                        const userData = localStorage.getItem("user");
+                        if (userData) {
+                          const { userId } = JSON.parse(userData);
+                          if (userId === "0002")
+                            return "ef912416d4dc4ed1b492a09ed7c6846a";
+                          if (userId === "0001")
+                            return "14bb685a7fe54b59a395a4653e300da9";
+                        }
+                        return "926a8ba693cf47be97837d16b20a694b";
+                      })()
                     }
                   />
                   <HiddenInput name="slider_value" defaultValue="50" />
@@ -935,7 +955,18 @@ const Forms = () => {
                 <HiddenInput
                   name="avatar_id"
                   value={
-                    selectedAvatars.cofo || "926a8ba693cf47be97837d16b20a694b"
+                    selectedAvatars.cofo ||
+                    (() => {
+                      const userData = localStorage.getItem("user");
+                      if (userData) {
+                        const { userId } = JSON.parse(userData);
+                        if (userId === "0002")
+                          return "ef912416d4dc4ed1b492a09ed7c6846a";
+                        if (userId === "0001")
+                          return "14bb685a7fe54b59a395a4653e300da9";
+                      }
+                      return "926a8ba693cf47be97837d16b20a694b";
+                    })()
                   }
                 />
                 <HiddenInput
