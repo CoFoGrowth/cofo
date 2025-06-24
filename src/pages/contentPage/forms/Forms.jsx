@@ -225,6 +225,19 @@ const Forms = () => {
             value: "d53fc781b5d54205b5b713d39906c8cd",
             label: "Nowy głos_5_0001",
           },
+          // Nowe awatary dodane przez użytkownika
+          {
+            value: "3c3ddaa1a99844c682d810290539fda8",
+            label: "Balkon - biała koszula_0001",
+          },
+          {
+            value: "72119bafb4674537af105164001cf734",
+            label: "Dom - czarna koszulka_0001",
+          },
+          {
+            value: "bcd3a34820fa4aa9a417e3686e43acff",
+            label: "Selfie - na zewnątrz_0001",
+          },
         ];
 
         console.log(

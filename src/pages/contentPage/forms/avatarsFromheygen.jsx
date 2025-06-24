@@ -202,6 +202,34 @@ const AvatarsFromHeygen = () => {
           fullData: {},
           clientId: "0001",
         },
+        // Nowe awatary dodane przez użytkownika
+        {
+          id: "3c3ddaa1a99844c682d810290539fda8",
+          name: "Balkon - biała koszula_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/3c3ddaa1a99844c682d810290539fda8/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "72119bafb4674537af105164001cf734",
+          name: "Dom - czarna koszulka_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/72119bafb4674537af105164001cf734/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "bcd3a34820fa4aa9a417e3686e43acff",
+          name: "Selfie - na zewnątrz_0001",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/bcd3a34820fa4aa9a417e3686e43acff/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
         // Klient 0002
         {
           id: "ef912416d4dc4ed1b492a09ed7c6846a",
