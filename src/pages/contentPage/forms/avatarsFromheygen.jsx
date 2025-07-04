@@ -230,6 +230,88 @@ const AvatarsFromHeygen = () => {
           fullData: {},
           clientId: "0001",
         },
+        // Nowe awatary Zuzanny z nowymi głosami
+        {
+          id: "8682655562b3432d84bfe2189b492319",
+          name: "Zuzanna_nowyNowy_1",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/8682655562b3432d84bfe2189b492319/half/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "d394a04b1c2548238d3b4953f739efe5",
+          name: "Zuzanna_nowyNowy_2",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/d394a04b1c2548238d3b4953f739efe5/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "4d155442543b49d2b41590a4133e0444",
+          name: "Zuzanna_nowyNowy_3",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/4d155442543b49d2b41590a4133e0444/half/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "9092040beff14d598eb8fc7a19050981",
+          name: "Zuzanna_nowyNowy_4",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/9092040beff14d598eb8fc7a19050981/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "aad991539a724bd1a5ee733bc4c2e0dc",
+          name: "Zuzanna_nowyNowy_5",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/aad991539a724bd1a5ee733bc4c2e0dc/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "9307c5ee4c124e6e9ab73c24aaeb7c49",
+          name: "Zuzanna_nowyNowy_6",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/9307c5ee4c124e6e9ab73c24aaeb7c49/half/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "d0454740b1854f1e8ae4ed4d323e664d",
+          name: "Zuzanna_nowyNowy_7",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/d0454740b1854f1e8ae4ed4d323e664d/half/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "73fcb4393f144904a39f2707443cb285",
+          name: "Zuzanna_nowyNowy_8",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/73fcb4393f144904a39f2707443cb285/half/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
+        {
+          id: "77746b1abab54cd4b7314bbe4ea35853",
+          name: "Zuzanna_nowyNowy_9",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/77746b1abab54cd4b7314bbe4ea35853/half/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0001",
+        },
         // Klient 0002
         {
           id: "ef912416d4dc4ed1b492a09ed7c6846a",

@@ -238,6 +238,43 @@ const Forms = () => {
             value: "bcd3a34820fa4aa9a417e3686e43acff",
             label: "Selfie - na zewnątrz_0001",
           },
+          // Nowe awatary Zuzanny z nowymi głosami
+          {
+            value: "8682655562b3432d84bfe2189b492319",
+            label: "Zuzanna_nowyNowy_1",
+          },
+          {
+            value: "d394a04b1c2548238d3b4953f739efe5",
+            label: "Zuzanna_nowyNowy_2",
+          },
+          {
+            value: "4d155442543b49d2b41590a4133e0444",
+            label: "Zuzanna_nowyNowy_3",
+          },
+          {
+            value: "9092040beff14d598eb8fc7a19050981",
+            label: "Zuzanna_nowyNowy_4",
+          },
+          {
+            value: "aad991539a724bd1a5ee733bc4c2e0dc",
+            label: "Zuzanna_nowyNowy_5",
+          },
+          {
+            value: "9307c5ee4c124e6e9ab73c24aaeb7c49",
+            label: "Zuzanna_nowyNowy_6",
+          },
+          {
+            value: "d0454740b1854f1e8ae4ed4d323e664d",
+            label: "Zuzanna_nowyNowy_7",
+          },
+          {
+            value: "73fcb4393f144904a39f2707443cb285",
+            label: "Zuzanna_nowyNowy_8",
+          },
+          {
+            value: "77746b1abab54cd4b7314bbe4ea35853",
+            label: "Zuzanna_nowyNowy_9",
+          },
         ];
 
         console.log(
