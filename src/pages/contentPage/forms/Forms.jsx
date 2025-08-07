@@ -308,6 +308,21 @@ const Forms = () => {
           `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0002`
         );
         setAvatars(hardcodedAvatars);
+      } else if (userId === "0004") {
+        console.log("🎯 Klient 0004 - używanie awatarów na sztywno...");
+
+        // Awatary na sztywno dla klienta 0004
+        const hardcodedAvatars = [
+          {
+            value: "680c8f7675c7438481930d2346e338a7",
+            label: "Lukasz",
+          },
+        ];
+
+        console.log(
+          `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0004`
+        );
+        setAvatars(hardcodedAvatars);
       } else {
         // Dla innych klientów używaj Airtable (istniejący kod)
         console.log(`📋 Klient ${userId} - pobieranie awatarów z Airtable...`);

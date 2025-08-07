@@ -349,6 +349,16 @@ const AvatarsFromHeygen = () => {
           fullData: {},
           clientId: "0002",
         },
+        // Klient 0004
+        {
+          id: "680c8f7675c7438481930d2346e338a7",
+          name: "Lukasz",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/680c8f7675c7438481930d2346e338a7/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0004",
+        },
       ];
 
       // Filtruj awatary dla aktualnie zalogowanego użytkownika
