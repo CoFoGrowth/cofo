@@ -308,6 +308,41 @@ const Forms = () => {
           `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0002`
         );
         setAvatars(hardcodedAvatars);
+      } else if (userId === "0003") {
+        console.log("🎯 Klient 0003 - używanie awatarów na sztywno...");
+
+        // Awatary na sztywno dla klienta 0003
+        const hardcodedAvatars = [
+          {
+            value: "65d13e86b4294c749e3af7dbcd94a349",
+            label: "Przemek Biała Koszula MAC v1",
+          },
+          {
+            value: "a43bd672e8884c24a15cf9d4814d0270",
+            label: "Przemek Biała Koszula MAC v2",
+          },
+          {
+            value: "e673b8786d8e425eb8a1e35632c3893f",
+            label: "Przemek Biała Koszula",
+          },
+          {
+            value: "ff3c90b413474336a876468b569ebe79",
+            label: "Przemek Czarna Koszula",
+          },
+          {
+            value: "e55bd14a83b44605a32cd3a78aa26212",
+            label: "Przemek Czarny Sweter Bok",
+          },
+          {
+            value: "861d0719630446f5aeff671c1e4303b2",
+            label: "Przemek Czarny Sweter Prosto",
+          },
+        ];
+
+        console.log(
+          `✅ Załadowano ${hardcodedAvatars.length} awatarów na sztywno dla klienta 0003`
+        );
+        setAvatars(hardcodedAvatars);
       } else if (userId === "0004") {
         console.log("🎯 Klient 0004 - używanie awatarów na sztywno...");
 

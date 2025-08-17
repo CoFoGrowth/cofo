@@ -349,6 +349,61 @@ const AvatarsFromHeygen = () => {
           fullData: {},
           clientId: "0002",
         },
+        // Klient 0003
+        {
+          id: "65d13e86b4294c749e3af7dbcd94a349",
+          name: "Przemek Biała Koszula MAC v1",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/65d13e86b4294c749e3af7dbcd94a349/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0003",
+        },
+        {
+          id: "a43bd672e8884c24a15cf9d4814d0270",
+          name: "Przemek Biała Koszula MAC v2",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/a43bd672e8884c24a15cf9d4814d0270/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0003",
+        },
+        {
+          id: "e673b8786d8e425eb8a1e35632c3893f",
+          name: "Przemek Biała Koszula",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/e673b8786d8e425eb8a1e35632c3893f/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0003",
+        },
+        {
+          id: "ff3c90b413474336a876468b569ebe79",
+          name: "Przemek Czarna Koszula",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/ff3c90b413474336a876468b569ebe79/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0003",
+        },
+        {
+          id: "e55bd14a83b44605a32cd3a78aa26212",
+          name: "Przemek Czarny Sweter Bok",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/e55bd14a83b44605a32cd3a78aa26212/full/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0003",
+        },
+        {
+          id: "861d0719630446f5aeff671c1e4303b2",
+          name: "Przemek Czarny Sweter Prosto",
+          preview:
+            "https://dynamic.heygen.ai/tr:h-720,c-at_max/avatar/v3/861d0719630446f5aeff671c1e4303b2/half/2.2/preview_target.webp",
+          type: "avatar",
+          fullData: {},
+          clientId: "0003",
+        },
         // Klient 0004
         {
           id: "680c8f7675c7438481930d2346e338a7",
